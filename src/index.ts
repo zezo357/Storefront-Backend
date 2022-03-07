@@ -1,18 +1,9 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
-import { Pool } from 'pg';
-import { book, bookstore } from './models/books';
-dotenv.config();
-const { POSTGRES_HOST, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD } =
-  process.env;
 
-const client = new Pool({
-  host: POSTGRES_HOST,
-  database: POSTGRES_DB,
-  user: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-});
+import { book, bookstore } from './models/books';
+import client from './database';
+
 client.connect((err, client, release) => {
   if (err) {
     return console.error('Error acquiring client', err.stack);
@@ -52,12 +43,10 @@ app.get('/delete', async function (req: Request, res: Response) {
     type: 'test',
     summary: 'test',
   };
-  await bookstoreObject.delete(newBook);
+  await bookstoreObject.delete(1);
   res.send(await bookstoreObject.index());
 });
 
 app.listen(3000, function () {
   console.log(`starting app on: ${address}`);
 });
-
-export default client;

@@ -6,9 +6,9 @@
     "prettier": "prettier --config .prettierrc src/**/*.ts --write",
     "lint": "eslint  src/**/*.ts",
     "jasmine": "jasmine",
-    "start": "nodemon  src/index.ts -ext \"ts,json\" --exec \"npm run prettier && npx ts-node \"",
-    "build": "npx tsc && node build/index.js",
-    "test": "npx tsc && npm run jasmine",
+    "start": "nodemon  src/index.ts -ext \"ts,json\" --exec \"npm run prettier && npx ts-node \" ",
+    "build": "npx tsc && node build/index.js ",
+    "test": "SET ENV=test && db-migrate --env test down && db-migrate --env test up && npx tsc  && jasmine --random=false ",
     "testCont": "nodemon --ext \"ts,json\" --exec \"npm run test \""
   },
   "keywords": [],

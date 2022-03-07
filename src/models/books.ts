@@ -1,4 +1,4 @@
-import client from '../index';
+import client from '../database';
 
 export type book = {
   id: Number;
@@ -25,12 +25,13 @@ export class bookstore {
     try {
       const conn = await client.connect();
       const sql =
-        'INSERT INTO books (title, author, total_pages, summary) VALUES($1, $2, $3, $4) RETURNING *';
+        'INSERT INTO books (title, author, total_pages, summary,type) VALUES($1, $2, $3, $4,$5) RETURNING *';
       const result = await conn.query(sql, [
         book.title,
         book.author,
         book.total_pages,
         book.summary,
+        book.type
       ]);
       //const sql = `INSERT INTO books (title, author, total_pages,type,summary) VALUES ('${book.title}', '${book.author}', ${book.total_pages},'${book.type}', '${book.summary}')`;
       conn.release();
@@ -39,7 +40,7 @@ export class bookstore {
       throw new Error(`cant insert book ${err}`);
     }
   }
-  async delete(id: number): Promise<book> {
+  async delete(id: Number): Promise<book> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM books WHERE id=($1)';
@@ -50,7 +51,7 @@ export class bookstore {
       throw new Error(`cant delete book ${err}`);
     }
   }
-  async show(id: string): Promise<book> {
+  async show(id: Number): Promise<book> {
     try {
       const sql = 'SELECT * FROM books WHERE id=($1)';
       const conn = await client.connect();
