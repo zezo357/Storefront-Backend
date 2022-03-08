@@ -1,51 +1,24 @@
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
 
-import { book, bookstore } from './models/books';
-import client from './database';
+import cors from 'cors';
+import booksRoutes from './handlers/books';
 
-client.connect((err, client, release) => {
-  if (err) {
-    return console.error('Error acquiring client', err.stack);
-  }
-  console.log('connected to database');
-});
 const app: express.Application = express();
 const address: string = 'localhost:3000';
+/*
+var corsOptions = {
+  origin: 'http://example.com',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
-app.use(bodyParser.json());
-
-app.get('/index', async function (req: Request, res: Response) {
-  const bookstoreObject = new bookstore();
-  res.send(await bookstoreObject.index());
+app.use(cors(corsOptions));*/
+const router = express.Router();
+router.use('/', (req: express.Request, res: express.Response, next): void => {
+  console.log(`${req.path} Was visited`);
+  next();
 });
-app.get('/insert', async function (req: Request, res: Response) {
-  const bookstoreObject = new bookstore();
-  const newBook: book = {
-    id: -1,
-    title: 'test',
-    author: 'test',
-    total_pages: 10,
-    type: 'test',
-    summary: 'test',
-  };
-  await bookstoreObject.insert(newBook);
-  res.send(await bookstoreObject.index());
-});
-
-app.get('/delete', async function (req: Request, res: Response) {
-  const bookstoreObject = new bookstore();
-  const newBook: book = {
-    id: -1,
-    title: 'test',
-    author: 'test',
-    total_pages: 10,
-    type: 'test',
-    summary: 'test',
-  };
-  await bookstoreObject.delete(1);
-  res.send(await bookstoreObject.index());
-});
+app.use('/', router);
+app.use('/', booksRoutes);
 
 app.listen(3000, function () {
   console.log(`starting app on: ${address}`);

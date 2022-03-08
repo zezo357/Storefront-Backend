@@ -47,6 +47,27 @@ describe('books Store', function () {
         type: 'test',
         summary: 'test',
     };
+    /*
+      it('should have an index method', () => {
+        expect(bookstoreObject.index).toBeDefined();
+      });
+    
+      it('should have a show method', () => {
+        expect(bookstoreObject.show).toBeDefined();
+      });
+    
+      it('should have a create method', () => {
+        expect(bookstoreObject.create).toBeDefined();
+      });
+    
+      it('should have a update method', () => {
+        expect(bookstoreObject.update).toBeDefined();
+      });
+    
+      it('should have a delete method', () => {
+        expect(bookstoreObject.delete).toBeDefined();
+      });
+    */
     it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {

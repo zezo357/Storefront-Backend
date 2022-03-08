@@ -28,4 +28,10 @@ if (ENV == 'dev') {
     password: POSTGRES_PASSWORD,
   });
 }
+client.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('connected to database');
+});
 export default client;
