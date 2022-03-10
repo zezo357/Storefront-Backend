@@ -77,7 +77,7 @@ app.post('/users', function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     newUser = {
-                        id: '-1',
+                        id: -1,
                         first_name: req.query.first_name,
                         last_name: req.query.last_name,
                         username: req.query.username,

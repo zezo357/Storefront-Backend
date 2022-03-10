@@ -5,30 +5,34 @@ describe('users Store', (): void => {
 
 
   const newUser: User = {
-    id: '1',
+    id: 1,
     first_name: 'test',
     last_name: 'test',
     username: 'test',
     password: 'testQUEW',
   };
-  const HashedPasswordUser: User = {
-    id: '1',
-    first_name: 'test',
-    last_name: 'test',
-    username: 'test',
-    password: userStoreObject.convertPassword(newUser.password),
-  };
+ 
   it('index is working', async (): Promise<void> => {
     expect(await userStoreObject.index()).toEqual([]);
   });
 
   it('insert is working', async (): Promise<void> => {
     await userStoreObject.insert(newUser);
-    expect(await userStoreObject.index()).toEqual([newUser]);
+    expect(await userStoreObject.index()).toEqual([jasmine.objectContaining({
+        id: newUser.id,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        username: newUser.username,
+      })]);
   });
 
   it('show is working', async (): Promise<void> => {
-    expect(await userStoreObject.show('1')).toEqual(newUser);
+    expect(await userStoreObject.show(1)).toEqual(jasmine.objectContaining({
+        id: newUser.id,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        username: newUser.username,
+      }));
   });
 
   
@@ -41,7 +45,7 @@ describe('users Store', (): void => {
   });
 
   it('delete is working', async (): Promise<void> => {
-    await userStoreObject.delete('1');
+    await userStoreObject.delete(newUser.id);
     expect(await userStoreObject.index()).toEqual([]);
   });
 });

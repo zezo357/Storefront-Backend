@@ -9,7 +9,7 @@ const {
 } = process.env;
 
 export type User = {
-  id: string;
+  id: Number;
   first_name: string;
   last_name: string;
   username: string;
@@ -41,7 +41,7 @@ export class userStore {
           '|||| new value:',
           temp
         );
-        tempUser[key as keyof User] = temp;
+        tempUser[key as keyof User] = temp as Number & string;
       }
     }
     return tempUser;
@@ -93,7 +93,7 @@ export class userStore {
       throw new Error(`cant insert users ${err}`);
     }
   }
-  async delete(id: String): Promise<User> {
+  async delete(id: Number): Promise<User> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM users WHERE id=($1)';
@@ -105,7 +105,7 @@ export class userStore {
     }
   }
 
-  async show(id: String): Promise<User> {
+  async show(id: Number): Promise<User> {
     try {
       const sql = 'SELECT * FROM users WHERE id=($1)';
       const conn = await client.connect();

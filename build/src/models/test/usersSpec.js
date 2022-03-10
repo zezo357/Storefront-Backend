@@ -40,18 +40,11 @@ var users_1 = require("../users");
 describe('users Store', function () {
     var userStoreObject = new users_1.userStore();
     var newUser = {
-        id: '1',
+        id: 1,
         first_name: 'test',
         last_name: 'test',
         username: 'test',
         password: 'testQUEW',
-    };
-    var HashedPasswordUser = {
-        id: '1',
-        first_name: 'test',
-        last_name: 'test',
-        username: 'test',
-        password: userStoreObject.convertPassword(newUser.password),
     };
     it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
@@ -76,7 +69,12 @@ describe('users Store', function () {
                     _a = expect;
                     return [4 /*yield*/, userStoreObject.index()];
                 case 2:
-                    _a.apply(void 0, [_b.sent()]).toEqual([newUser]);
+                    _a.apply(void 0, [_b.sent()]).toEqual([jasmine.objectContaining({
+                            id: newUser.id,
+                            first_name: newUser.first_name,
+                            last_name: newUser.last_name,
+                            username: newUser.username,
+                        })]);
                     return [2 /*return*/];
             }
         });
@@ -87,9 +85,14 @@ describe('users Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, userStoreObject.show('1')];
+                    return [4 /*yield*/, userStoreObject.show(1)];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual(newUser);
+                    _a.apply(void 0, [_b.sent()]).toEqual(jasmine.objectContaining({
+                        id: newUser.id,
+                        first_name: newUser.first_name,
+                        last_name: newUser.last_name,
+                        username: newUser.username,
+                    }));
                     return [2 /*return*/];
             }
         });
@@ -124,7 +127,7 @@ describe('users Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, userStoreObject.delete('1')];
+                case 0: return [4 /*yield*/, userStoreObject.delete(newUser.id)];
                 case 1:
                     _b.sent();
                     _a = expect;

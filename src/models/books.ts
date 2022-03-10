@@ -1,10 +1,10 @@
 import client from '../database';
 
 export type Book = {
-  id: String;
+  id: Number;
   title: String;
   author: String;
-  total_pages: String;
+  total_pages: Number;
   type: String;
   summary: String;
 };
@@ -27,7 +27,7 @@ export class bookStore {
           '|||| new value:',
           temp
         );
-        tempBook[key as keyof Book] = temp;
+        tempBook[key as keyof Book] = temp as Number & String;
       }
     }
 
@@ -63,7 +63,7 @@ export class bookStore {
       throw new Error(`cant insert book ${err}`);
     }
   }
-  async delete(id: String): Promise<Book> {
+  async delete(id: Number): Promise<Book> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM books WHERE id=($1)';
@@ -75,7 +75,7 @@ export class bookStore {
     }
   }
 
-  async show(id: String): Promise<Book> {
+  async show(id: Number): Promise<Book> {
     try {
       const sql = 'SELECT * FROM books WHERE id=($1)';
       const conn = await client.connect();

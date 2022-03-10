@@ -40,10 +40,10 @@ var books_1 = require("../books");
 describe('books Store', function () {
     var bookstoreObject = new books_1.bookStore();
     var newBook = {
-        id: '1',
+        id: 1,
         title: 'test',
         author: 'test',
-        total_pages: '10',
+        total_pages: 10,
         type: 'test',
         summary: 'test',
     };
@@ -102,7 +102,7 @@ describe('books Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.show('1')];
+                    return [4 /*yield*/, bookstoreObject.show(newBook.id)];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual(newBook);
                     return [2 /*return*/];
@@ -113,7 +113,7 @@ describe('books Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, bookstoreObject.delete('1')];
+                case 0: return [4 /*yield*/, bookstoreObject.delete(newBook.id)];
                 case 1:
                     _b.sent();
                     _a = expect;

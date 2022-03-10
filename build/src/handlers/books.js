@@ -78,7 +78,7 @@ app.post('/books', function (req, res, next) {
                 case 0:
                     bookstoreObject = new books_1.bookStore();
                     newBook = {
-                        id: '-1',
+                        id: -1,
                         title: req.query.title,
                         author: req.query.author,
                         total_pages: req.query.total_pages,

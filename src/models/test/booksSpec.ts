@@ -3,10 +3,10 @@ import { Book, bookStore } from '../books';
 describe('books Store', (): void => {
   const bookstoreObject = new bookStore();
   const newBook: Book = {
-    id: '1',
+    id: 1,
     title: 'test',
     author: 'test',
-    total_pages: '10',
+    total_pages: 10,
     type: 'test',
     summary: 'test',
   };
@@ -41,11 +41,11 @@ describe('books Store', (): void => {
   });
 
   it('show is working', async (): Promise<void> => {
-    expect(await bookstoreObject.show('1')).toEqual(newBook);
+    expect(await bookstoreObject.show(newBook.id)).toEqual(newBook);
   });
 
   it('delete is working', async (): Promise<void> => {
-    await bookstoreObject.delete('1');
+    await bookstoreObject.delete(newBook.id);
     expect(await bookstoreObject.index()).toEqual([]);
   });
 });
