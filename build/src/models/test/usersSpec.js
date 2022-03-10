@@ -36,45 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var books_1 = require("../books");
-describe('books Store', function () {
-    var bookstoreObject = new books_1.bookStore();
-    var newBook = {
+var users_1 = require("../users");
+describe('users Store', function () {
+    var userStoreObject = new users_1.userStore();
+    var newUser = {
         id: '1',
-        title: 'test',
-        author: 'test',
-        total_pages: '10',
-        type: 'test',
-        summary: 'test',
+        first_name: 'test',
+        last_name: 'test',
+        username: 'test',
+        password: 'testQUEW',
     };
-    /*
-    it('should have an index method', () => {
-      expect(bookstoreObject.index).toBeDefined();
-    });
-  
-    it('should have a show method', () => {
-      expect(bookstoreObject.show).toBeDefined();
-    });
-  
-    it('should have a create method', () => {
-      expect(bookstoreObject.create).toBeDefined();
-    });
-  
-    it('should have a update method', () => {
-      expect(bookstoreObject.update).toBeDefined();
-    });
-  
-    it('should have a delete method', () => {
-      expect(bookstoreObject.delete).toBeDefined();
-    });
-  */
+    var HashedPasswordUser = {
+        id: '1',
+        first_name: 'test',
+        last_name: 'test',
+        username: 'test',
+        password: userStoreObject.convertPassword(newUser.password),
+    };
     it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+                    return [4 /*yield*/, userStoreObject.index()];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];
@@ -85,13 +70,13 @@ describe('books Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, bookstoreObject.insert(newBook)];
+                case 0: return [4 /*yield*/, userStoreObject.insert(newUser)];
                 case 1:
                     _b.sent();
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+                    return [4 /*yield*/, userStoreObject.index()];
                 case 2:
-                    _a.apply(void 0, [_b.sent()]).toEqual([newBook]);
+                    _a.apply(void 0, [_b.sent()]).toEqual([newUser]);
                     return [2 /*return*/];
             }
         });
@@ -102,9 +87,35 @@ describe('books Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.show('1')];
+                    return [4 /*yield*/, userStoreObject.show('1')];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual(newBook);
+                    _a.apply(void 0, [_b.sent()]).toEqual(newUser);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('authenticate is right password', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, newUser.password)];
+                case 1:
+                    _a.apply(void 0, [(_b.sent()) != null]).toEqual(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('authenticate is wrong password', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, "lasdj")];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).toEqual(null);
                     return [2 /*return*/];
             }
         });
@@ -113,11 +124,11 @@ describe('books Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, bookstoreObject.delete('1')];
+                case 0: return [4 /*yield*/, userStoreObject.delete('1')];
                 case 1:
                     _b.sent();
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+                    return [4 /*yield*/, userStoreObject.index()];
                 case 2:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];

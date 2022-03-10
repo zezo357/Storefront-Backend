@@ -8,6 +8,8 @@ const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   ENV,
+  BCRYPT_PASSWORD,
+  SALT_ROUNDS
 } = process.env;
 
 let client: Pool;

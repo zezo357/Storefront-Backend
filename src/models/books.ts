@@ -1,6 +1,6 @@
 import client from '../database';
 
-export type book = {
+export type Book = {
   id: String;
   title: String;
   author: String;
@@ -9,15 +9,15 @@ export type book = {
   summary: String;
 };
 
-export class bookstore {
-  updateBook(oldBook: book, newBook: book): book {
-    let tempBook: book = oldBook;
+export class bookStore {
+  updateBook(oldBook: Book, newBook: Book): Book {
+    let tempBook: Book = oldBook;
     for (const [key, value] of Object.entries(tempBook)) {
-      const temp = newBook[key as keyof book];
+      const temp = newBook[key as keyof Book];
       if (
         temp != null &&
         temp != undefined &&
-        temp != tempBook[key as keyof book]
+        temp != tempBook[key as keyof Book]
       ) {
         console.log(
           'key:',
@@ -27,13 +27,13 @@ export class bookstore {
           '|||| new value:',
           temp
         );
-        tempBook[key as keyof book] = temp;
+        tempBook[key as keyof Book] = temp;
       }
     }
 
     return tempBook;
   }
-  async index(): Promise<book[]> {
+  async index(): Promise<Book[]> {
     try {
       const conn = await client.connect();
       const sql = 'SELECT * FROM books';
@@ -44,7 +44,7 @@ export class bookstore {
       throw new Error(`cant index books ${err}`);
     }
   }
-  async insert(book: book): Promise<void> {
+  async insert(book: Book): Promise<void> {
     try {
       const conn = await client.connect();
       const sql =
@@ -63,7 +63,7 @@ export class bookstore {
       throw new Error(`cant insert book ${err}`);
     }
   }
-  async delete(id: String): Promise<book> {
+  async delete(id: String): Promise<Book> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM books WHERE id=($1)';
@@ -75,7 +75,7 @@ export class bookstore {
     }
   }
 
-  async show(id: String): Promise<book> {
+  async show(id: String): Promise<Book> {
     try {
       const sql = 'SELECT * FROM books WHERE id=($1)';
       const conn = await client.connect();
@@ -86,8 +86,8 @@ export class bookstore {
       throw new Error(`Could not find book ${id}. Error: ${err}`);
     }
   }
-  async update(newBook: book): Promise<book> {
-    let oldBook: book = await this.show(newBook.id);
+  async update(newBook: Book): Promise<Book> {
+    let oldBook: Book = await this.show(newBook.id);
     newBook = this.updateBook(oldBook, newBook);
     try {
       const conn = await client.connect();

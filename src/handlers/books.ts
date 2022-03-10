@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { book, bookstore } from '../models/books';
+import { Book, bookStore } from '../models/books';
 import bodyParser from 'body-parser';
 const app = express.Router();
 app.use(bodyParser.json());
@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 app.get(
   '/books',
   async function (req: Request, res: Response, next: NextFunction) {
-    const bookstoreObject = new bookstore();
+    const bookstoreObject = new bookStore();
     if (req.query.id != undefined) {
       res.send(await bookstoreObject.show(req.query.id as String));
     } else {
@@ -20,8 +20,8 @@ app.get(
 app.post(
   '/books',
   async function (req: Request, res: Response, next: NextFunction) {
-    const bookstoreObject = new bookstore();
-    const newBook: book = {
+    const bookstoreObject = new bookStore();
+    const newBook: Book = {
       id: '-1',
       title: req.query.title as string,
       author: req.query.author as string,
@@ -38,8 +38,8 @@ app.post(
 app.put(
   '/books',
   async function (req: Request, res: Response, next: NextFunction) {
-    const bookstoreObject = new bookstore();
-    const newBook: book = {
+    const bookstoreObject = new bookStore();
+    const newBook: Book = {
       id: req.query.id as string,
       title: req.query.title as string,
       author: req.query.author as string,
@@ -56,7 +56,7 @@ app.put(
 app.delete(
   '/books',
   async function (req: Request, res: Response, next: NextFunction) {
-    const bookstoreObject = new bookstore();
+    const bookstoreObject = new bookStore();
     res.send(await bookstoreObject.delete(req.query.id as string));
     next();
     //res.send(await bookstoreObject.index());

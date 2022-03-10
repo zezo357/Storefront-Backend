@@ -39,26 +39,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookStore = void 0;
+exports.userStore = void 0;
 var database_1 = __importDefault(require("../database"));
-var bookStore = /** @class */ (function () {
-    function bookStore() {
+var dotenv_1 = __importDefault(require("dotenv"));
+var bcrypt_1 = __importDefault(require("bcrypt"));
+dotenv_1.default.config();
+var _a = process.env, BCRYPT_PASSWORD = _a.BCRYPT_PASSWORD, SALT_ROUNDS = _a.SALT_ROUNDS;
+var userStore = /** @class */ (function () {
+    function userStore() {
     }
-    bookStore.prototype.updateBook = function (oldBook, newBook) {
-        var tempBook = oldBook;
-        for (var _i = 0, _a = Object.entries(tempBook); _i < _a.length; _i++) {
+    userStore.prototype.convertPassword = function (password) {
+        var hash = bcrypt_1.default.hashSync(password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS));
+        return hash;
+    };
+    userStore.prototype.updateUser = function (oldUser, newUser) {
+        var tempUser = oldUser;
+        for (var _i = 0, _a = Object.entries(tempUser); _i < _a.length; _i++) {
             var _b = _a[_i], key = _b[0], value = _b[1];
-            var temp = newBook[key];
+            var temp = newUser[key];
             if (temp != null &&
                 temp != undefined &&
-                temp != tempBook[key]) {
+                temp != tempUser[key]) {
                 console.log('key:', key, '|||| old value:', value, '|||| new value:', temp);
-                tempBook[key] = temp;
+                tempUser[key] = temp;
             }
         }
-        return tempBook;
+        return tempUser;
     };
-    bookStore.prototype.index = function () {
+    userStore.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_1;
             return __generator(this, function (_a) {
@@ -68,7 +76,7 @@ var bookStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM books';
+                        sql = 'SELECT * FROM Users';
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -76,44 +84,44 @@ var bookStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         err_1 = _a.sent();
-                        throw new Error("cant index books ".concat(err_1));
+                        throw new Error("cant index users ".concat(err_1));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.insert = function (book) {
+    userStore.prototype.authenticate = function (username, password) {
         return __awaiter(this, void 0, void 0, function () {
-            var conn, sql, result, err_2;
+            var sql, conn, result, user, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        sql = "SELECT * FROM users WHERE username=($1)";
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO books (title, author, total_pages, summary,type) VALUES($1, $2, $3, $4,$5) RETURNING *';
-                        return [4 /*yield*/, conn.query(sql, [
-                                book.title,
-                                book.author,
-                                book.total_pages,
-                                book.summary,
-                                book.type,
-                            ])];
+                        return [4 /*yield*/, conn.query(sql, [username])];
                     case 2:
                         result = _a.sent();
-                        //const sql = `INSERT INTO books (title, author, total_pages,type,summary) VALUES ('${book.title}', '${book.author}', ${book.total_pages},'${book.type}', '${book.summary}')`;
                         conn.release();
-                        return [2 /*return*/, result.rows[0]];
+                        if (result.rows.length) {
+                            user = result.rows[0];
+                            //console.log(user);
+                            if (bcrypt_1.default.compareSync(password + BCRYPT_PASSWORD, user.password)) {
+                                return [2 /*return*/, user];
+                            }
+                        }
+                        return [2 /*return*/, null];
                     case 3:
                         err_2 = _a.sent();
-                        throw new Error("cant insert book ".concat(err_2));
+                        throw new Error("Could not find users ".concat(username, ",").concat(password, ". Error: ").concat(err_2));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.delete = function (id) {
+    userStore.prototype.insert = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_3;
             return __generator(this, function (_a) {
@@ -123,31 +131,36 @@ var bookStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'DELETE FROM books WHERE id=($1)';
-                        return [4 /*yield*/, conn.query(sql, [id])];
+                        sql = 'INSERT INTO Users (first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
+                        return [4 /*yield*/, conn.query(sql, [
+                                user.first_name,
+                                user.last_name,
+                                user.username,
+                                this.convertPassword(user.password),
+                            ])];
                     case 2:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_3 = _a.sent();
-                        throw new Error("cant delete book ".concat(err_3));
+                        throw new Error("cant insert users ".concat(err_3));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.show = function (id) {
+    userStore.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, err_4;
+            var conn, sql, result, err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT * FROM books WHERE id=($1)';
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
+                        sql = 'DELETE FROM users WHERE id=($1)';
                         return [4 /*yield*/, conn.query(sql, [id])];
                     case 2:
                         result = _a.sent();
@@ -155,41 +168,66 @@ var bookStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_4 = _a.sent();
-                        throw new Error("Could not find book ".concat(id, ". Error: ").concat(err_4));
+                        throw new Error("cant delete users ".concat(err_4));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.update = function (newBook) {
+    userStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var oldBook, conn, sql, result, err_5;
+            var sql, conn, result, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.show(newBook.id)];
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        sql = 'SELECT * FROM users WHERE id=($1)';
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
-                        oldBook = _a.sent();
-                        newBook = this.updateBook(oldBook, newBook);
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0]];
+                    case 3:
+                        err_5 = _a.sent();
+                        throw new Error("Could not find users ".concat(id, ". Error: ").concat(err_5));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    userStore.prototype.update = function (newUser) {
+        return __awaiter(this, void 0, void 0, function () {
+            var oldUser, hash, conn, sql, result, err_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.show(newUser.id)];
+                    case 1:
+                        oldUser = _a.sent();
+                        newUser = this.updateUser(oldUser, newUser);
+                        hash = bcrypt_1.default.hashSync(newUser.password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS));
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 5, , 6]);
                         return [4 /*yield*/, database_1.default.connect()];
                     case 3:
                         conn = _a.sent();
-                        sql = "Update books set title='".concat(newBook.title, "', author='").concat(newBook.author, "', total_pages=").concat(newBook.total_pages, ",type='").concat(newBook.type, "',summary='").concat(newBook.summary, "'   WHERE id=($1) ");
-                        return [4 /*yield*/, conn.query(sql, [newBook.id])];
+                        sql = "Update users set first_name='".concat(newUser.first_name, "', last_name='").concat(newUser.last_name, "', username='").concat(newUser.username, "',password='").concat(newUser.password, "' WHERE id=($1) ");
+                        return [4 /*yield*/, conn.query(sql, [newUser.id])];
                     case 4:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 5:
-                        err_5 = _a.sent();
-                        throw new Error("cant Update book ".concat(err_5));
+                        err_6 = _a.sent();
+                        throw new Error("cant Update users ".concat(err_6));
                     case 6: return [2 /*return*/];
                 }
             });
         });
     };
-    return bookStore;
+    return userStore;
 }());
-exports.bookStore = bookStore;
+exports.userStore = userStore;

@@ -9,7 +9,8 @@
     "start": "nodemon  src/index.ts -ext \"ts,json\" --exec \"npm run prettier && npx ts-node \" ",
     "build": "npx tsc && node build/index.js ",
     "test": "SET ENV=test && db-migrate --env test down && db-migrate --env test up && npx tsc  && jasmine --random=false ",
-    "testCont": "nodemon --ext \"ts,json\" --exec \"npm run test \""
+    "testCont": "nodemon --ext \"ts,json\" --exec \"npm run test \"",
+    "resetDB":"db-migrate down && db-migrate  up"
   },
   "keywords": [],
   "author": "",
@@ -37,7 +38,9 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "db-migrate": "^0.11.13",
     "db-migrate-pg": "^1.2.2",
