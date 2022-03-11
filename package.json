@@ -10,7 +10,7 @@
     "build": "npx tsc && node build/index.js ",
     "test": "SET ENV=test && db-migrate --env test down && db-migrate --env test up && npx tsc  && jasmine --random=false ",
     "testCont": "nodemon --ext \"ts,json\" --exec \"npm run test \"",
-    "resetDB":"db-migrate down && db-migrate  up"
+    "resetDB": "db-migrate down && db-migrate  up"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +40,7 @@
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
+    "@types/jsonwebtoken": "^8.5.8",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "db-migrate": "^0.11.13",
@@ -47,6 +48,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "formidable": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.3",
     "pgtools": "^0.3.2",
     "sharp": "^0.30.1"

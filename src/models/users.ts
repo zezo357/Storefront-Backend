@@ -3,10 +3,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
 dotenv.config();
-const {
-  BCRYPT_PASSWORD,
-  SALT_ROUNDS
-} = process.env;
+const { BCRYPT_PASSWORD, SALT_ROUNDS } = process.env;
 
 export type User = {
   id: Number;
@@ -17,10 +14,10 @@ export type User = {
 };
 
 export class userStore {
-  convertPassword(password: string):string{
+  convertPassword(password: string): string {
     const hash = bcrypt.hashSync(
-      password + (BCRYPT_PASSWORD as string), 
-      parseInt((SALT_ROUNDS as string))
+      password + (BCRYPT_PASSWORD as string),
+      parseInt(SALT_ROUNDS as string)
     );
     return hash;
   }
@@ -57,30 +54,31 @@ export class userStore {
       throw new Error(`cant index users ${err}`);
     }
   }
-  async authenticate(username: string, password: string): Promise<User|null> {
+  async authenticate(username: string, password: string): Promise<User | null> {
     try {
-        const sql = "SELECT * FROM users WHERE username=($1)";
-        const conn = await client.connect();
-        const result = await conn.query(sql, [username]);
-        conn.release();
-        if(result.rows.length){
-          const user = result.rows[0];
-          //console.log(user);
-          if (bcrypt.compareSync(password+BCRYPT_PASSWORD, user.password)){
-            return user;
-          }
+      const sql = 'SELECT * FROM users WHERE username=($1)';
+      const conn = await client.connect();
+      const result = await conn.query(sql, [username]);
+      conn.release();
+      if (result.rows.length) {
+        const user = result.rows[0];
+        //console.log(user);
+        if (bcrypt.compareSync(password + BCRYPT_PASSWORD, user.password)) {
+          return user;
         }
-        return null;
-      } catch (err) {
-        throw new Error(`Could not find users ${username},${password}. Error: ${err}`);
       }
+      return null;
+    } catch (err) {
+      throw new Error(
+        `Could not find users ${username},${password}. Error: ${err}`
+      );
+    }
   }
-  async insert(user: User): Promise<void> {
+  async create(user: User): Promise<void> {
     try {
       const conn = await client.connect();
       const sql =
         'INSERT INTO Users (first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
-
       const result = await conn.query(sql, [
         user.first_name,
         user.last_name,
@@ -120,9 +118,9 @@ export class userStore {
     let oldUser: User = await this.show(newUser.id);
     newUser = this.updateUser(oldUser, newUser);
     const hash = bcrypt.hashSync(
-        newUser.password + (BCRYPT_PASSWORD as string), 
-        parseInt((SALT_ROUNDS as string))
-      );
+      newUser.password + (BCRYPT_PASSWORD as string),
+      parseInt(SALT_ROUNDS as string)
+    );
     try {
       const conn = await client.connect();
       const sql = `Update users set first_name='${newUser.first_name}', last_name='${newUser.last_name}', username='${newUser.username}',password='${newUser.password}' WHERE id=($1) `;

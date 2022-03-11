@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import booksRoutes from './handlers/books';
-
+import usersRoutes from './handlers/users';
 const app: express.Application = express();
 const address: string = 'localhost:3000';
 /*
@@ -18,6 +18,7 @@ router.use('/', (req: express.Request, res: express.Response, next): void => {
 });
 app.use('/', router);
 app.use('/', booksRoutes);
+app.use('/', usersRoutes);
 
 app.listen(3000, function () {
   console.log(`starting app on: ${address}`);

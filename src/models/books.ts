@@ -81,10 +81,13 @@ export class bookStore {
       const conn = await client.connect();
       const result = await conn.query(sql, [id]);
       conn.release();
-      return result.rows[0];
+      if (result.rows.length != 0) {
+        return result.rows[0];
+      }
     } catch (err) {
       throw new Error(`Could not find book ${id}. Error: ${err}`);
     }
+    throw new Error(`no books found with that id ${id}`);
   }
   async update(newBook: Book): Promise<Book> {
     let oldBook: Book = await this.show(newBook.id);
