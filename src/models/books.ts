@@ -44,7 +44,7 @@ export class bookStore {
       throw new Error(`cant index books ${err}`);
     }
   }
-  async insert(book: Book): Promise<void> {
+  async create(book: Book): Promise<void> {
     try {
       const conn = await client.connect();
       const sql =

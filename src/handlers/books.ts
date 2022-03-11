@@ -56,7 +56,7 @@ const create = async function (
       type: req.query.type as string,
       summary: req.query.summary as string,
     };
-    await bookstoreObject.insert(newBook);
+    await bookstoreObject.create(newBook);
     res.send(await bookstoreObject.index());
     next();
   } catch (err) {

@@ -2,3 +2,14 @@
 CREATE TABLE Books (id SERIAL PRIMARY  KEY,title VARCHAR(150),author VARCHAR(255),total_pages INTEGER,type VARCHAR(100),summary text);
 
 CREATE TABLE Users (id SERIAL PRIMARY  KEY,first_name VARCHAR(255),last_name VARCHAR(255),username VARCHAR(255),password VARCHAR(255));
+
+CREATE TABLE Products (id SERIAL PRIMARY  KEY,
+name VARCHAR(255) NOT NULL,
+price INTEGER NOT NULL);
+
+CREATE TABLE Orders (id SERIAL PRIMARY  KEY,
+status VARCHAR(255) NOT NULL,
+user_id bigint references Users(id));
+
+CREATE TABLE Order_Products (id SERIAL PRIMARY KEY,quantity INTEGER ,order_id bigint references Orders(id),product_id bigint references Products(id));
+

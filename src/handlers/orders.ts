@@ -1,8 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { User, userStore } from '../models/users';
+import { Order, orderStore } from '../models/orders';
+import { User} from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
-const userStoreObject = new userStore();
+const orderStoreObject = new orderStore();
 const tokenVerifier = (
   req: express.Request,
   res: express.Response,
@@ -53,13 +54,14 @@ const userIDverify = (
     return;
   }
 };
+
 const index = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await userStoreObject.index());
+  res.send(await orderStoreObject.index());
   next();
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await userStoreObject.show(req.query.id as unknown as Number));
+  res.send(await orderStoreObject.show(req.query.id as unknown as Number));
   next();
 };
 
@@ -68,71 +70,55 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
-  const newUser: User = {
+  const newOrder: Order = {
     id: -1,
-    first_name: req.query.first_name as string,
-    last_name: req.query.last_name as string,
-    username: req.query.username as string,
-    password: req.query.password as string,
+    status: 'created',
+    user_id:req.query.user_id as unknown as Number,
   };
-  await userStoreObject.create(newUser);
-  var token = jwt.sign({ newUser }, process.env.TOKEN_SECRET as string);
-  res.send(token);
+  res.send(await orderStoreObject.create(newOrder));
   next();
 };
-const signin = async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const user = await userStoreObject.authenticate(
-    req.query.username as string,
-    req.query.password as string
-  );
-  if (user == null) {
-    res.status(404);
-    res.send('wrong username or password');
-  } else {
-    var token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
-    res.send(token);
-  }
-  next();
-};
+
 const update = async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const newUser: User = {
-    id: req.query.id as unknown as Number,
-    first_name: req.query.first_name as string,
-    last_name: req.query.last_name as string,
-    username: req.query.username as string,
-    password: req.query.password as string,
-  };
-  res.send(await userStoreObject.update(newUser));
+    const newOrder: Order = {
+        id: req.query.id as unknown as Number,
+        status:req.query.status as string,
+    user_id: req.query.user_id as unknown as Number,
+    }
+  res.send(await orderStoreObject.update(newOrder));
   next();
 };
-
+const add_product = async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    res.send(await orderStoreObject.add_product(req.query.quantity as unknown as Number, req.query.order_id as unknown as Number,req.query.product_id as unknown as Number));
+    next();
+  };
+  
 const destroy = async function (
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  res.send(await userStoreObject.delete(req.query.id as unknown as Number));
+  res.send(await orderStoreObject.delete(req.query.id as unknown as Number));
   next();
 };
 
 let app: express.Router = express.Router();
-app.get('/users', index, bodyParser.json());
-app.get('/users/:id', show, bodyParser.json());
-app.post('/users', create, bodyParser.json());
-app.post('/users/signin', signin, bodyParser.json());
-app.put('/users/', tokenVerifier, userIDverify, update, bodyParser.json());
+app.get('/orders', index, bodyParser.json());
+app.get('/orders/:id', show, bodyParser.json());
+app.post('/orders', create, bodyParser.json());
+app.post('/orders', add_product, bodyParser.json());
+app.put('/orders/:id/products', tokenVerifier, update, bodyParser.json());
 app.delete(
-  '/users/:id',
+  '/orders/:id',
   tokenVerifier,
-  userIDverify,
   destroy,
   bodyParser.json()
 );
