@@ -24,19 +24,12 @@ describe('orders Store', (): void => {
   beforeAll(async function () {
     //creating test user to add new order to
     newUser = await userStoreObject.create(newUser);
-
     //over riding with new user id
     newOrder = {
       id: -1,
       status: 'test',
       user_id: newUser.id,
     };
-
-    exceptedOrderObject = jasmine.objectContaining({
-      id: newOrder.id,
-      status: newOrder.status,
-      user_id: newOrder.user_id,
-    });
   });
 
   it('index is working', async (): Promise<void> => {

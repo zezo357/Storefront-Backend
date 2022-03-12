@@ -72,11 +72,6 @@ describe('orders Store', function () {
                             status: 'test',
                             user_id: newUser.id,
                         };
-                        exceptedOrderObject = jasmine.objectContaining({
-                            id: newOrder.id,
-                            status: newOrder.status,
-                            user_id: newOrder.user_id,
-                        });
                         return [2 /*return*/];
                 }
             });
@@ -96,19 +91,24 @@ describe('orders Store', function () {
         });
     }); });
     it('insert is working', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var _a, _b, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
                 case 0:
                     _a = newOrder;
                     return [4 /*yield*/, orderStoreObject.create(newOrder)];
-                case 1: return [4 /*yield*/, (_c.sent()).id];
+                case 1: return [4 /*yield*/, (_e.sent()).id];
                 case 2:
-                    _a.id = _c.sent();
-                    _b = expect;
+                    _a.id = _e.sent();
+                    console.log(newOrder);
+                    _c = (_b = console).log;
                     return [4 /*yield*/, orderStoreObject.index()];
                 case 3:
-                    _b.apply(void 0, [_c.sent()]).toEqual([newOrder]);
+                    _c.apply(_b, [_e.sent()]);
+                    _d = expect;
+                    return [4 /*yield*/, orderStoreObject.index()];
+                case 4:
+                    _d.apply(void 0, [_e.sent()]).toEqual([newOrder]);
                     return [2 /*return*/];
             }
         });
