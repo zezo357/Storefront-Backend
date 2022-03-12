@@ -36,45 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var books_1 = require("../books");
-describe('books Store', function () {
-    var bookstoreObject = new books_1.bookStore();
-    var newBook = {
-        id: 1,
-        title: 'test',
-        author: 'test',
-        total_pages: 10,
-        type: 'test',
-        summary: 'test',
+var products_1 = require("../products");
+describe('product Store', function () {
+    var productStoreObject = new products_1.productStore();
+    var newProduct = {
+        id: -1,
+        name: 'test',
+        price: 999,
     };
-    /*
-    it('should have an index method', () => {
-      expect(bookstoreObject.index).toBeDefined();
-    });
-  
-    it('should have a show method', () => {
-      expect(bookstoreObject.show).toBeDefined();
-    });
-  
-    it('should have a create method', () => {
-      expect(bookstoreObject.create).toBeDefined();
-    });
-  
-    it('should have a update method', () => {
-      expect(bookstoreObject.update).toBeDefined();
-    });
-  
-    it('should have a delete method', () => {
-      expect(bookstoreObject.delete).toBeDefined();
-    });
-  */
     it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+                    return [4 /*yield*/, productStoreObject.index()];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];
@@ -82,16 +58,19 @@ describe('books Store', function () {
         });
     }); });
     it('insert is working', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4 /*yield*/, bookstoreObject.insert(newBook)];
-                case 1:
-                    _b.sent();
-                    _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _a = newProduct;
+                    return [4 /*yield*/, productStoreObject.create(newProduct)];
+                case 1: return [4 /*yield*/, (_c.sent()).id];
                 case 2:
-                    _a.apply(void 0, [_b.sent()]).toEqual([newBook]);
+                    _a.id = _c.sent();
+                    _b = expect;
+                    return [4 /*yield*/, productStoreObject.index()];
+                case 3:
+                    _b.apply(void 0, [_c.sent()]).toEqual([newProduct]);
                     return [2 /*return*/];
             }
         });
@@ -102,9 +81,9 @@ describe('books Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.show(newBook.id)];
+                    return [4 /*yield*/, productStoreObject.show(1)];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual(newBook);
+                    _a.apply(void 0, [_b.sent()]).toEqual(newProduct);
                     return [2 /*return*/];
             }
         });
@@ -113,11 +92,11 @@ describe('books Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, bookstoreObject.delete(newBook.id)];
+                case 0: return [4 /*yield*/, productStoreObject.delete(newProduct.id)];
                 case 1:
                     _b.sent();
                     _a = expect;
-                    return [4 /*yield*/, bookstoreObject.index()];
+                    return [4 /*yield*/, productStoreObject.index()];
                 case 2:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];

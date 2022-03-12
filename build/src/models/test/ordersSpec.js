@@ -36,21 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var orders_1 = require("../orders");
 var users_1 = require("../users");
-describe('users Store', function () {
+describe('orders Store', function () {
+    var orderStoreObject = new orders_1.orderStore();
     var userStoreObject = new users_1.userStore();
     var newUser = {
         id: -1,
         first_name: 'test',
         last_name: 'test',
-        username: 'test2',
+        username: 'test',
         password: 'testQUEW',
     };
-    var exceptedUserObject = jasmine.objectContaining({
-        id: newUser.id,
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        username: newUser.username,
+    var newOrder = {
+        id: -1,
+        status: 'test',
+        user_id: newUser.id,
+    };
+    var exceptedOrderObject = jasmine.objectContaining({
+        id: newOrder.id,
+        status: newOrder.status,
+        user_id: newOrder.user_id,
+    });
+    beforeAll(function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, userStoreObject.create(newUser)];
+                    case 1:
+                        //creating test user to add new order to
+                        newUser = _a.sent();
+                        //over riding with new user id
+                        newOrder = {
+                            id: -1,
+                            status: 'test',
+                            user_id: newUser.id,
+                        };
+                        exceptedOrderObject = jasmine.objectContaining({
+                            id: newOrder.id,
+                            status: newOrder.status,
+                            user_id: newOrder.user_id,
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
     });
     it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
@@ -58,7 +88,7 @@ describe('users Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, userStoreObject.index()];
+                    return [4 /*yield*/, orderStoreObject.index()];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];
@@ -70,21 +100,15 @@ describe('users Store', function () {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    _a = newUser;
-                    return [4 /*yield*/, userStoreObject.create(newUser)];
+                    _a = newOrder;
+                    return [4 /*yield*/, orderStoreObject.create(newOrder)];
                 case 1: return [4 /*yield*/, (_c.sent()).id];
                 case 2:
                     _a.id = _c.sent();
-                    exceptedUserObject = jasmine.objectContaining({
-                        id: newUser.id,
-                        first_name: newUser.first_name,
-                        last_name: newUser.last_name,
-                        username: newUser.username,
-                    });
                     _b = expect;
-                    return [4 /*yield*/, userStoreObject.index()];
+                    return [4 /*yield*/, orderStoreObject.index()];
                 case 3:
-                    _b.apply(void 0, [_c.sent()]).toEqual([exceptedUserObject]);
+                    _b.apply(void 0, [_c.sent()]).toEqual([newOrder]);
                     return [2 /*return*/];
             }
         });
@@ -95,35 +119,9 @@ describe('users Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, userStoreObject.show(newUser.id)];
+                    return [4 /*yield*/, orderStoreObject.show(1)];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual(exceptedUserObject);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('authenticate is right password', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _a = expect;
-                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, newUser.password)];
-                case 1:
-                    _a.apply(void 0, [(_b.sent()) != null]).toEqual(true);
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    it('authenticate is wrong password', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _a = expect;
-                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, 'lasdj')];
-                case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual(null);
+                    _a.apply(void 0, [_b.sent()]).toEqual(newOrder);
                     return [2 /*return*/];
             }
         });
@@ -132,15 +130,30 @@ describe('users Store', function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, userStoreObject.delete(newUser.id)];
+                case 0: return [4 /*yield*/, orderStoreObject.delete(newOrder.id)];
                 case 1:
                     _b.sent();
                     _a = expect;
-                    return [4 /*yield*/, userStoreObject.index()];
+                    return [4 /*yield*/, orderStoreObject.index()];
                 case 2:
                     _a.apply(void 0, [_b.sent()]).toEqual([]);
                     return [2 /*return*/];
             }
         });
     }); });
+    afterAll(function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: 
+                    //deleting test user
+                    return [4 /*yield*/, userStoreObject.delete(newUser.id)];
+                    case 1:
+                        //deleting test user
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    });
 });

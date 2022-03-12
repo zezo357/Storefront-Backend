@@ -40,81 +40,111 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var books_1 = require("../models/books");
+var orders_1 = require("../models/orders");
 var body_parser_1 = __importDefault(require("body-parser"));
-var app = express_1.default.Router();
-app.use(body_parser_1.default.json());
-app.get('/books', function (req, res, next) {
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var orderStoreObject = new orders_1.orderStore();
+var tokenVerifier = function (req, res, next) {
+    try {
+        var authorizationHeader = req.headers.authorization;
+        var token = authorizationHeader.split(' ')[1];
+        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+        next();
+    }
+    catch (error) {
+        res.status(401);
+        res.json('Access denied, invalid token');
+        return;
+    }
+};
+var userIDverify = function (req, res, next) {
+    var user = {
+        id: parseInt(req.params.id),
+        username: req.body.username,
+        password: req.body.password,
+        first_name: '',
+        last_name: '',
+    };
+    try {
+        var authorizationHeader = req.headers.authorization;
+        var token = authorizationHeader.split(' ')[1];
+        var _id = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET)._id;
+        if (_id !== user.id) {
+            throw new Error('User id does not match!');
+        }
+    }
+    catch (err) {
+        res.status(401);
+        res.json(err);
+        return;
+    }
+};
+var index = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var bookstoreObject, _a, _b, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    bookstoreObject = new books_1.bookStore();
-                    if (!(req.query.id != undefined)) return [3 /*break*/, 2];
                     _b = (_a = res).send;
-                    return [4 /*yield*/, bookstoreObject.show(req.query.id)];
+                    return [4 /*yield*/, orderStoreObject.index()];
                 case 1:
-                    _b.apply(_a, [_e.sent()]);
-                    return [3 /*break*/, 4];
-                case 2:
-                    _d = (_c = res).send;
-                    return [4 /*yield*/, bookstoreObject.index()];
-                case 3:
-                    _d.apply(_c, [_e.sent()]);
-                    _e.label = 4;
-                case 4:
+                    _b.apply(_a, [_c.sent()]);
                     next();
                     return [2 /*return*/];
             }
         });
     });
-});
-app.post('/books', function (req, res, next) {
+};
+var show = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var bookstoreObject, newBook, _a, _b;
+        var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    bookstoreObject = new books_1.bookStore();
-                    newBook = {
+                    _b = (_a = res).send;
+                    return [4 /*yield*/, orderStoreObject.show(req.query.id)];
+                case 1:
+                    _b.apply(_a, [_c.sent()]);
+                    next();
+                    return [2 /*return*/];
+            }
+        });
+    });
+};
+var create = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var newOrder, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    newOrder = {
                         id: -1,
-                        title: req.query.title,
-                        author: req.query.author,
-                        total_pages: req.query.total_pages,
-                        type: req.query.type,
-                        summary: req.query.summary,
+                        status: 'created',
+                        user_id: req.query.user_id,
                     };
-                    return [4 /*yield*/, bookstoreObject.insert(newBook)];
-                case 1:
-                    _c.sent();
                     _b = (_a = res).send;
-                    return [4 /*yield*/, bookstoreObject.index()];
-                case 2:
+                    return [4 /*yield*/, orderStoreObject.create(newOrder)];
+                case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
                     return [2 /*return*/];
             }
         });
     });
-});
-app.put('/books', function (req, res, next) {
+};
+var update = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var bookstoreObject, newBook, _a, _b;
+        var newOrder, _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    bookstoreObject = new books_1.bookStore();
-                    newBook = {
+                    newOrder = {
                         id: req.query.id,
-                        title: req.query.title,
-                        author: req.query.author,
-                        total_pages: req.query.total_pages,
-                        type: req.query.type,
-                        summary: req.query.summary,
+                        status: req.query.status,
+                        user_id: req.query.user_id,
                     };
                     _b = (_a = res).send;
-                    return [4 /*yield*/, bookstoreObject.update(newBook)];
+                    return [4 /*yield*/, orderStoreObject.update(newOrder)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -122,16 +152,15 @@ app.put('/books', function (req, res, next) {
             }
         });
     });
-});
-app.delete('/books', function (req, res, next) {
+};
+var add_product = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var bookstoreObject, _a, _b;
+        var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    bookstoreObject = new books_1.bookStore();
                     _b = (_a = res).send;
-                    return [4 /*yield*/, bookstoreObject.delete(req.query.id)];
+                    return [4 /*yield*/, orderStoreObject.add_product(req.query.quantity, req.query.order_id, req.query.product_id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -139,5 +168,28 @@ app.delete('/books', function (req, res, next) {
             }
         });
     });
-});
+};
+var destroy = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _b = (_a = res).send;
+                    return [4 /*yield*/, orderStoreObject.delete(req.query.id)];
+                case 1:
+                    _b.apply(_a, [_c.sent()]);
+                    next();
+                    return [2 /*return*/];
+            }
+        });
+    });
+};
+var app = express_1.default.Router();
+app.get('/orders', index, body_parser_1.default.json());
+app.get('/orders/:id', show, body_parser_1.default.json());
+app.post('/orders', create, body_parser_1.default.json());
+app.post('/orders', add_product, body_parser_1.default.json());
+app.put('/orders/:id/products', tokenVerifier, update, body_parser_1.default.json());
+app.delete('/orders/:id', tokenVerifier, destroy, body_parser_1.default.json());
 exports.default = app;

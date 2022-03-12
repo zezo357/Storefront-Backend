@@ -39,26 +39,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookStore = void 0;
+exports.productStore = void 0;
 var database_1 = __importDefault(require("../database"));
-var bookStore = /** @class */ (function () {
-    function bookStore() {
+var productStore = /** @class */ (function () {
+    function productStore() {
     }
-    bookStore.prototype.updateBook = function (oldBook, newBook) {
-        var tempBook = oldBook;
-        for (var _i = 0, _a = Object.entries(tempBook); _i < _a.length; _i++) {
+    productStore.prototype.updateProduct = function (oldProduct, newProduct) {
+        var tempProduct = oldProduct;
+        for (var _i = 0, _a = Object.entries(tempProduct); _i < _a.length; _i++) {
             var _b = _a[_i], key = _b[0], value = _b[1];
-            var temp = newBook[key];
+            var temp = newProduct[key];
             if (temp != null &&
                 temp != undefined &&
-                temp != tempBook[key]) {
+                temp != tempProduct[key]) {
                 console.log('key:', key, '|||| old value:', value, '|||| new value:', temp);
-                tempBook[key] = temp;
+                tempProduct[key] = temp;
             }
         }
-        return tempBook;
+        return tempProduct;
     };
-    bookStore.prototype.index = function () {
+    productStore.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_1;
             return __generator(this, function (_a) {
@@ -68,7 +68,7 @@ var bookStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM books';
+                        sql = 'SELECT * FROM products';
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -76,13 +76,13 @@ var bookStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         err_1 = _a.sent();
-                        throw new Error("cant index books ".concat(err_1));
+                        throw new Error("cant index products ".concat(err_1));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.insert = function (book) {
+    productStore.prototype.create = function (product) {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_2;
             return __generator(this, function (_a) {
@@ -92,28 +92,22 @@ var bookStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO books (title, author, total_pages, summary,type) VALUES($1, $2, $3, $4,$5) RETURNING *';
-                        return [4 /*yield*/, conn.query(sql, [
-                                book.title,
-                                book.author,
-                                book.total_pages,
-                                book.summary,
-                                book.type,
-                            ])];
+                        sql = 'INSERT INTO products (name, price) VALUES($1, $2) RETURNING *';
+                        return [4 /*yield*/, conn.query(sql, [product.name, product.price])];
                     case 2:
                         result = _a.sent();
-                        //const sql = `INSERT INTO books (title, author, total_pages,type,summary) VALUES ('${book.title}', '${book.author}', ${book.total_pages},'${book.type}', '${book.summary}')`;
+                        //const sql = `INSERT INTO products (title, author, total_pages,type,summary) VALUES ('${product.title}', '${product.author}', ${product.total_pages},'${product.type}', '${product.summary}')`;
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_2 = _a.sent();
-                        throw new Error("cant insert book ".concat(err_2));
+                        throw new Error("cant insert product ".concat(err_2));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.delete = function (id) {
+    productStore.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_3;
             return __generator(this, function (_a) {
@@ -123,7 +117,7 @@ var bookStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'DELETE FROM books WHERE id=($1)';
+                        sql = 'DELETE FROM products WHERE id=($1)';
                         return [4 /*yield*/, conn.query(sql, [id])];
                     case 2:
                         result = _a.sent();
@@ -131,20 +125,20 @@ var bookStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_3 = _a.sent();
-                        throw new Error("cant delete book ".concat(err_3));
+                        throw new Error("cant delete product ".concat(err_3));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    bookStore.prototype.show = function (id) {
+    productStore.prototype.show = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var sql, conn, result, err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT * FROM books WHERE id=($1)';
+                        sql = 'SELECT * FROM products WHERE id=($1)';
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
@@ -152,44 +146,47 @@ var bookStore = /** @class */ (function () {
                     case 2:
                         result = _a.sent();
                         conn.release();
-                        return [2 /*return*/, result.rows[0]];
+                        if (result.rows.length != 0) {
+                            return [2 /*return*/, result.rows[0]];
+                        }
+                        return [3 /*break*/, 4];
                     case 3:
                         err_4 = _a.sent();
-                        throw new Error("Could not find book ".concat(id, ". Error: ").concat(err_4));
-                    case 4: return [2 /*return*/];
+                        throw new Error("Could not find product ".concat(id, ". Error: ").concat(err_4));
+                    case 4: throw new Error("no products found with that id ".concat(id));
                 }
             });
         });
     };
-    bookStore.prototype.update = function (newBook) {
+    productStore.prototype.update = function (newProduct) {
         return __awaiter(this, void 0, void 0, function () {
-            var oldBook, conn, sql, result, err_5;
+            var oldProduct, conn, sql, result, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.show(newBook.id)];
+                    case 0: return [4 /*yield*/, this.show(newProduct.id)];
                     case 1:
-                        oldBook = _a.sent();
-                        newBook = this.updateBook(oldBook, newBook);
+                        oldProduct = _a.sent();
+                        newProduct = this.updateProduct(oldProduct, newProduct);
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 5, , 6]);
                         return [4 /*yield*/, database_1.default.connect()];
                     case 3:
                         conn = _a.sent();
-                        sql = "Update books set title='".concat(newBook.title, "', author='").concat(newBook.author, "', total_pages=").concat(newBook.total_pages, ",type='").concat(newBook.type, "',summary='").concat(newBook.summary, "'   WHERE id=($1) ");
-                        return [4 /*yield*/, conn.query(sql, [newBook.id])];
+                        sql = "Update products set name='".concat(newProduct.name, "', price=").concat(newProduct.price, "   WHERE id=($1) ");
+                        return [4 /*yield*/, conn.query(sql, [newProduct.id])];
                     case 4:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 5:
                         err_5 = _a.sent();
-                        throw new Error("cant Update book ".concat(err_5));
+                        throw new Error("cant Update product ".concat(err_5));
                     case 6: return [2 /*return*/];
                 }
             });
         });
     };
-    return bookStore;
+    return productStore;
 }());
-exports.bookStore = bookStore;
+exports.productStore = productStore;

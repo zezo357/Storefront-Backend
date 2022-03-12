@@ -21,6 +21,7 @@ export class userStore {
     );
     return hash;
   }
+
   updateUser(oldUser: User, newUser: User): User {
     let tempUser: User = oldUser;
     for (const [key, value] of Object.entries(tempUser)) {
@@ -49,7 +50,7 @@ export class userStore {
       const sql = 'SELECT * FROM Users';
       const result = await conn.query(sql);
       conn.release();
-      return result.rows;
+      return result.rows as User[];
     } catch (err) {
       throw new Error(`cant index users ${err}`);
     }
@@ -74,7 +75,7 @@ export class userStore {
       );
     }
   }
-  async create(user: User): Promise<void> {
+  async create(user: User): Promise<User> {
     try {
       const conn = await client.connect();
       const sql =

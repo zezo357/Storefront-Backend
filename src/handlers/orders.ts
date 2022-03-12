@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Order, orderStore } from '../models/orders';
-import { User} from '../models/users';
+import { User } from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 const orderStoreObject = new orderStore();
@@ -73,7 +73,7 @@ const create = async function (
   const newOrder: Order = {
     id: -1,
     status: 'created',
-    user_id:req.query.user_id as unknown as Number,
+    user_id: req.query.user_id as unknown as Number,
   };
   res.send(await orderStoreObject.create(newOrder));
   next();
@@ -84,23 +84,29 @@ const update = async function (
   res: Response,
   next: NextFunction
 ) {
-    const newOrder: Order = {
-        id: req.query.id as unknown as Number,
-        status:req.query.status as string,
+  const newOrder: Order = {
+    id: req.query.id as unknown as Number,
+    status: req.query.status as string,
     user_id: req.query.user_id as unknown as Number,
-    }
+  };
   res.send(await orderStoreObject.update(newOrder));
   next();
 };
 const add_product = async function (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    res.send(await orderStoreObject.add_product(req.query.quantity as unknown as Number, req.query.order_id as unknown as Number,req.query.product_id as unknown as Number));
-    next();
-  };
-  
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  res.send(
+    await orderStoreObject.add_product(
+      req.query.quantity as unknown as Number,
+      req.query.order_id as unknown as Number,
+      req.query.product_id as unknown as Number
+    )
+  );
+  next();
+};
+
 const destroy = async function (
   req: Request,
   res: Response,
@@ -116,11 +122,6 @@ app.get('/orders/:id', show, bodyParser.json());
 app.post('/orders', create, bodyParser.json());
 app.post('/orders', add_product, bodyParser.json());
 app.put('/orders/:id/products', tokenVerifier, update, bodyParser.json());
-app.delete(
-  '/orders/:id',
-  tokenVerifier,
-  destroy,
-  bodyParser.json()
-);
+app.delete('/orders/:id', tokenVerifier, destroy, bodyParser.json());
 
 export default app;

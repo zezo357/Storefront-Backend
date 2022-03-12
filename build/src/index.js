@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var books_1 = __importDefault(require("./handlers/books"));
+var users_1 = __importDefault(require("./handlers/users"));
 var app = (0, express_1.default)();
 var address = 'localhost:3000';
 /*
@@ -20,7 +20,7 @@ router.use('/', function (req, res, next) {
     next();
 });
 app.use('/', router);
-app.use('/', books_1.default);
+app.use('/', users_1.default);
 app.listen(3000, function () {
     console.log("starting app on: ".concat(address));
 });

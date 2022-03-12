@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Product, productStore } from '../models/products';
-import { User} from '../models/users';
+import { User } from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 const productStoreObject = new productStore();
@@ -73,7 +73,7 @@ const create = async function (
   const newUser: Product = {
     id: -1,
     name: req.query.name as string,
-    price: req.query.price as unknown as Number, 
+    price: req.query.price as unknown as Number,
   };
   await productStoreObject.create(newUser);
   var token = jwt.sign({ newUser }, process.env.TOKEN_SECRET as string);
@@ -86,11 +86,11 @@ const update = async function (
   res: Response,
   next: NextFunction
 ) {
-    const newProduct: Product = {
-        id: req.query.id as unknown as Number,
+  const newProduct: Product = {
+    id: req.query.id as unknown as Number,
     name: req.query.name as string,
     price: req.query.price as unknown as Number,
-    }
+  };
   res.send(await productStoreObject.update(newProduct));
   next();
 };
@@ -109,11 +109,6 @@ app.get('/products', index, bodyParser.json());
 app.get('/products/:id', show, bodyParser.json());
 app.post('/products', create, bodyParser.json());
 app.put('/products/', tokenVerifier, update, bodyParser.json());
-app.delete(
-  '/products/:id',
-  tokenVerifier,
-  destroy,
-  bodyParser.json()
-);
+app.delete('/products/:id', tokenVerifier, destroy, bodyParser.json());
 
 export default app;

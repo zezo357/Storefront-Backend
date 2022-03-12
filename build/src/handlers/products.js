@@ -40,10 +40,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var users_1 = require("../models/users");
+var products_1 = require("../models/products");
 var body_parser_1 = __importDefault(require("body-parser"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var userStoreObject = new users_1.userStore();
+var productStoreObject = new products_1.productStore();
 var tokenVerifier = function (req, res, next) {
     try {
         var authorizationHeader = req.headers.authorization;
@@ -86,7 +86,7 @@ var index = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.index()];
+                    return [4 /*yield*/, productStoreObject.index()];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -102,7 +102,7 @@ var show = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.show(req.query.id)];
+                    return [4 /*yield*/, productStoreObject.show(req.query.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -119,12 +119,10 @@ var create = function (req, res, next) {
                 case 0:
                     newUser = {
                         id: -1,
-                        first_name: req.query.first_name,
-                        last_name: req.query.last_name,
-                        username: req.query.username,
-                        password: req.query.password,
+                        name: req.query.name,
+                        price: req.query.price,
                     };
-                    return [4 /*yield*/, userStoreObject.create(newUser)];
+                    return [4 /*yield*/, productStoreObject.create(newUser)];
                 case 1:
                     _a.sent();
                     token = jsonwebtoken_1.default.sign({ newUser: newUser }, process.env.TOKEN_SECRET);
@@ -135,43 +133,19 @@ var create = function (req, res, next) {
         });
     });
 };
-var signin = function (req, res, next) {
-    return __awaiter(this, void 0, void 0, function () {
-        var user, token;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, userStoreObject.authenticate(req.query.username, req.query.password)];
-                case 1:
-                    user = _a.sent();
-                    if (user == null) {
-                        res.status(404);
-                        res.send('wrong username or password');
-                    }
-                    else {
-                        token = jsonwebtoken_1.default.sign({ user: user }, process.env.TOKEN_SECRET);
-                        res.send(token);
-                    }
-                    next();
-                    return [2 /*return*/];
-            }
-        });
-    });
-};
 var update = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newUser, _a, _b;
+        var newProduct, _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    newUser = {
+                    newProduct = {
                         id: req.query.id,
-                        first_name: req.query.first_name,
-                        last_name: req.query.last_name,
-                        username: req.query.username,
-                        password: req.query.password,
+                        name: req.query.name,
+                        price: req.query.price,
                     };
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.update(newUser)];
+                    return [4 /*yield*/, productStoreObject.update(newProduct)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -187,7 +161,7 @@ var destroy = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.delete(req.query.id)];
+                    return [4 /*yield*/, productStoreObject.delete(req.query.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -197,10 +171,9 @@ var destroy = function (req, res, next) {
     });
 };
 var app = express_1.default.Router();
-app.get('/users', index, body_parser_1.default.json());
-app.get('/users/:id', show, body_parser_1.default.json());
-app.post('/users', create, body_parser_1.default.json());
-app.post('/users/signin', signin, body_parser_1.default.json());
-app.put('/users/', tokenVerifier, userIDverify, update, body_parser_1.default.json());
-app.delete('/users/:id', tokenVerifier, userIDverify, destroy, body_parser_1.default.json());
+app.get('/products', index, body_parser_1.default.json());
+app.get('/products/:id', show, body_parser_1.default.json());
+app.post('/products', create, body_parser_1.default.json());
+app.put('/products/', tokenVerifier, update, body_parser_1.default.json());
+app.delete('/products/:id', tokenVerifier, destroy, body_parser_1.default.json());
 exports.default = app;
