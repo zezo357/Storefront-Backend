@@ -1,6 +1,6 @@
 import { Product, productStore } from '../products';
 
-describe('product Store', (): void => {
+describe('Product Store', (): void => {
   const productStoreObject = new productStore();
   let newProduct: Product = {
     id: -1,
@@ -8,20 +8,20 @@ describe('product Store', (): void => {
     price: 999,
   };
 
-  it('index is working', async (): Promise<void> => {
+  it('Index', async (): Promise<void> => {
     expect(await productStoreObject.index()).toEqual([]);
   });
 
-  it('insert is working', async (): Promise<void> => {
+  it('Create', async (): Promise<void> => {
     newProduct.id = await (await productStoreObject.create(newProduct)).id;
     expect(await productStoreObject.index()).toEqual([newProduct]);
   });
 
-  it('show is working', async (): Promise<void> => {
+  it('Show', async (): Promise<void> => {
     expect(await productStoreObject.show(1)).toEqual(newProduct);
   });
 
-  it('delete is working', async (): Promise<void> => {
+  it('Delete', async (): Promise<void> => {
     await productStoreObject.delete(newProduct.id);
     expect(await productStoreObject.index()).toEqual([]);
   });

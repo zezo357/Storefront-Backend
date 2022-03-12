@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var products_1 = require("../products");
-describe('product Store', function () {
+describe('Product Store', function () {
     var productStoreObject = new products_1.productStore();
     var newProduct = {
         id: -1,
         name: 'test',
         price: 999,
     };
-    it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -57,7 +57,7 @@ describe('product Store', function () {
             }
         });
     }); });
-    it('insert is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -75,7 +75,7 @@ describe('product Store', function () {
             }
         });
     }); });
-    it('show is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -88,7 +88,7 @@ describe('product Store', function () {
             }
         });
     }); });
-    it('delete is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {

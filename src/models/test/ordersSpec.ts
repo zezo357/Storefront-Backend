@@ -1,7 +1,7 @@
 import { Order, orderStore } from '../orders';
 import { User, userStore } from '../users';
 
-describe('orders Store', (): void => {
+describe('Orders Store', (): void => {
   const orderStoreObject = new orderStore();
   const userStoreObject = new userStore();
   let newUser: User = {
@@ -16,11 +16,7 @@ describe('orders Store', (): void => {
     status: 'test',
     user_id: newUser.id,
   };
-  let exceptedOrderObject = jasmine.objectContaining({
-    id: newOrder.id,
-    status: newOrder.status,
-    user_id: newOrder.user_id,
-  });
+
   beforeAll(async function () {
     //creating test user to add new order to
     newUser = await userStoreObject.create(newUser);
@@ -32,20 +28,20 @@ describe('orders Store', (): void => {
     };
   });
 
-  it('index is working', async (): Promise<void> => {
+  it('Index', async (): Promise<void> => {
     expect(await orderStoreObject.index()).toEqual([]);
   });
 
-  it('insert is working', async (): Promise<void> => {
+  it('Create', async (): Promise<void> => {
     newOrder.id = await (await orderStoreObject.create(newOrder)).id;
     expect(await orderStoreObject.index()).toEqual([newOrder]);
   });
 
-  it('show is working', async (): Promise<void> => {
+  it('Show', async (): Promise<void> => {
     expect(await orderStoreObject.show(1)).toEqual(newOrder);
   });
 
-  it('delete is working', async (): Promise<void> => {
+  it('Delete', async (): Promise<void> => {
     await orderStoreObject.delete(newOrder.id);
     expect(await orderStoreObject.index()).toEqual([]);
   });

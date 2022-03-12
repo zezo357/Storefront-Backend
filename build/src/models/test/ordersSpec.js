@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var orders_1 = require("../orders");
 var users_1 = require("../users");
-describe('orders Store', function () {
+describe('Orders Store', function () {
     var orderStoreObject = new orders_1.orderStore();
     var userStoreObject = new users_1.userStore();
     var newUser = {
@@ -53,11 +53,6 @@ describe('orders Store', function () {
         status: 'test',
         user_id: newUser.id,
     };
-    var exceptedOrderObject = jasmine.objectContaining({
-        id: newOrder.id,
-        status: newOrder.status,
-        user_id: newOrder.user_id,
-    });
     beforeAll(function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -77,7 +72,7 @@ describe('orders Store', function () {
             });
         });
     });
-    it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -90,30 +85,25 @@ describe('orders Store', function () {
             }
         });
     }); });
-    it('insert is working', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, _b, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     _a = newOrder;
                     return [4 /*yield*/, orderStoreObject.create(newOrder)];
-                case 1: return [4 /*yield*/, (_e.sent()).id];
+                case 1: return [4 /*yield*/, (_c.sent()).id];
                 case 2:
-                    _a.id = _e.sent();
-                    console.log(newOrder);
-                    _c = (_b = console).log;
+                    _a.id = _c.sent();
+                    _b = expect;
                     return [4 /*yield*/, orderStoreObject.index()];
                 case 3:
-                    _c.apply(_b, [_e.sent()]);
-                    _d = expect;
-                    return [4 /*yield*/, orderStoreObject.index()];
-                case 4:
-                    _d.apply(void 0, [_e.sent()]).toEqual([newOrder]);
+                    _b.apply(void 0, [_c.sent()]).toEqual([newOrder]);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('show is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -126,7 +116,7 @@ describe('orders Store', function () {
             }
         });
     }); });
-    it('delete is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {

@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var users_1 = require("../users");
-describe('users Store', function () {
+describe('Users Store', function () {
     var userStoreObject = new users_1.userStore();
     var newUser = {
         id: -1,
@@ -52,7 +52,7 @@ describe('users Store', function () {
         last_name: newUser.last_name,
         username: newUser.username,
     });
-    it('index is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -65,7 +65,7 @@ describe('users Store', function () {
             }
         });
     }); });
-    it('insert is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -89,7 +89,7 @@ describe('users Store', function () {
             }
         });
     }); });
-    it('show is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -102,7 +102,7 @@ describe('users Store', function () {
             }
         });
     }); });
-    it('authenticate is right password', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with right password', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -115,20 +115,20 @@ describe('users Store', function () {
             }
         });
     }); });
-    it('authenticate is wrong password', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with wrong password', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, 'lasdj')];
+                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, 'wrong password')];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual(null);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('delete is working', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {

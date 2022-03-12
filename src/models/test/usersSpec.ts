@@ -1,6 +1,6 @@
 import { User, userStore } from '../users';
 
-describe('users Store', (): void => {
+describe('Users Store', (): void => {
   const userStoreObject = new userStore();
 
   let newUser: User = {
@@ -21,11 +21,11 @@ describe('users Store', (): void => {
     last_name: newUser.last_name,
     username: newUser.username,
   });
-  it('index is working', async (): Promise<void> => {
+  it('Index', async (): Promise<void> => {
     expect(await userStoreObject.index()).toEqual([]);
   });
 
-  it('insert is working', async (): Promise<void> => {
+  it('Create', async (): Promise<void> => {
     newUser.id = await (await userStoreObject.create(newUser)).id;
     exceptedUserObject = jasmine.objectContaining({
       id: newUser.id,
@@ -36,11 +36,11 @@ describe('users Store', (): void => {
     expect(await userStoreObject.index()).toEqual([exceptedUserObject]);
   });
 
-  it('show is working', async (): Promise<void> => {
+  it('Show', async (): Promise<void> => {
     expect(await userStoreObject.show(newUser.id)).toEqual(exceptedUserObject);
   });
 
-  it('authenticate is right password', async (): Promise<void> => {
+  it('Authenticate with right password', async (): Promise<void> => {
     expect(
       (await userStoreObject.authenticate(
         newUser.username,
@@ -48,13 +48,13 @@ describe('users Store', (): void => {
       )) != null
     ).toEqual(true);
   });
-  it('authenticate is wrong password', async (): Promise<void> => {
+  it('Authenticate with wrong password', async (): Promise<void> => {
     expect(
-      await userStoreObject.authenticate(newUser.username, 'lasdj')
+      await userStoreObject.authenticate(newUser.username, 'wrong password')
     ).toEqual(null);
   });
 
-  it('delete is working', async (): Promise<void> => {
+  it('Delete', async (): Promise<void> => {
     await userStoreObject.delete(newUser.id);
     expect(await userStoreObject.index()).toEqual([]);
   });
