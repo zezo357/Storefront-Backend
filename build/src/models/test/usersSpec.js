@@ -53,7 +53,7 @@ describe('Users Store', function () {
         username: newUser.username,
     });
     var updatedUser;
-    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index: should contain empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -66,7 +66,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Create: should add User and index return list of 1 user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -90,7 +90,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show: should show user details', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -103,7 +103,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with right password works', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with right password should return user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -116,7 +116,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with wrong password fails', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with wrong password should return null', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -129,7 +129,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Update: should update user details', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -158,7 +158,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with old right password fails', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with old right password should return null', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -171,7 +171,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with new right password works', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with new right password should return user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -184,7 +184,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete: removes user and check if index return empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {

@@ -44,7 +44,7 @@ describe('Product Store', function () {
         name: 'test',
         price: 999,
     };
-    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index: should contain empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -57,7 +57,7 @@ describe('Product Store', function () {
             }
         });
     }); });
-    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Create: should add product and index return list of 1 product', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -75,20 +75,20 @@ describe('Product Store', function () {
             }
         });
     }); });
-    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show: shows Product details', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, productStoreObject.show(1)];
+                    return [4 /*yield*/, productStoreObject.show(newProduct.id)];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual(newProduct);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Update: changes name and price of product', function () { return __awaiter(void 0, void 0, void 0, function () {
         var updatedProduct, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -109,7 +109,7 @@ describe('Product Store', function () {
             }
         });
     }); });
-    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete: removes product and check if index return empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {

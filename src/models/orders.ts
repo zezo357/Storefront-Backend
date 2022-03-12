@@ -55,11 +55,25 @@ export class orderStore {
       throw new Error(`cant insert Order ${err}`);
     }
   }
+  async get_products_ids(
+    order_id: number,
+  ): Promise<{product_id:number}[]> {
+    try {
+      const ordersql = 'SELECT product_id FROM order_products WHERE order_id=($1)';
+      //@ts-ignore
+      const conn = await client.connect();
+      const result = await conn.query(ordersql, [order_id]);
+      conn.release();
+      return result.rows;
+    } catch (err) {
+      throw new Error(`${err}`);
+    }
+  }
   async add_product(
     quantity: number,
     order_id: number,
     product_id: number
-  ): Promise<void> {
+  ): Promise<Order> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore
@@ -96,6 +110,48 @@ export class orderStore {
     } catch (err) {
       throw new Error(
         `Could not add product ${product_id} to order ${order_id}: ${err}`
+      );
+    }
+  }
+  async remove_product(
+    order_id: number,
+    product_id: number
+  ): Promise<void> {
+    try {
+      const ordersql = 'SELECT * FROM orders WHERE id=($1)';
+      //@ts-ignore
+      const conn = await client.connect();
+
+      const result = await conn.query(ordersql, [order_id]);
+
+      const order = result.rows[0];
+
+      if (order.status !== 'open') {
+        throw new Error(
+          `Could not remove product ${product_id} to order ${order_id} because order status is ${order.status}`
+        );
+      }
+
+      conn.release();
+    } catch (err) {
+      throw new Error(`${err}`);
+    }
+
+    try {
+      const sql =  `DELETE FROM order_products Where order_id=($1) AND product_id=($2) RETURNING *`;
+      //@ts-ignore
+      const conn = await client.connect();
+
+      const result = await conn.query(sql, [order_id, product_id]);
+
+      const order = result.rows[0];
+
+      conn.release();
+
+      return order;
+    } catch (err) {
+      throw new Error(
+        `Could not remove product ${product_id} to order ${order_id}: ${err}`
       );
     }
   }

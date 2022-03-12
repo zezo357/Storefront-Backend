@@ -50,6 +50,7 @@ describe('Dashboard Queries', function () {
     var registeredUsers = [];
     var MostExpensiveProducts = [];
     var productsInOrders = [];
+    var productsInOrdersWithProductIDs = [];
     var count = 5;
     var random_prices = Array.from({ length: count * 1 }, function () { return Math.floor(Math.random() * 100000); });
     beforeAll(function () {
@@ -125,6 +126,12 @@ describe('Dashboard Queries', function () {
                             price: registeredProducts[indexProduct].price,
                             order_id: orderID,
                         });
+                        productsInOrdersWithProductIDs.push({
+                            name: registeredProducts[indexProduct].name,
+                            price: registeredProducts[indexProduct].price,
+                            product_id: registeredProducts[indexProduct].id,
+                            order_id: orderID,
+                        });
                         return [4 /*yield*/, orderStoreObject.add_product(1, orderID, productID)];
                     case 14:
                         _g.sent();
@@ -137,7 +144,7 @@ describe('Dashboard Queries', function () {
             });
         });
     });
-    it('MostExpensiveProducts', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("MostExpensiveProducts: should return ".concat(count, " most expensive products"), function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -150,7 +157,7 @@ describe('Dashboard Queries', function () {
             }
         });
     }); });
-    it('productsInOrders', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('productsInOrders: should return products that exist in orders', function () { return __awaiter(void 0, void 0, void 0, function () {
         var productsInOrdersQuery;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -164,4 +171,62 @@ describe('Dashboard Queries', function () {
             }
         });
     }); });
+    afterAll(function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var i, i, i, i;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < productsInOrdersWithProductIDs.length)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, orderStoreObject.remove_product(productsInOrdersWithProductIDs[i].order_id, productsInOrdersWithProductIDs[i].product_id)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        i = 0;
+                        _a.label = 5;
+                    case 5:
+                        if (!(i < registeredOrders.length)) return [3 /*break*/, 8];
+                        return [4 /*yield*/, orderStoreObject.delete(registeredOrders[i].id)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7:
+                        i++;
+                        return [3 /*break*/, 5];
+                    case 8:
+                        i = 0;
+                        _a.label = 9;
+                    case 9:
+                        if (!(i < registeredUsers.length)) return [3 /*break*/, 12];
+                        return [4 /*yield*/, userStoreObject.delete(registeredUsers[i].id)];
+                    case 10:
+                        _a.sent();
+                        _a.label = 11;
+                    case 11:
+                        i++;
+                        return [3 /*break*/, 9];
+                    case 12:
+                        i = 0;
+                        _a.label = 13;
+                    case 13:
+                        if (!(i < registeredProducts.length)) return [3 /*break*/, 16];
+                        return [4 /*yield*/, productStoreObject.delete(registeredProducts[i].id)];
+                    case 14:
+                        _a.sent();
+                        _a.label = 15;
+                    case 15:
+                        i++;
+                        return [3 /*break*/, 13];
+                    case 16: return [2 /*return*/];
+                }
+            });
+        });
+    });
 });

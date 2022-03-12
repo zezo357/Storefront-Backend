@@ -24,11 +24,11 @@ describe('Users Store', (): void => {
 
   let updatedUser: User;
 
-  it('Index', async (): Promise<void> => {
+  it('Index: should contain empty list', async (): Promise<void> => {
     expect(await userStoreObject.index()).toEqual([]);
   });
 
-  it('Create', async (): Promise<void> => {
+  it('Create: should add User and index return list of 1 user', async (): Promise<void> => {
     newUser.id = await (await userStoreObject.create(newUser)).id;
     exceptedUserObject = jasmine.objectContaining({
       id: newUser.id,
@@ -39,11 +39,11 @@ describe('Users Store', (): void => {
     expect(await userStoreObject.index()).toEqual([exceptedUserObject]);
   });
 
-  it('Show', async (): Promise<void> => {
+  it('Show: should show user details', async (): Promise<void> => {
     expect(await userStoreObject.show(newUser.id)).toEqual(exceptedUserObject);
   });
 
-  it('Authenticate with right password works', async (): Promise<void> => {
+  it('Authenticate with right password should return user', async (): Promise<void> => {
     expect(
       (await userStoreObject.authenticate(
         newUser.username,
@@ -51,13 +51,13 @@ describe('Users Store', (): void => {
       )) != null
     ).toEqual(true);
   });
-  it('Authenticate with wrong password fails', async (): Promise<void> => {
+  it('Authenticate with wrong password should return null', async (): Promise<void> => {
     expect(
       await userStoreObject.authenticate(newUser.username, 'wrong password')
     ).toEqual(null);
   });
 
-  it('Update', async (): Promise<void> => {
+  it('Update: should update user details', async (): Promise<void> => {
     updatedUser= {
       id: newUser.id,
       first_name: 'the unknown ',
@@ -75,7 +75,7 @@ describe('Users Store', (): void => {
     expect(await userStoreObject.show(updatedUser.id)).toEqual(exceptedUserObject);
   });
 
-  it('Authenticate with old right password fails', async (): Promise<void> => {
+  it('Authenticate with old right password should return null', async (): Promise<void> => {
     expect(
       (await userStoreObject.authenticate(
         newUser.username,
@@ -84,7 +84,7 @@ describe('Users Store', (): void => {
     ).toEqual(true);
   });
 
-  it('Authenticate with new right password works', async (): Promise<void> => {
+  it('Authenticate with new right password should return user', async (): Promise<void> => {
     expect(
       (await userStoreObject.authenticate(
         updatedUser.username,
@@ -93,7 +93,7 @@ describe('Users Store', (): void => {
     ).toEqual(true);
   });
 
-  it('Delete', async (): Promise<void> => {
+  it('Delete: removes user and check if index return empty list', async (): Promise<void> => {
     await userStoreObject.delete(newUser.id);
     expect(await userStoreObject.index()).toEqual([]);
   });

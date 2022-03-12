@@ -38,9 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var orders_1 = require("../orders");
 var users_1 = require("../users");
+var products_1 = require("../products");
 describe('Orders Store', function () {
     var orderStoreObject = new orders_1.orderStore();
     var userStoreObject = new users_1.userStore();
+    var productStoreObject = new products_1.productStore();
     var newUser = {
         id: -1,
         first_name: 'test',
@@ -52,6 +54,11 @@ describe('Orders Store', function () {
         id: -1,
         status: 'open',
         user_id: newUser.id,
+    };
+    var testProduct = {
+        id: -1,
+        name: 'test',
+        price: 999,
     };
     beforeAll(function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -67,12 +74,16 @@ describe('Orders Store', function () {
                             status: 'open',
                             user_id: newUser.id,
                         };
+                        return [4 /*yield*/, productStoreObject.create(testProduct)];
+                    case 2:
+                        //add new product
+                        testProduct = _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     });
-    it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Index: should contain empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -85,7 +96,7 @@ describe('Orders Store', function () {
             }
         });
     }); });
-    it('Create', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Create: should add order and index return list of 1 order', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -103,7 +114,7 @@ describe('Orders Store', function () {
             }
         });
     }); });
-    it('Show', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Show: should show order details', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -116,7 +127,52 @@ describe('Orders Store', function () {
             }
         });
     }); });
-    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('add_product: should add product to order', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, orderStoreObject.add_product(1, newOrder.id, testProduct.id)];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).toEqual(jasmine.objectContaining({
+                        quantity: 1,
+                        order_id: newOrder.id,
+                        product_id: testProduct.id
+                    }));
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('get_products_ids: should return ids of products in order', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, orderStoreObject.get_products_ids(newOrder.id)];
+                case 1:
+                    _a.apply(void 0, [_b.sent()]).toEqual([jasmine.objectContaining({ product_id: testProduct.id })]);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('remove_product: should remove product from order', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, orderStoreObject.remove_product(newOrder.id, testProduct.id)];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, orderStoreObject.get_products_ids(newOrder.id)];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toEqual([]);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Update: should change status of order to closed', function () { return __awaiter(void 0, void 0, void 0, function () {
         var updatedOrder, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -137,7 +193,7 @@ describe('Orders Store', function () {
             }
         });
     }); });
-    it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Delete: should remove order and check if index return empty list', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -161,6 +217,9 @@ describe('Orders Store', function () {
                     return [4 /*yield*/, userStoreObject.delete(newUser.id)];
                     case 1:
                         //deleting test user
+                        _a.sent();
+                        return [4 /*yield*/, productStoreObject.delete(testProduct.id)];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
