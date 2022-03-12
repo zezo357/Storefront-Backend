@@ -21,33 +21,20 @@ const tokenVerifier = (
   }
 };
 
-interface JwtPayload {
-  _id: number;
-}
 
 const userIDverify = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
 ): void => {
-  const user: User = {
-    id: parseInt(req.params.id),
-    username: req.body.username,
-    password: req.body.password,
-    first_name: '',
-    last_name: '',
-  };
-  try {
-    const authorizationHeader = req.headers.authorization as string;
-    const token = authorizationHeader.split(' ')[1];
-    const { _id } = jwt.verify(
-      token,
-      process.env.TOKEN_SECRET as string
-    ) as JwtPayload;
 
-    if (_id !== user.id) {
+  try {
+    const token = req.headers.authorization as string;
+    const decodedToken = jwt.decode(token) as User;
+    if (decodedToken.id !== parseInt(req.params.id)) {
       throw new Error('User id does not match!');
     }
+    next();
   } catch (err) {
     res.status(401);
     res.json(err);
@@ -61,7 +48,7 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await orderStoreObject.show(req.query.id as unknown as number));
+  res.send(await orderStoreObject.show(req.params.id as unknown as number));
   next();
 };
 
@@ -85,9 +72,9 @@ const update = async function (
   next: NextFunction
 ) {
   const newOrder: Order = {
-    id: req.query.id as unknown as number,
-    status: req.query.status as string,
-    user_id: req.query.user_id as unknown as number,
+    id: req.params.id as unknown as number,
+    status: req.body.status as string,
+    user_id: req.body.user_id as unknown as number,
   };
   res.send(await orderStoreObject.update(newOrder));
   next();
@@ -112,16 +99,16 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  res.send(await orderStoreObject.delete(req.query.id as unknown as number));
+  res.send(await orderStoreObject.delete(req.params.id as unknown as number));
   next();
 };
 
 let app: express.Router = express.Router();
-app.get('/orders', index, bodyParser.json());
-app.get('/orders/:id', show, bodyParser.json());
-app.post('/orders', create, bodyParser.json());
-app.post('/orders', add_product, bodyParser.json());
-app.put('/orders/:id/products', tokenVerifier, update, bodyParser.json());
-app.delete('/orders/:id', tokenVerifier, destroy, bodyParser.json());
+app.get('/orders', bodyParser.json(), index);
+app.get('/orders/:id', bodyParser.json(), show);
+app.post('/orders', bodyParser.json(), create);
+app.post('/orders', bodyParser.json(), add_product);
+app.put('/orders/:id', bodyParser.json(), tokenVerifier, userIDverify, update);
+app.delete('/orders/:id', bodyParser.json(), tokenVerifier, userIDverify, destroy);
 
 export default app;

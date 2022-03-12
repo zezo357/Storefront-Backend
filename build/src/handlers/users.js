@@ -46,8 +46,7 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var userStoreObject = new users_1.userStore();
 var tokenVerifier = function (req, res, next) {
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
+        var token = req.headers.authorization;
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
         next();
     }
@@ -58,20 +57,13 @@ var tokenVerifier = function (req, res, next) {
     }
 };
 var userIDverify = function (req, res, next) {
-    var user = {
-        id: parseInt(req.params.id),
-        username: req.body.username,
-        password: req.body.password,
-        first_name: '',
-        last_name: '',
-    };
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
-        var _id = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET)._id;
-        if (_id !== user.id) {
+        var token = req.headers.authorization;
+        var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (decodedToken.id !== parseInt(req.params.id)) {
             throw new Error('User id does not match!');
         }
+        next();
     }
     catch (err) {
         res.status(401);
@@ -102,7 +94,7 @@ var show = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.show(req.query.id)];
+                    return [4 /*yield*/, userStoreObject.show(req.params.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -119,15 +111,16 @@ var create = function (req, res, next) {
                 case 0:
                     newUser = {
                         id: -1,
-                        first_name: req.query.first_name,
-                        last_name: req.query.last_name,
-                        username: req.query.username,
-                        password: req.query.password,
+                        first_name: req.body.first_name,
+                        last_name: req.body.last_name,
+                        username: req.body.username,
+                        password: req.body.password,
                     };
                     return [4 /*yield*/, userStoreObject.create(newUser)];
                 case 1:
-                    _a.sent();
-                    token = jsonwebtoken_1.default.sign({ newUser: newUser }, process.env.TOKEN_SECRET);
+                    newUser = _a.sent();
+                    token = jsonwebtoken_1.default.sign(newUser, process.env.TOKEN_SECRET);
+                    //console.log(token);
                     res.send(token);
                     next();
                     return [2 /*return*/];
@@ -135,12 +128,12 @@ var create = function (req, res, next) {
         });
     });
 };
-var signin = function (req, res, next) {
+var signIn = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var user, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, userStoreObject.authenticate(req.query.username, req.query.password)];
+                case 0: return [4 /*yield*/, userStoreObject.authenticate(req.body.username, req.body.password)];
                 case 1:
                     user = _a.sent();
                     if (user == null) {
@@ -148,7 +141,7 @@ var signin = function (req, res, next) {
                         res.send('wrong username or password');
                     }
                     else {
-                        token = jsonwebtoken_1.default.sign({ user: user }, process.env.TOKEN_SECRET);
+                        token = jsonwebtoken_1.default.sign(user, process.env.TOKEN_SECRET);
                         res.send(token);
                     }
                     next();
@@ -164,11 +157,11 @@ var update = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     newUser = {
-                        id: req.query.id,
-                        first_name: req.query.first_name,
-                        last_name: req.query.last_name,
-                        username: req.query.username,
-                        password: req.query.password,
+                        id: req.params.id,
+                        first_name: req.body.first_name,
+                        last_name: req.body.last_name,
+                        username: req.body.username,
+                        password: req.body.password,
                     };
                     _b = (_a = res).send;
                     return [4 /*yield*/, userStoreObject.update(newUser)];
@@ -187,7 +180,7 @@ var destroy = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, userStoreObject.delete(req.query.id)];
+                    return [4 /*yield*/, userStoreObject.delete(req.params.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -197,10 +190,10 @@ var destroy = function (req, res, next) {
     });
 };
 var app = express_1.default.Router();
-app.get('/users', index, body_parser_1.default.json());
-app.get('/users/:id', show, body_parser_1.default.json());
-app.post('/users', create, body_parser_1.default.json());
-app.post('/users/signin', signin, body_parser_1.default.json());
-app.put('/users/', tokenVerifier, userIDverify, update, body_parser_1.default.json());
-app.delete('/users/:id', tokenVerifier, userIDverify, destroy, body_parser_1.default.json());
+app.get('/users', body_parser_1.default.json(), index);
+app.get('/users/:id', body_parser_1.default.json(), show);
+app.post('/users/register', body_parser_1.default.json(), create);
+app.post('/users/signIn', body_parser_1.default.json(), signIn);
+app.put('/users/:id', body_parser_1.default.json(), tokenVerifier, userIDverify, update);
+app.delete('/users/:id', body_parser_1.default.json(), tokenVerifier, userIDverify, destroy);
 exports.default = app;

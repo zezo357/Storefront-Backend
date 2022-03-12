@@ -138,7 +138,7 @@ describe('Orders Store', function () {
                     _a.apply(void 0, [_b.sent()]).toEqual(jasmine.objectContaining({
                         quantity: 1,
                         order_id: newOrder.id,
-                        product_id: testProduct.id
+                        product_id: testProduct.id,
                     }));
                     return [2 /*return*/];
             }
@@ -152,7 +152,9 @@ describe('Orders Store', function () {
                     _a = expect;
                     return [4 /*yield*/, orderStoreObject.get_products_ids(newOrder.id)];
                 case 1:
-                    _a.apply(void 0, [_b.sent()]).toEqual([jasmine.objectContaining({ product_id: testProduct.id })]);
+                    _a.apply(void 0, [_b.sent()]).toEqual([
+                        jasmine.objectContaining({ product_id: testProduct.id }),
+                    ]);
                     return [2 /*return*/];
             }
         });

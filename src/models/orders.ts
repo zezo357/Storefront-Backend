@@ -55,11 +55,10 @@ export class orderStore {
       throw new Error(`cant insert Order ${err}`);
     }
   }
-  async get_products_ids(
-    order_id: number,
-  ): Promise<{product_id:number}[]> {
+  async get_products_ids(order_id: number): Promise<{ product_id: number }[]> {
     try {
-      const ordersql = 'SELECT product_id FROM order_products WHERE order_id=($1)';
+      const ordersql =
+        'SELECT product_id FROM order_products WHERE order_id=($1)';
       //@ts-ignore
       const conn = await client.connect();
       const result = await conn.query(ordersql, [order_id]);
@@ -113,10 +112,7 @@ export class orderStore {
       );
     }
   }
-  async remove_product(
-    order_id: number,
-    product_id: number
-  ): Promise<void> {
+  async remove_product(order_id: number, product_id: number): Promise<void> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore
@@ -138,7 +134,7 @@ export class orderStore {
     }
 
     try {
-      const sql =  `DELETE FROM order_products Where order_id=($1) AND product_id=($2) RETURNING *`;
+      const sql = `DELETE FROM order_products Where order_id=($1) AND product_id=($2) RETURNING *`;
       //@ts-ignore
       const conn = await client.connect();
 

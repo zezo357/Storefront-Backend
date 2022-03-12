@@ -58,20 +58,13 @@ var tokenVerifier = function (req, res, next) {
     }
 };
 var userIDverify = function (req, res, next) {
-    var user = {
-        id: parseInt(req.params.id),
-        username: req.body.username,
-        password: req.body.password,
-        first_name: '',
-        last_name: '',
-    };
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
-        var _id = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET)._id;
-        if (_id !== user.id) {
+        var token = req.headers.authorization;
+        var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (decodedToken.id !== parseInt(req.params.id)) {
             throw new Error('User id does not match!');
         }
+        next();
     }
     catch (err) {
         res.status(401);
@@ -190,6 +183,6 @@ app.get('/orders', index, body_parser_1.default.json());
 app.get('/orders/:id', show, body_parser_1.default.json());
 app.post('/orders', create, body_parser_1.default.json());
 app.post('/orders', add_product, body_parser_1.default.json());
-app.put('/orders/:id/products', tokenVerifier, update, body_parser_1.default.json());
-app.delete('/orders/:id', tokenVerifier, destroy, body_parser_1.default.json());
+app.put('/orders/:id', tokenVerifier, userIDverify, update, body_parser_1.default.json());
+app.delete('/orders/:id', tokenVerifier, userIDverify, destroy, body_parser_1.default.json());
 exports.default = app;

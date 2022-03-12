@@ -42,7 +42,7 @@ export class userStore {
         );
         */
         //console.log(key as keyof User);
-        
+
         tempUser[key as keyof User] = temp as number & string;
       }
     }
@@ -99,7 +99,7 @@ export class userStore {
   async delete(id: number): Promise<User> {
     try {
       const conn = await client.connect();
-      const sql = 'DELETE FROM users WHERE id=($1)';
+      const sql = 'DELETE FROM users WHERE id=($1) RETURNING *';
       const result = await conn.query(sql, [id]);
       conn.release();
       return result.rows[0];

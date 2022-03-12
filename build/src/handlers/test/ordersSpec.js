@@ -42,25 +42,65 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importDefault(require("../../index"));
 var supertest_1 = __importDefault(require("supertest"));
 var users_1 = require("../../models/users");
+var orders_1 = require("../../models/orders");
+var products_1 = require("../../models/products");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var request = (0, supertest_1.default)(index_1.default);
-describe('users endpoint responses', function () {
+describe('orders endpoint responses', function () {
+    var orderStoreObject = new orders_1.orderStore();
     var userStoreObject = new users_1.userStore();
-    var token_that_got_returned = "";
+    var productStoreObject = new products_1.productStore();
+    var token_that_got_returned;
     var newUser = {
         id: -1,
         first_name: 'test',
         last_name: 'test',
-        username: 'test2',
+        username: 'test',
         password: 'testQUEW',
     };
-    beforeAll(function () { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/];
+    var newOrder = {
+        id: -1,
+        status: 'open',
+        user_id: newUser.id,
+    };
+    var testProduct = {
+        id: -1,
+        name: 'test',
+        price: 999,
+    };
+    beforeAll(function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        request
+                            .post("/users/register")
+                            .send(newUser)
+                            .end(function (_err, res) {
+                            return __awaiter(this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    token_that_got_returned = res.text;
+                                    return [2 /*return*/];
+                                });
+                            });
+                        });
+                        //over riding with new user id
+                        newOrder = {
+                            id: -1,
+                            status: 'open',
+                            user_id: newUser.id,
+                        };
+                        return [4 /*yield*/, productStoreObject.create(testProduct)];
+                    case 1:
+                        //add new product
+                        testProduct = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
-    }); });
-    it('getting users endpoint (index)', function (done) {
-        request.get("/users").end(function (_err, res) {
+    });
+    it('getting orders endpoint (index)', function (done) {
+        request.get("/orders").end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
                 return __generator(this, function (_c) {
@@ -69,7 +109,7 @@ describe('users endpoint responses', function () {
                             //check the response status
                             expect(res.status).toBe(200);
                             _b = (_a = expect(res.body)).toEqual;
-                            return [4 /*yield*/, userStoreObject.index()];
+                            return [4 /*yield*/, orderStoreObject.index()];
                         case 1:
                             _b.apply(_a, [_c.sent()]);
                             done();
@@ -79,9 +119,9 @@ describe('users endpoint responses', function () {
             });
         });
     });
-    it('getting users endpoint (Create)', function (done) {
+    it('getting orders endpoint (Create)', function (done) {
         request
-            .post("/users/register")
+            .post("/orders/register")
             .send(newUser)
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
@@ -173,8 +213,9 @@ describe('users endpoint responses', function () {
     });
     it('getting users endpoint (update)', function (done) {
         request
-            .put("/users/".concat(newUser.id))
+            .put("/users")
             .send({
+            id: newUser.id,
             first_name: 'the unknown ',
             last_name: 'can be known',
             username: 'if only we',
@@ -206,7 +247,8 @@ describe('users endpoint responses', function () {
     });
     it('getting users endpoint (delete)', function (done) {
         request
-            .delete("/users/".concat(newUser.id))
+            .delete("/users")
+            .send({ id: newUser.id })
             .set({ 'Authorization': token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {

@@ -21,7 +21,7 @@ describe('Orders Store', (): void => {
     id: -1,
     name: 'test',
     price: 999,
-  }
+  };
 
   beforeAll(async function () {
     //creating test user to add new order to
@@ -33,7 +33,7 @@ describe('Orders Store', (): void => {
       user_id: newUser.id,
     };
     //add new product
-    testProduct=await productStoreObject.create(testProduct);
+    testProduct = await productStoreObject.create(testProduct);
   });
 
   it('Index: should contain empty list', async (): Promise<void> => {
@@ -50,20 +50,25 @@ describe('Orders Store', (): void => {
   });
 
   it('add_product: should add product to order', async (): Promise<void> => {
-    expect(await orderStoreObject.add_product(1,newOrder.id,testProduct.id)).toEqual(jasmine.objectContaining({
-      quantity:1,
-      order_id:newOrder.id,
-       product_id:testProduct.id
-    }));
+    expect(
+      await orderStoreObject.add_product(1, newOrder.id, testProduct.id)
+    ).toEqual(
+      jasmine.objectContaining({
+        quantity: 1,
+        order_id: newOrder.id,
+        product_id: testProduct.id,
+      })
+    );
   });
 
   it('get_products_ids: should return ids of products in order', async (): Promise<void> => {
-    expect(await orderStoreObject.get_products_ids(newOrder.id)).toEqual([jasmine.objectContaining({product_id:testProduct.id})]
-      );
+    expect(await orderStoreObject.get_products_ids(newOrder.id)).toEqual([
+      jasmine.objectContaining({ product_id: testProduct.id }),
+    ]);
   });
 
   it('remove_product: should remove product from order', async (): Promise<void> => {
-    await orderStoreObject.remove_product(newOrder.id,testProduct.id)
+    await orderStoreObject.remove_product(newOrder.id, testProduct.id);
     expect(await orderStoreObject.get_products_ids(newOrder.id)).toEqual([]);
   });
 
@@ -73,7 +78,7 @@ describe('Orders Store', (): void => {
       status: 'closed',
       user_id: newUser.id,
     };
-    await orderStoreObject.update(updatedOrder)
+    await orderStoreObject.update(updatedOrder);
     expect(await orderStoreObject.show(newOrder.id)).toEqual(updatedOrder);
   });
 

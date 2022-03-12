@@ -1,39 +1,76 @@
 import app from '../../index';
 import supertest from 'supertest';
 import { User, userStore } from '../../models/users';
+import { Order, orderStore } from '../../models/orders';
+import { Product, productStore } from '../../models/products';
 import jwt from 'jsonwebtoken';
 const request = supertest(app);
 
 
-describe('users endpoint responses', (): void => {
-  const userStoreObject = new userStore();
-  let token_that_got_returned:string="";
-  let newUser: User = {
-    id: -1,
-    first_name: 'test',
-    last_name: 'test',
-    username: 'test2',
-    password: 'testQUEW',
-  };
+describe('orders endpoint responses', (): void => {
+    const orderStoreObject = new orderStore();
+    const userStoreObject = new userStore();
+    const productStoreObject = new productStore();
+    let token_that_got_returned:string;
+    let newUser: User = {
+      id: -1,
+      first_name: 'test',
+      last_name: 'test',
+      username: 'test',
+      password: 'testQUEW',
+    };
+    let newOrder: Order = {
+      id: -1,
+      status: 'open',
+      user_id: newUser.id,
+    };
+    let testProduct: Product = {
+      id: -1,
+      name: 'test',
+      price: 999,
+    };
+  
+    beforeAll(async function () {
+        await request
+        .post(`/users/register`)
+        .send(newUser)
+        .end(async function (_err, res: supertest.Response) {
+            const token:string= res.text as string;
+            try {
+                jwt.verify(token, process.env.TOKEN_SECRET as string);
+                const decodedToken = jwt.decode(token) as User;
+                //console.log(decodedToken);
+                newUser.id = decodedToken.id;
+                //console.log(newUser.id);
+                expect(true).toEqual(true);
+              } catch {
+                expect('INVALID TOKEN').toEqual('false');
+              }
+          token_that_got_returned=token;
+        });
 
-  beforeAll(async (): Promise<void> => {
-    //creating test user just to be sure to check next id
-    //newUser = await userStoreObject.create(newUser);
-    //await userStoreObject.delete(newUser.id);
-  });
+      //over riding with new user id
+      newOrder = {
+        id: -1,
+        status: 'open',
+        user_id: newUser.id,
+      };
+      //add new product
+      testProduct = await productStoreObject.create(testProduct);
+    });
 
-  it('getting users endpoint (index)', (done: DoneFn): void => {
-    request.get(`/users`).end(async function (_err, res: supertest.Response) {
+  it('getting orders endpoint (index)', (done: DoneFn): void => {
+    request.get(`/orders`).end(async function (_err, res: supertest.Response) {
       //check the response status
       expect(res.status).toBe(200);
-      expect(res.body).toEqual(await userStoreObject.index());
+      expect(res.body).toEqual(await orderStoreObject.index());
       done();
     });
   });
 
-  it('getting users endpoint (Create)', (done: DoneFn): void => {
+  it('getting orders endpoint (Create)', (done: DoneFn): void => {
     request
-      .post(`/users/register`)
+      .post(`/orders/register`)
       .send(newUser)
       .end(async function (_err, res: supertest.Response) {
         //check the response status
@@ -108,8 +145,9 @@ describe('users endpoint responses', (): void => {
   });
   it('getting users endpoint (update)', (done: DoneFn): void => {
     request
-      .put(`/users/${newUser.id}`)
+      .put(`/users`)
       .send({
+        id: newUser.id,
         first_name: 'the unknown ',
         last_name: 'can be known',
         username: 'if only we',
@@ -134,7 +172,8 @@ describe('users endpoint responses', (): void => {
 
   it('getting users endpoint (delete)', (done: DoneFn): void => {
     request
-      .delete(`/users/${newUser.id}`)
+      .delete(`/users`)
+      .send({id:newUser.id})
       .set({'Authorization':token_that_got_returned})
       .end(async function (_err, res: supertest.Response) {
         //check the response status

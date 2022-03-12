@@ -58,7 +58,7 @@ describe('Users Store', (): void => {
   });
 
   it('Update: should update user details', async (): Promise<void> => {
-    updatedUser= {
+    updatedUser = {
       id: newUser.id,
       first_name: 'the unknown ',
       last_name: 'can be known',
@@ -71,8 +71,10 @@ describe('Users Store', (): void => {
       last_name: updatedUser.last_name,
       username: updatedUser.username,
     });
-    await userStoreObject.update(updatedUser)
-    expect(await userStoreObject.show(updatedUser.id)).toEqual(exceptedUserObject);
+    await userStoreObject.update(updatedUser);
+    expect(await userStoreObject.show(updatedUser.id)).toEqual(
+      exceptedUserObject
+    );
   });
 
   it('Authenticate with old right password should return null', async (): Promise<void> => {

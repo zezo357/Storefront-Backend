@@ -27,8 +27,10 @@ describe('Product Store', (): void => {
       name: 'the new test',
       price: 100,
     };
-    await productStoreObject.update(updatedProduct)
-    expect(await productStoreObject.show(updatedProduct.id)).toEqual(updatedProduct);
+    await productStoreObject.update(updatedProduct);
+    expect(await productStoreObject.show(updatedProduct.id)).toEqual(
+      updatedProduct
+    );
   });
 
   it('Delete: removes product and check if index return empty list', async (): Promise<void> => {

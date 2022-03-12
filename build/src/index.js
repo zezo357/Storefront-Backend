@@ -24,3 +24,4 @@ app.use('/', users_1.default);
 app.listen(3000, function () {
     console.log("starting app on: ".concat(address));
 });
+exports.default = app;

@@ -52,7 +52,9 @@ describe('Dashboard Queries', function () {
     var productsInOrders = [];
     var productsInOrdersWithProductIDs = [];
     var count = 5;
-    var random_prices = Array.from({ length: count * 1 }, function () { return Math.floor(Math.random() * 100000); });
+    var random_prices = Array.from({ length: count * 1 }, function () {
+        return Math.floor(Math.random() * 100000);
+    });
     beforeAll(function () {
         return __awaiter(this, void 0, void 0, function () {
             var i, _a, _b, i, userString, _c, _d, i, userId, _e, _f, i, indexOrder, indexProduct, orderID, productID;
@@ -64,7 +66,11 @@ describe('Dashboard Queries', function () {
                     case 1:
                         if (!(i < random_prices.length)) return [3 /*break*/, 4];
                         _b = (_a = registeredProducts).push;
-                        return [4 /*yield*/, productStoreObject.create({ id: -1, price: random_prices[i], name: 'test' })];
+                        return [4 /*yield*/, productStoreObject.create({
+                                id: -1,
+                                price: random_prices[i],
+                                name: 'test',
+                            })];
                     case 2:
                         _b.apply(_a, [_g.sent()]);
                         _g.label = 3;
@@ -80,11 +86,12 @@ describe('Dashboard Queries', function () {
                         if (!(i < random_prices.length)) return [3 /*break*/, 8];
                         userString = "user ".concat(random_prices[i]);
                         _d = (_c = registeredUsers).push;
-                        return [4 /*yield*/, userStoreObject.create({ id: -1,
+                        return [4 /*yield*/, userStoreObject.create({
+                                id: -1,
                                 first_name: userString,
                                 last_name: userString,
                                 username: userString,
-                                password: userString
+                                password: userString,
                             })];
                     case 6:
                         _d.apply(_c, [_g.sent()]);
@@ -100,9 +107,10 @@ describe('Dashboard Queries', function () {
                         userId = registeredUsers[Math.floor(Math.random() * random_prices.length)].id;
                         //console.log(userId);
                         _f = (_e = registeredOrders).push;
-                        return [4 /*yield*/, orderStoreObject.create({ id: -1,
-                                status: "open",
-                                user_id: userId
+                        return [4 /*yield*/, orderStoreObject.create({
+                                id: -1,
+                                status: 'open',
+                                user_id: userId,
                             })];
                     case 10:
                         //console.log(userId);
@@ -120,7 +128,7 @@ describe('Dashboard Queries', function () {
                         indexProduct = Math.floor(Math.random() * random_prices.length);
                         orderID = registeredOrders[indexOrder].id;
                         productID = registeredProducts[indexProduct].id;
-                        //console.log(userId); 
+                        //console.log(userId);
                         productsInOrders.push({
                             name: registeredProducts[indexProduct].name,
                             price: registeredProducts[indexProduct].price,
