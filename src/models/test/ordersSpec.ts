@@ -23,7 +23,7 @@ describe('Orders Store', (): void => {
     //over riding with new user id
     newOrder = {
       id: -1,
-      status: 'test',
+      status: 'open',
       user_id: newUser.id,
     };
   });
@@ -38,7 +38,17 @@ describe('Orders Store', (): void => {
   });
 
   it('Show', async (): Promise<void> => {
-    expect(await orderStoreObject.show(1)).toEqual(newOrder);
+    expect(await orderStoreObject.show(newOrder.id)).toEqual(newOrder);
+  });
+
+  it('Update', async (): Promise<void> => {
+    let updatedOrder: Order = {
+      id: newOrder.id,
+      status: 'closed',
+      user_id: newUser.id,
+    };
+    await orderStoreObject.update(updatedOrder)
+    expect(await orderStoreObject.show(newOrder.id)).toEqual(updatedOrder);
   });
 
   it('Delete', async (): Promise<void> => {

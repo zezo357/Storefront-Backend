@@ -60,8 +60,17 @@ var userStore = /** @class */ (function () {
             if (temp != null &&
                 temp != undefined &&
                 temp != tempUser[key]) {
-                console.log('key:', key, '|||| old value:', value, '|||| new value:', temp);
-                console.log(key);
+                /*
+                console.log(
+                  'key:',
+                  key,
+                  '|||| old value:',
+                  value,
+                  '|||| new value:',
+                  temp
+                );
+                */
+                //console.log(key as keyof User);
                 tempUser[key] = temp;
             }
         }
@@ -215,7 +224,7 @@ var userStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 3:
                         conn = _a.sent();
-                        sql = "Update users set first_name='".concat(newUser.first_name, "', last_name='").concat(newUser.last_name, "', username='").concat(newUser.username, "',password='").concat(hash, "' WHERE id=($1) ");
+                        sql = "Update users set first_name='".concat(newUser.first_name, "', last_name='").concat(newUser.last_name, "', username='").concat(newUser.username, "',password='").concat(hash, "' WHERE id=($1) RETURNING *");
                         return [4 /*yield*/, conn.query(sql, [newUser.id])];
                     case 4:
                         result = _a.sent();

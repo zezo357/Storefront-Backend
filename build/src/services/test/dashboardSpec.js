@@ -159,10 +159,6 @@ describe('Dashboard Queries', function () {
                     productsInOrdersQuery = _a.sent();
                     productsInOrdersQuery.sort(function (a, b) { return b.price - a.price; });
                     productsInOrders.sort(function (a, b) { return b.price - a.price; });
-                    console.log("QUERY");
-                    console.log(productsInOrdersQuery);
-                    console.log("MY DATA");
-                    console.log(productsInOrders);
                     expect(productsInOrdersQuery).toEqual(productsInOrders);
                     return [2 /*return*/];
             }

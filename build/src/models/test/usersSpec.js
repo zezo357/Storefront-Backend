@@ -52,6 +52,7 @@ describe('Users Store', function () {
         last_name: newUser.last_name,
         username: newUser.username,
     });
+    var updatedUser;
     it('Index', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
@@ -102,7 +103,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with right password', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with right password works', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -115,7 +116,7 @@ describe('Users Store', function () {
             }
         });
     }); });
-    it('Authenticate with wrong password', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Authenticate with wrong password fails', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -124,6 +125,61 @@ describe('Users Store', function () {
                     return [4 /*yield*/, userStoreObject.authenticate(newUser.username, 'wrong password')];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual(null);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    updatedUser = {
+                        id: newUser.id,
+                        first_name: 'the unknown ',
+                        last_name: 'can be known',
+                        username: 'if only we',
+                        password: 'try',
+                    };
+                    exceptedUserObject = jasmine.objectContaining({
+                        id: updatedUser.id,
+                        first_name: updatedUser.first_name,
+                        last_name: updatedUser.last_name,
+                        username: updatedUser.username,
+                    });
+                    return [4 /*yield*/, userStoreObject.update(updatedUser)];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, userStoreObject.show(updatedUser.id)];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toEqual(exceptedUserObject);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Authenticate with old right password fails', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, userStoreObject.authenticate(newUser.username, newUser.password)];
+                case 1:
+                    _a.apply(void 0, [(_b.sent()) == null]).toEqual(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Authenticate with new right password works', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = expect;
+                    return [4 /*yield*/, userStoreObject.authenticate(updatedUser.username, updatedUser.password)];
+                case 1:
+                    _a.apply(void 0, [(_b.sent()) != null]).toEqual(true);
                     return [2 /*return*/];
             }
         });

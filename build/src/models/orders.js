@@ -44,19 +44,27 @@ var database_1 = __importDefault(require("../database"));
 var orderStore = /** @class */ (function () {
     function orderStore() {
     }
-    orderStore.prototype.updateOrder = function (oldorder, neworder) {
-        var temporder = oldorder;
-        for (var _i = 0, _a = Object.entries(temporder); _i < _a.length; _i++) {
+    orderStore.prototype.updateOrder = function (oldOrder, newOrder) {
+        var tempOrder = oldOrder;
+        for (var _i = 0, _a = Object.entries(tempOrder); _i < _a.length; _i++) {
             var _b = _a[_i], key = _b[0], value = _b[1];
-            var temp = neworder[key];
+            var temp = newOrder[key];
             if (temp != null &&
                 temp != undefined &&
-                temp != temporder[key]) {
-                console.log('key:', key, '|||| old value:', value, '|||| new value:', temp);
-                temporder[key] = temp;
+                temp != tempOrder[key]) {
+                /*
+                console.log(
+                  'key:',
+                  key,
+                  '|||| old value:',
+                  value,
+                  '|||| new value:',
+                  temp
+                );*/
+                tempOrder[key] = temp;
             }
         }
-        return temporder;
+        return tempOrder;
     };
     orderStore.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {

@@ -31,6 +31,7 @@ export class userStore {
         temp != undefined &&
         temp != tempUser[key as keyof User]
       ) {
+        /*
         console.log(
           'key:',
           key,
@@ -39,8 +40,8 @@ export class userStore {
           '|||| new value:',
           temp
         );
-        
-        console.log(key as keyof User);
+        */
+        //console.log(key as keyof User);
         
         tempUser[key as keyof User] = temp as number & string;
       }
@@ -127,7 +128,7 @@ export class userStore {
     );
     try {
       const conn = await client.connect();
-      const sql = `Update users set first_name='${newUser.first_name}', last_name='${newUser.last_name}', username='${newUser.username}',password='${hash}' WHERE id=($1) `;
+      const sql = `Update users set first_name='${newUser.first_name}', last_name='${newUser.last_name}', username='${newUser.username}',password='${hash}' WHERE id=($1) RETURNING *`;
       //console.log(sql);
       //const sql = 'Update set title FROM  books WHERE id=($1)';
       const result = await conn.query(sql, [newUser.id]);

@@ -77,12 +77,6 @@ describe('Dashboard Queries', (): void => {
       const productsInOrdersQuery:{name: string; price: number; order_id: number }[]=await DashboardQueriesObject.productsInOrders();
       productsInOrdersQuery.sort((a,b) => b.price-a.price);
       productsInOrders.sort((a,b) => b.price-a.price);
-      console.log("QUERY");
-      console.log(productsInOrdersQuery);
-
-      console.log("MY DATA");
-      console.log(productsInOrders);
-
     expect(productsInOrdersQuery).toEqual(productsInOrders);
   });
 });

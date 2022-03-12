@@ -16,6 +16,7 @@ export class productStore {
         temp != undefined &&
         temp != tempProduct[key as keyof Product]
       ) {
+        /*
         console.log(
           'key:',
           key,
@@ -24,6 +25,7 @@ export class productStore {
           '|||| new value:',
           temp
         );
+        */
         tempProduct[key as keyof Product] = temp as number & string;
       }
     }

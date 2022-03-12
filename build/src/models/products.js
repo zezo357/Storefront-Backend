@@ -52,7 +52,16 @@ var productStore = /** @class */ (function () {
             if (temp != null &&
                 temp != undefined &&
                 temp != tempProduct[key]) {
-                console.log('key:', key, '|||| old value:', value, '|||| new value:', temp);
+                /*
+                console.log(
+                  'key:',
+                  key,
+                  '|||| old value:',
+                  value,
+                  '|||| new value:',
+                  temp
+                );
+                */
                 tempProduct[key] = temp;
             }
         }

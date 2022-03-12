@@ -64,7 +64,7 @@ describe('Orders Store', function () {
                         //over riding with new user id
                         newOrder = {
                             id: -1,
-                            status: 'test',
+                            status: 'open',
                             user_id: newUser.id,
                         };
                         return [2 /*return*/];
@@ -109,9 +109,30 @@ describe('Orders Store', function () {
             switch (_b.label) {
                 case 0:
                     _a = expect;
-                    return [4 /*yield*/, orderStoreObject.show(1)];
+                    return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
                 case 1:
                     _a.apply(void 0, [_b.sent()]).toEqual(newOrder);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var updatedOrder, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    updatedOrder = {
+                        id: newOrder.id,
+                        status: 'closed',
+                        user_id: newUser.id,
+                    };
+                    return [4 /*yield*/, orderStoreObject.update(updatedOrder)];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toEqual(updatedOrder);
                     return [2 /*return*/];
             }
         });

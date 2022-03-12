@@ -7,15 +7,16 @@ export type Order = {
 };
 
 export class orderStore {
-  updateOrder(oldorder: Order, neworder: Order): Order {
-    let temporder: Order = oldorder;
-    for (const [key, value] of Object.entries(temporder)) {
-      const temp = neworder[key as keyof Order];
+  updateOrder(oldOrder: Order, newOrder: Order): Order {
+    let tempOrder: Order = oldOrder;
+    for (const [key, value] of Object.entries(tempOrder)) {
+      const temp = newOrder[key as keyof Order];
       if (
         temp != null &&
         temp != undefined &&
-        temp != temporder[key as keyof Order]
+        temp != tempOrder[key as keyof Order]
       ) {
+        /*
         console.log(
           'key:',
           key,
@@ -23,12 +24,12 @@ export class orderStore {
           value,
           '|||| new value:',
           temp
-        );
-        temporder[key as keyof Order] = temp as number & string;
+        );*/
+        tempOrder[key as keyof Order] = temp as number & string;
       }
     }
 
-    return temporder;
+    return tempOrder;
   }
   async index(): Promise<Order[]> {
     try {

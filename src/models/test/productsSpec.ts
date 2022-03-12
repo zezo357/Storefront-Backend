@@ -21,6 +21,16 @@ describe('Product Store', (): void => {
     expect(await productStoreObject.show(1)).toEqual(newProduct);
   });
 
+  it('Update', async (): Promise<void> => {
+    let updatedProduct: Product = {
+      id: newProduct.id,
+      name: 'the new test',
+      price: 100,
+    };
+    await productStoreObject.update(updatedProduct)
+    expect(await productStoreObject.show(updatedProduct.id)).toEqual(updatedProduct);
+  });
+
   it('Delete', async (): Promise<void> => {
     await productStoreObject.delete(newProduct.id);
     expect(await productStoreObject.index()).toEqual([]);

@@ -88,6 +88,27 @@ describe('Product Store', function () {
             }
         });
     }); });
+    it('Update', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var updatedProduct, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    updatedProduct = {
+                        id: newProduct.id,
+                        name: 'the new test',
+                        price: 100,
+                    };
+                    return [4 /*yield*/, productStoreObject.update(updatedProduct)];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, productStoreObject.show(updatedProduct.id)];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toEqual(updatedProduct);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
     it('Delete', function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;
         return __generator(this, function (_b) {
