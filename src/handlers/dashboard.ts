@@ -15,7 +15,7 @@ const productsInOrders = async (_req: Request, res: Response) => {
 };
 
 const fiveMostExpensiveProducts = async (_req: Request, res: Response) => {
-  const products = await dashboard.fiveMostExpensiveProducts();
+  const products = await dashboard.MostExpensiveProducts(5);
   res.json(products);
 };
 

@@ -1,9 +1,9 @@
 import client from '../database';
 
 export type Product = {
-  id: Number;
-  name: String;
-  price: Number;
+  id: number;
+  name: string;
+  price: number;
 };
 
 export class productStore {
@@ -24,7 +24,7 @@ export class productStore {
           '|||| new value:',
           temp
         );
-        tempProduct[key as keyof Product] = temp as Number & String;
+        tempProduct[key as keyof Product] = temp as number & string;
       }
     }
 
@@ -54,7 +54,7 @@ export class productStore {
       throw new Error(`cant insert product ${err}`);
     }
   }
-  async delete(id: Number): Promise<Product> {
+  async delete(id: number): Promise<Product> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM products WHERE id=($1)';
@@ -66,7 +66,7 @@ export class productStore {
     }
   }
 
-  async show(id: Number): Promise<Product> {
+  async show(id: number): Promise<Product> {
     try {
       const sql = 'SELECT * FROM products WHERE id=($1)';
       const conn = await client.connect();

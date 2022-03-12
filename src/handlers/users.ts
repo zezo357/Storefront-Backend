@@ -21,7 +21,7 @@ const tokenVerifier = (
 };
 
 interface JwtPayload {
-  _id: Number;
+  _id: number;
 }
 
 const userIDverify = (
@@ -59,7 +59,7 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await userStoreObject.show(req.query.id as unknown as Number));
+  res.send(await userStoreObject.show(req.query.id as unknown as number));
   next();
 };
 
@@ -104,7 +104,7 @@ const update = async function (
   next: NextFunction
 ) {
   const newUser: User = {
-    id: req.query.id as unknown as Number,
+    id: req.query.id as unknown as number,
     first_name: req.query.first_name as string,
     last_name: req.query.last_name as string,
     username: req.query.username as string,
@@ -119,7 +119,7 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  res.send(await userStoreObject.delete(req.query.id as unknown as Number));
+  res.send(await userStoreObject.delete(req.query.id as unknown as number));
   next();
 };
 

@@ -11,7 +11,7 @@ describe('Users Store', (): void => {
     password: 'testQUEW',
   };
   let exceptedUserObject: jasmine.ObjectContaining<{
-    id: Number;
+    id: number;
     first_name: string;
     last_name: string;
     username: string;

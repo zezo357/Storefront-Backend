@@ -115,7 +115,7 @@ var orderStore = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         ordersql = 'SELECT * FROM orders WHERE id=($1)';
-                        return [4 /*yield*/, Client.connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(ordersql, [order_id])];
@@ -133,7 +133,7 @@ var orderStore = /** @class */ (function () {
                     case 4:
                         _a.trys.push([4, 7, , 8]);
                         sql = 'INSERT INTO order_products (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
-                        return [4 /*yield*/, Client.connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 5:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [quantity, order_id, product_id])];

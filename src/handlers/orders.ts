@@ -22,7 +22,7 @@ const tokenVerifier = (
 };
 
 interface JwtPayload {
-  _id: Number;
+  _id: number;
 }
 
 const userIDverify = (
@@ -61,7 +61,7 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await orderStoreObject.show(req.query.id as unknown as Number));
+  res.send(await orderStoreObject.show(req.query.id as unknown as number));
   next();
 };
 
@@ -72,8 +72,8 @@ const create = async function (
 ) {
   const newOrder: Order = {
     id: -1,
-    status: 'created',
-    user_id: req.query.user_id as unknown as Number,
+    status: 'open',
+    user_id: req.query.user_id as unknown as number,
   };
   res.send(await orderStoreObject.create(newOrder));
   next();
@@ -85,9 +85,9 @@ const update = async function (
   next: NextFunction
 ) {
   const newOrder: Order = {
-    id: req.query.id as unknown as Number,
+    id: req.query.id as unknown as number,
     status: req.query.status as string,
-    user_id: req.query.user_id as unknown as Number,
+    user_id: req.query.user_id as unknown as number,
   };
   res.send(await orderStoreObject.update(newOrder));
   next();
@@ -99,9 +99,9 @@ const add_product = async function (
 ) {
   res.send(
     await orderStoreObject.add_product(
-      req.query.quantity as unknown as Number,
-      req.query.order_id as unknown as Number,
-      req.query.product_id as unknown as Number
+      req.query.quantity as unknown as number,
+      req.query.order_id as unknown as number,
+      req.query.product_id as unknown as number
     )
   );
   next();
@@ -112,7 +112,7 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  res.send(await orderStoreObject.delete(req.query.id as unknown as Number));
+  res.send(await orderStoreObject.delete(req.query.id as unknown as number));
   next();
 };
 

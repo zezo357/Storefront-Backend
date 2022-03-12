@@ -1,9 +1,9 @@
 import client from '../database';
 
 export type Order = {
-  id: Number;
-  status: String;
-  user_id: Number;
+  id: number;
+  status: string;
+  user_id: number;
 };
 
 export class orderStore {
@@ -24,7 +24,7 @@ export class orderStore {
           '|||| new value:',
           temp
         );
-        temporder[key as keyof Order] = temp as Number & String;
+        temporder[key as keyof Order] = temp as number & string;
       }
     }
 
@@ -55,14 +55,14 @@ export class orderStore {
     }
   }
   async add_product(
-    quantity: Number,
-    order_id: Number,
-    product_id: Number
+    quantity: number,
+    order_id: number,
+    product_id: number
   ): Promise<void> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore
-      const conn = await Client.connect();
+      const conn = await client.connect();
 
       const result = await conn.query(ordersql, [order_id]);
 
@@ -83,7 +83,7 @@ export class orderStore {
       const sql =
         'INSERT INTO order_products (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
       //@ts-ignore
-      const conn = await Client.connect();
+      const conn = await client.connect();
 
       const result = await conn.query(sql, [quantity, order_id, product_id]);
 
@@ -98,7 +98,7 @@ export class orderStore {
       );
     }
   }
-  async delete(id: Number): Promise<Order> {
+  async delete(id: number): Promise<Order> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM orders WHERE id=($1)';
@@ -110,7 +110,7 @@ export class orderStore {
     }
   }
 
-  async show(id: Number): Promise<Order> {
+  async show(id: number): Promise<Order> {
     try {
       const sql = 'SELECT * FROM orders WHERE id=($1)';
       const conn = await client.connect();

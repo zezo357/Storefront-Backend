@@ -22,7 +22,7 @@ const tokenVerifier = (
 };
 
 interface JwtPayload {
-  _id: Number;
+  _id: number;
 }
 
 const userIDverify = (
@@ -61,7 +61,7 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await productStoreObject.show(req.query.id as unknown as Number));
+  res.send(await productStoreObject.show(req.query.id as unknown as number));
   next();
 };
 
@@ -73,7 +73,7 @@ const create = async function (
   const newUser: Product = {
     id: -1,
     name: req.query.name as string,
-    price: req.query.price as unknown as Number,
+    price: req.query.price as unknown as number,
   };
   await productStoreObject.create(newUser);
   var token = jwt.sign({ newUser }, process.env.TOKEN_SECRET as string);
@@ -87,9 +87,9 @@ const update = async function (
   next: NextFunction
 ) {
   const newProduct: Product = {
-    id: req.query.id as unknown as Number,
+    id: req.query.id as unknown as number,
     name: req.query.name as string,
-    price: req.query.price as unknown as Number,
+    price: req.query.price as unknown as number,
   };
   res.send(await productStoreObject.update(newProduct));
   next();
@@ -100,7 +100,7 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  res.send(await productStoreObject.delete(req.query.id as unknown as Number));
+  res.send(await productStoreObject.delete(req.query.id as unknown as number));
   next();
 };
 

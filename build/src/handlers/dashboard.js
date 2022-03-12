@@ -58,7 +58,7 @@ var fiveMostExpensiveProducts = function (_req, res) { return __awaiter(void 0, 
     var products;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, dashboard.fiveMostExpensiveProducts()];
+            case 0: return [4 /*yield*/, dashboard.MostExpensiveProducts(5)];
             case 1:
                 products = _a.sent();
                 res.json(products);

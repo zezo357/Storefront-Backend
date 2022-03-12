@@ -50,7 +50,7 @@ describe('Orders Store', function () {
     };
     var newOrder = {
         id: -1,
-        status: 'test',
+        status: 'open',
         user_id: newUser.id,
     };
     beforeAll(function () {

@@ -55,7 +55,7 @@ var DashboardQueries = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT name, price, order_id FROM products INNER JOIN order_products ON product.id = order_products.id';
+                        sql = 'SELECT name, price, order_id FROM products as product INNER JOIN order_products ON product.id = order_products.product_id';
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -69,7 +69,7 @@ var DashboardQueries = /** @class */ (function () {
             });
         });
     };
-    DashboardQueries.prototype.fiveMostExpensiveProducts = function () {
+    DashboardQueries.prototype.MostExpensiveProducts = function (count) {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, err_2;
             return __generator(this, function (_a) {
@@ -79,7 +79,7 @@ var DashboardQueries = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT name, price, order_id FROM products order by price Desc LIMIT 5';
+                        sql = "SELECT name, price, id FROM products order by price Desc LIMIT ".concat(count);
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -87,7 +87,7 @@ var DashboardQueries = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         err_2 = _a.sent();
-                        throw new Error("unable get products and orders: ".concat(err_2));
+                        throw new Error("unable get products: ".concat(err_2));
                     case 4: return [2 /*return*/];
                 }
             });

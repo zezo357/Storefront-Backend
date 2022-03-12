@@ -10,5 +10,5 @@ CREATE TABLE Orders (id SERIAL PRIMARY  KEY,
 status VARCHAR(255) NOT NULL,
 user_id INTEGER references Users(id));
 
-CREATE TABLE Order_Products (id SERIAL PRIMARY KEY,quantity INTEGER ,order_id bigint references Orders(id),product_id bigint references Products(id));
+CREATE TABLE Order_Products (id SERIAL PRIMARY KEY,quantity INTEGER ,order_id INTEGER references Orders(id),product_id INTEGER references Products(id));
 

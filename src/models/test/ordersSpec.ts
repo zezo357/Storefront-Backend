@@ -13,7 +13,7 @@ describe('Orders Store', (): void => {
   };
   let newOrder: Order = {
     id: -1,
-    status: 'test',
+    status: 'open',
     user_id: newUser.id,
   };
 

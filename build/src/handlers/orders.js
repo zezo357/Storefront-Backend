@@ -119,7 +119,7 @@ var create = function (req, res, next) {
                 case 0:
                     newOrder = {
                         id: -1,
-                        status: 'created',
+                        status: 'open',
                         user_id: req.query.user_id,
                     };
                     _b = (_a = res).send;

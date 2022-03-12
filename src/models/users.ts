@@ -6,7 +6,7 @@ dotenv.config();
 const { BCRYPT_PASSWORD, SALT_ROUNDS } = process.env;
 
 export type User = {
-  id: Number;
+  id: number;
   first_name: string;
   last_name: string;
   username: string;
@@ -39,7 +39,10 @@ export class userStore {
           '|||| new value:',
           temp
         );
-        tempUser[key as keyof User] = temp as Number & string;
+        
+        console.log(key as keyof User);
+        
+        tempUser[key as keyof User] = temp as number & string;
       }
     }
     return tempUser;
@@ -92,7 +95,7 @@ export class userStore {
       throw new Error(`cant insert users ${err}`);
     }
   }
-  async delete(id: Number): Promise<User> {
+  async delete(id: number): Promise<User> {
     try {
       const conn = await client.connect();
       const sql = 'DELETE FROM users WHERE id=($1)';
@@ -104,7 +107,7 @@ export class userStore {
     }
   }
 
-  async show(id: Number): Promise<User> {
+  async show(id: number): Promise<User> {
     try {
       const sql = 'SELECT * FROM users WHERE id=($1)';
       const conn = await client.connect();
@@ -124,7 +127,7 @@ export class userStore {
     );
     try {
       const conn = await client.connect();
-      const sql = `Update users set first_name='${newUser.first_name}', last_name='${newUser.last_name}', username='${newUser.username}',password='${newUser.password}' WHERE id=($1) `;
+      const sql = `Update users set first_name='${newUser.first_name}', last_name='${newUser.last_name}', username='${newUser.username}',password='${hash}' WHERE id=($1) `;
       //console.log(sql);
       //const sql = 'Update set title FROM  books WHERE id=($1)';
       const result = await conn.query(sql, [newUser.id]);
