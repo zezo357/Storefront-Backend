@@ -16,12 +16,14 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));*/
-var router = express_1.default.Router();
-router.use('/', function (req, res, next) {
-    console.log("".concat(req.path, " Was visited"));
-    next();
-});
-app.use('/', router);
+if (process.env.ENV == 'dev') {
+    var router = express_1.default.Router();
+    router.use('/', function (req, res, next) {
+        console.log("".concat(req.path, " Was visited"));
+        next();
+    });
+    app.use('/', router);
+}
 app.use('/', orders_1.default);
 app.use('/', products_1.default);
 app.use('/', users_1.default);

@@ -182,7 +182,7 @@ var productStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 3:
                         conn = _a.sent();
-                        sql = "Update products set name='".concat(newProduct.name, "', price=").concat(newProduct.price, "   WHERE id=($1) ");
+                        sql = "Update products set name='".concat(newProduct.name, "', price=").concat(newProduct.price, "   WHERE id=($1) RETURNING *");
                         return [4 /*yield*/, conn.query(sql, [newProduct.id])];
                     case 4:
                         result = _a.sent();

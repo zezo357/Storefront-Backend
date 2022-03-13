@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dashboard_1 = require("../services/dashboard");
 var dashboardRoutes = function (app) {
     app.get('/products_in_orders', productsInOrders),
-        app.get('/highest_five_products', fiveMostExpensiveProducts);
+        app.get('/highest_five_products/:count', fiveMostExpensiveProducts);
 };
 var dashboard = new dashboard_1.DashboardQueries();
 var productsInOrders = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -54,11 +54,11 @@ var productsInOrders = function (_req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); };
-var fiveMostExpensiveProducts = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var fiveMostExpensiveProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var products;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, dashboard.MostExpensiveProducts(5)];
+            case 0: return [4 /*yield*/, dashboard.MostExpensiveProducts(req.params.count)];
             case 1:
                 products = _a.sent();
                 res.json(products);

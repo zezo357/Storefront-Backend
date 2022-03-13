@@ -87,7 +87,7 @@ export class productStore {
     newProduct = this.updateProduct(oldProduct, newProduct);
     try {
       const conn = await client.connect();
-      const sql = `Update products set name='${newProduct.name}', price=${newProduct.price}   WHERE id=($1) `;
+      const sql = `Update products set name='${newProduct.name}', price=${newProduct.price}   WHERE id=($1) RETURNING *`;
       //console.log(sql);
       //const sql = 'Update set title FROM  products WHERE id=($1)';
       const result = await conn.query(sql, [newProduct.id]);

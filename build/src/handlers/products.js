@@ -46,8 +46,7 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var productStoreObject = new products_1.productStore();
 var tokenVerifier = function (req, res, next) {
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
+        var token = req.headers.authorization;
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
         next();
     }
@@ -58,20 +57,13 @@ var tokenVerifier = function (req, res, next) {
     }
 };
 var userIDverify = function (req, res, next) {
-    var user = {
-        id: parseInt(req.params.id),
-        username: req.body.username,
-        password: req.body.password,
-        first_name: '',
-        last_name: '',
-    };
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
-        var _id = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET)._id;
-        if (_id !== user.id) {
+        var token = req.headers.authorization;
+        var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (decodedToken.id !== parseInt(req.body.user_id)) {
             throw new Error('User id does not match!');
         }
+        next();
     }
     catch (err) {
         res.status(401);
@@ -102,7 +94,7 @@ var show = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, productStoreObject.show(req.query.id)];
+                    return [4 /*yield*/, productStoreObject.show(req.params.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -113,20 +105,21 @@ var show = function (req, res, next) {
 };
 var create = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newUser, token;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var newProduct, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    newUser = {
+                    newProduct = {
                         id: -1,
-                        name: req.query.name,
-                        price: req.query.price,
+                        name: req.body.name,
+                        price: req.body.price,
                     };
-                    return [4 /*yield*/, productStoreObject.create(newUser)];
+                    //console.log(newProduct)
+                    _b = (_a = res).send;
+                    return [4 /*yield*/, productStoreObject.create(newProduct)];
                 case 1:
-                    _a.sent();
-                    token = jsonwebtoken_1.default.sign({ newUser: newUser }, process.env.TOKEN_SECRET);
-                    res.send(token);
+                    //console.log(newProduct)
+                    _b.apply(_a, [_c.sent()]);
                     next();
                     return [2 /*return*/];
             }
@@ -140,9 +133,9 @@ var update = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     newProduct = {
-                        id: req.query.id,
-                        name: req.query.name,
-                        price: req.query.price,
+                        id: req.params.id,
+                        name: req.body.name,
+                        price: req.body.price,
                     };
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.update(newProduct)];
@@ -161,7 +154,7 @@ var destroy = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, productStoreObject.delete(req.query.id)];
+                    return [4 /*yield*/, productStoreObject.delete(req.params.id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -171,9 +164,9 @@ var destroy = function (req, res, next) {
     });
 };
 var app = express_1.default.Router();
-app.get('/products', index, body_parser_1.default.json());
-app.get('/products/:id', show, body_parser_1.default.json());
-app.post('/products', create, body_parser_1.default.json());
-app.put('/products/', tokenVerifier, update, body_parser_1.default.json());
-app.delete('/products/:id', tokenVerifier, destroy, body_parser_1.default.json());
+app.get('/products', body_parser_1.default.json(), index);
+app.get('/products/:id', body_parser_1.default.json(), show);
+app.post('/products', body_parser_1.default.json(), tokenVerifier, create);
+app.put('/products/:id', body_parser_1.default.json(), tokenVerifier, update);
+app.delete('/products/:id', body_parser_1.default.json(), tokenVerifier, destroy);
 exports.default = app;

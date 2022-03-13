@@ -13,13 +13,14 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));*/
+if(process.env.ENV == 'dev'){
 const router = express.Router();
 router.use('/', (req: express.Request, res: express.Response, next): void => {
   console.log(`${req.path} Was visited`);
   next();
 });
-
 app.use('/', router);
+}
 app.use('/', ordersRoutes);
 app.use('/', productsRoutes);
 app.use('/', usersRoutes);
