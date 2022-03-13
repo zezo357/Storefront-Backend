@@ -190,7 +190,7 @@ describe('orders endpoint responses', (): void => {
       });
   });
 
-  it('getting users endpoint (delete)', (done: DoneFn): void => {
+  it('getting orders endpoint (delete)', (done: DoneFn): void => {
     request
       .delete(`/orders/${newOrder.id}`)
       .send({
@@ -204,5 +204,10 @@ describe('orders endpoint responses', (): void => {
         done();
       });
   });
-  afterAll(async (): Promise<void> => {});
+
+ 
+  afterAll(async (): Promise<void> => {
+    await productStoreObject.delete(newProduct.id);
+    await userStoreObject.delete(newUser.id);
+  });
 });

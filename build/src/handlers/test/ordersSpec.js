@@ -284,7 +284,7 @@ describe('orders endpoint responses', function () {
             });
         });
     });
-    it('getting users endpoint (delete)', function (done) {
+    it('getting orders endpoint (delete)', function (done) {
         request
             .delete("/orders/".concat(newOrder.id))
             .send({
@@ -310,7 +310,17 @@ describe('orders endpoint responses', function () {
             });
         });
     });
-    afterAll(function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); }); });
+    afterAll(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, productStoreObject.delete(newProduct.id)];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, userStoreObject.delete(newUser.id)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
