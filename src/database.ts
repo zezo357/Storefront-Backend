@@ -19,7 +19,7 @@ if (ENV == 'dev') {
     database: POSTGRES_DB,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
-    port:POSTGRES_PORT as unknown as number,
+    port: POSTGRES_PORT as unknown as number,
   });
 } else {
   console.log(ENV);
@@ -28,7 +28,7 @@ if (ENV == 'dev') {
     database: POSTGRES_DB_test,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
-    port:POSTGRES_PORT as unknown as number,
+    port: POSTGRES_PORT as unknown as number,
   });
 }
 client.connect((err, client, release) => {

@@ -66,14 +66,13 @@ const userIDverify = (
 
 const index = async function (req: Request, res: Response, next: NextFunction) {
   try {
-res.send(await orderStoreObject.index());
-  next();
+    res.send(await orderStoreObject.index());
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -83,18 +82,17 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
     return;
   }
   try {
- res.send(
-    await orderStoreObject.show(
-      parseInt(req.params.order_id) as unknown as number
-    )
-  );
-  next();
+    res.send(
+      await orderStoreObject.show(
+        parseInt(req.params.order_id) as unknown as number
+      )
+    );
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
- 
 };
 
 const create = async function (
@@ -121,14 +119,13 @@ const create = async function (
   };
 
   try {
-res.send(await orderStoreObject.create(newOrder));
-  next();
+    res.send(await orderStoreObject.create(newOrder));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 const update = async function (
@@ -161,14 +158,13 @@ const update = async function (
   };
 
   try {
-res.send(await orderStoreObject.update(newOrder));
-  next();
+    res.send(await orderStoreObject.update(newOrder));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 const add_product = async function (
   req: Request,
@@ -193,20 +189,19 @@ const add_product = async function (
     return;
   }
   try {
-  res.send(
-    await orderStoreObject.add_product(
-      req.body.quantity as unknown as number,
-      parseInt(req.params.order_id) as unknown as number,
-      req.body.product_id as unknown as number
-    )
-  );
-  next();
+    res.send(
+      await orderStoreObject.add_product(
+        req.body.quantity as unknown as number,
+        parseInt(req.params.order_id) as unknown as number,
+        req.body.product_id as unknown as number
+      )
+    );
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-
 };
 const remove_product = async function (
   req: Request,
@@ -225,19 +220,18 @@ const remove_product = async function (
     return;
   }
   try {
- res.send(
-    await orderStoreObject.remove_product(
-      parseInt(req.params.order_id) as unknown as number,
-      req.body.product_id as unknown as number
-    )
-  );
-  next();
+    res.send(
+      await orderStoreObject.remove_product(
+        parseInt(req.params.order_id) as unknown as number,
+        req.body.product_id as unknown as number
+      )
+    );
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
- 
 };
 
 const destroy = async function (
@@ -251,16 +245,15 @@ const destroy = async function (
     return;
   }
   try {
-res.send(
-    await orderStoreObject.delete(req.params.order_id as unknown as number)
-  );
-  next();
+    res.send(
+      await orderStoreObject.delete(req.params.order_id as unknown as number)
+    );
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 let app: express.Router = express.Router();

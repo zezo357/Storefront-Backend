@@ -7,14 +7,13 @@ const dashboard = new DashboardQueries();
 
 const productsInOrders = async (_req: Request, res: Response) => {
   try {
-const products = await dashboard.productsInOrders();
-  res.json(products);
+    const products = await dashboard.productsInOrders();
+    res.json(products);
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
@@ -24,16 +23,15 @@ const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
     return;
   }
   try {
-const products = await dashboard.MostExpensiveProducts(
-    req.params.count as unknown as number
-  );
-  res.json(products);
+    const products = await dashboard.MostExpensiveProducts(
+      req.params.count as unknown as number
+    );
+    res.json(products);
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 let app: express.Router = express.Router();

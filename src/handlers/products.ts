@@ -24,14 +24,13 @@ const tokenVerifier = (
 
 const index = async function (req: Request, res: Response, next: NextFunction) {
   try {
-res.send(await productStoreObject.index());
-  next();
+    res.send(await productStoreObject.index());
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -42,14 +41,13 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
   }
 
   try {
- res.send(await productStoreObject.show(req.params.id as unknown as number));
-  next();
+    res.send(await productStoreObject.show(req.params.id as unknown as number));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
- 
 };
 
 const create = async function (
@@ -74,15 +72,14 @@ const create = async function (
   };
 
   try {
- res.send(await productStoreObject.create(newProduct));
-  next();
+    res.send(await productStoreObject.create(newProduct));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
   //console.log(newProduct)
- 
 };
 
 const update = async function (
@@ -111,14 +108,13 @@ const update = async function (
     price: req.body.price as unknown as number,
   };
   try {
- res.send(await productStoreObject.update(newProduct));
-  next();
+    res.send(await productStoreObject.update(newProduct));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
- 
 };
 
 const destroy = async function (
@@ -132,14 +128,15 @@ const destroy = async function (
     return;
   }
   try {
-res.send(await productStoreObject.delete(req.params.id as unknown as number));
-  next();
+    res.send(
+      await productStoreObject.delete(req.params.id as unknown as number)
+    );
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 let app: express.Router = express.Router();

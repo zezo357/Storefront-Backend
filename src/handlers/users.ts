@@ -46,14 +46,13 @@ const userIDverify = (
 };
 const index = async function (req: Request, res: Response, next: NextFunction) {
   try {
-  res.send(await userStoreObject.index());
-  next();
+    res.send(await userStoreObject.index());
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -63,14 +62,13 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
     return;
   }
   try {
- res.send(await userStoreObject.show(req.params.id as unknown as number));
-  next();
+    res.send(await userStoreObject.show(req.params.id as unknown as number));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
- 
 };
 
 const create = async function (
@@ -107,17 +105,16 @@ const create = async function (
     password: req.body.password as string,
   };
   try {
-newUser = await userStoreObject.create(newUser);
-  var token = jwt.sign(newUser, process.env.TOKEN_SECRET as string);
-  //console.log(token);
-  res.send(token);
-  next();
+    newUser = await userStoreObject.create(newUser);
+    var token = jwt.sign(newUser, process.env.TOKEN_SECRET as string);
+    //console.log(token);
+    res.send(token);
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 const signIn = async function (
   req: Request,
@@ -136,24 +133,23 @@ const signIn = async function (
     return;
   }
   try {
-const user = await userStoreObject.authenticate(
-    req.body.username as string,
-    req.body.password as string
-  );
-  if (user == null) {
-    res.status(404);
-    res.send('wrong username or password');
-  } else {
-    var token = jwt.sign(user, process.env.TOKEN_SECRET as string);
-    res.send(token);
-  }
-  next();
+    const user = await userStoreObject.authenticate(
+      req.body.username as string,
+      req.body.password as string
+    );
+    if (user == null) {
+      res.status(404);
+      res.send('wrong username or password');
+    } else {
+      var token = jwt.sign(user, process.env.TOKEN_SECRET as string);
+      res.send(token);
+    }
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 const update = async function (
   req: Request,
@@ -193,14 +189,13 @@ const update = async function (
     password: req.body.password as string,
   };
   try {
-res.send(await userStoreObject.update(newUser));
-  next();
+    res.send(await userStoreObject.update(newUser));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 const destroy = async function (
@@ -214,14 +209,13 @@ const destroy = async function (
     return;
   }
   try {
-res.send(await userStoreObject.delete(req.params.id as unknown as number));
-  next();
+    res.send(await userStoreObject.delete(req.params.id as unknown as number));
+    next();
   } catch (error) {
     res.status(404);
     res.json(error);
     return;
   }
-  
 };
 
 let app: express.Router = express.Router();
