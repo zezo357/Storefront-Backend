@@ -7,6 +7,7 @@ var express_1 = __importDefault(require("express"));
 var users_1 = __importDefault(require("./handlers/users"));
 var orders_1 = __importDefault(require("./handlers/orders"));
 var products_1 = __importDefault(require("./handlers/products"));
+var dashboard_1 = __importDefault(require("./handlers/dashboard"));
 var app = (0, express_1.default)();
 var address = 'localhost:3000';
 /*
@@ -24,6 +25,7 @@ if (process.env.ENV == 'dev') {
     });
     app.use('/', router);
 }
+app.use('/', dashboard_1.default);
 app.use('/', orders_1.default);
 app.use('/', products_1.default);
 app.use('/', users_1.default);

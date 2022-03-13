@@ -3,6 +3,7 @@ import cors from 'cors';
 import usersRoutes from './handlers/users';
 import ordersRoutes from './handlers/orders';
 import productsRoutes from './handlers/products';
+import dashboardRoutes from './handlers/dashboard';
 const app: express.Application = express();
 const address: string = 'localhost:3000';
 
@@ -21,6 +22,7 @@ router.use('/', (req: express.Request, res: express.Response, next): void => {
 });
 app.use('/', router);
 }
+app.use('/', dashboardRoutes);
 app.use('/', ordersRoutes);
 app.use('/', productsRoutes);
 app.use('/', usersRoutes);

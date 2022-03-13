@@ -2,10 +2,6 @@ import express, { Request, Response } from 'express';
 
 import { DashboardQueries } from '../services/dashboard';
 
-const dashboardRoutes = (app: express.Application) => {
-  app.get('/products_in_orders', productsInOrders),
-    app.get('/highest_five_products/:count', fiveMostExpensiveProducts);
-};
 
 const dashboard = new DashboardQueries();
 
@@ -19,4 +15,8 @@ const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
   res.json(products);
 };
 
-export default dashboardRoutes;
+let app: express.Router = express.Router();
+app.get('/products_in_orders', productsInOrders),
+app.get('/highest_five_products/:count', fiveMostExpensiveProducts);
+
+export default app;
