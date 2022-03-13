@@ -45,3 +45,17 @@ GRANT ALL PRIVILEGES ON DATABASE full_stack_test TO test_user;
 2. Orders
    1. 
    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
