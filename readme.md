@@ -32,7 +32,7 @@ ENV=dev
 ```
 
 # note
-all Authorization are the directly the token 
+all Authorization are directly the token, 
 example using super test 
 ```
 set({ Authorization: token_that_got_returned });
