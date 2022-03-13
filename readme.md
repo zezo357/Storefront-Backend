@@ -2,9 +2,11 @@
 # setup needed 
 1. `yarn install` to install needed packages
 2. env is uploaded to make it easier to reviewer when testing
-3. port is 5432
-4. postgres commands to create database and users 
-``` CREATE USER full_stack_user WITH PASSWORD 'password123';
+3. database port is 5432
+4. 
+5. postgres commands to create database and users 
+``` 
+CREATE USER full_stack_user WITH PASSWORD 'password123';
 CREATE DATABASE full_stack_dev;
 \c full_stack_dev
 GRANT ALL PRIVILEGES ON DATABASE full_stack_dev TO full_stack_user;
@@ -15,6 +17,8 @@ CREATE USER test_user WITH PASSWORD 'password123';
 CREATE DATABASE full_stack_test;
 \c full_stack_test;
 GRANT ALL PRIVILEGES ON DATABASE full_stack_test TO test_user;
+
+
 
 ```
 5. all Authorization are the directly the token 
@@ -38,7 +42,17 @@ set({ Authorization: token_that_got_returned });
 
     "testCont":will listen to changes in ts and json file and then build to js and then test 
 
-features are in requirements.md
+# Features are in requirements.md
+
+
+
+## Droping database and users 
+```
+DROP DATABASE IF EXISTS full_stack_dev;
+DROP DATABASE IF EXISTS full_stack_test;
+DROP USER IF EXISTS full_stack_user;
+DROP USER IF EXISTS test_user;
+```
 
 
 

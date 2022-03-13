@@ -13,10 +13,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 | create         | post       | yes            | yes           | /products/  |   |   |   |   |   |
 | update         | put        | yes            | yes           | /products/1 |   |   |   |   |   |
 | delete         | delete     | yes            | yes           | /products/1 |   |   |   |   |   |
-|                |            |                |               |             |   |   |   |   |   |
-|                |            |                |               |             |   |   |   |   |   |
-|                |            |                |               |             |   |   |   |   |   |
-|                |            |                |               |             |   |   |   |   |   |
 
 
 
@@ -29,9 +25,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 | signIn         | post       | No             | yes           | /users/signIn   |   |   |   |   |   |
 | update         | put        | yes            | yes           | /users/1        |   |   |   |   |   |
 | delete         | delete     | yes            | yes           | /users/1        |   |   |   |   |   |
-|                |            |                |               |                 |   |   |   |   |   |
-|                |            |                |               |                 |   |   |   |   |   |
-|                |            |                |               |                 |   |   |   |   |   |
 
 
 #### Orders
@@ -44,31 +37,38 @@ These are the notes from a meeting with the frontend developer that describe wha
 | remove product | post       | yes            | yes           | /orders/remove_product/1 |   |   |   |   |   |
 | update         | put        | yes            | yes           | /orders/1                |   |   |   |   |   |
 | delete         | delete     | yes            | yes           | /orders/1                |   |   |   |   |   |
-|                |            |                |               |                          |   |   |   |   |   |
-|                |            |                |               |                          |   |   |   |   |   |
-
-
+|                |            |                |               
 
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
+| variable | data_type | database_type       |   |   |   |   |   |   |   |
+|----------|-----------|---------------------|---|---|---|---|---|---|---|
+| id       | number    | SERIAL PRIMARY  KEY |   |   |   |   |   |   |   |
+| name     | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+| price    | number    | INTEGER             |   |   |   |   |   |   |   |
+
 
 #### User
-- id
-- first_name
-- last_name
-- username
-- password
+| variable   | data_type | database_type       |   |   |   |   |   |   |   |
+|------------|-----------|---------------------|---|---|---|---|---|---|---|
+| id         | number    | SERIAL PRIMARY  KEY |   |   |   |   |   |   |   |
+| first_name | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+| last_name  | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+| username   | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+| password   | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+
 
 #### Orders
-- id
-- status
-- user_id
+| variable | data_type | database_type       |   |   |   |   |   |   |   |
+|----------|-----------|---------------------|---|---|---|---|---|---|---|
+| id       | number    | SERIAL PRIMARY  KEY |   |   |   |   |   |   |   |
+| status   | string    | VARCHAR(255)        |   |   |   |   |   |   |   |
+| user_id  | number    | INTEGER             |   |   |   |   |   |   |   |
 
 #### productInOrder
-- quantity
-- order_id
-- product_id
+| variable   | data_type | database_type |   |   |   |   |   |   |   |
+|------------|-----------|---------------|---|---|---|---|---|---|---|
+| quantity   | number    | INTEGER       |   |   |   |   |   |   |   |
+| order_id   | number    | INTEGER       |   |   |   |   |   |   |   |
+| product_id | number    | INTEGER       |   |   |   |   |   |   |   |

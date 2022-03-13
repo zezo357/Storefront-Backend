@@ -1,5 +1,6 @@
 /* Replace with your SQL commands */
 
+
 CREATE TABLE Users (id SERIAL PRIMARY  KEY,first_name VARCHAR(255),last_name VARCHAR(255),username VARCHAR(255),password VARCHAR(255));
 
 CREATE TABLE Products (id SERIAL PRIMARY  KEY,
