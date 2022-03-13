@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import {CheckIfStringIsValid,CheckIfNumberIsValid} from "../utils/util";
 
 import { DashboardQueries } from '../services/dashboard';
 
@@ -11,6 +12,14 @@ const productsInOrders = async (_req: Request, res: Response) => {
 };
 
 const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
+  
+  if(!CheckIfNumberIsValid(req.params.count as unknown as number)){
+    res.status(404);
+    res.send("please provide a count, add to your url '/count'");
+    return;
+  }
+
+  
   const products = await dashboard.MostExpensiveProducts(req.params.count as unknown as number);
   res.json(products);
 };

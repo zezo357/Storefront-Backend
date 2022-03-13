@@ -108,7 +108,7 @@ describe('orders endpoint responses', (): void => {
       .post(`/orders/add_product/${newOrder.id}`)
       .send({
       
-        testQuantity:testQuantity,
+        quantity:testQuantity,
         product_id: newProduct.id,
         user_id: newUser.id,
     })

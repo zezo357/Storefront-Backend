@@ -43,6 +43,7 @@ var express_1 = __importDefault(require("express"));
 var users_1 = require("../models/users");
 var body_parser_1 = __importDefault(require("body-parser"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var util_1 = require("../utils/util");
 var userStoreObject = new users_1.userStore();
 var tokenVerifier = function (req, res, next) {
     try {
@@ -60,6 +61,9 @@ var userIDverify = function (req, res, next) {
     try {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+            throw new Error("please provide a id in your request url /id ");
+        }
         if (decodedToken.id !== parseInt(req.params.id)) {
             throw new Error('User id does not match!');
         }

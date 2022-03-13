@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var util_1 = require("../utils/util");
 var dashboard_1 = require("../services/dashboard");
 var dashboard = new dashboard_1.DashboardQueries();
 var productsInOrders = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -58,7 +59,13 @@ var fiveMostExpensiveProducts = function (req, res) { return __awaiter(void 0, v
     var products;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, dashboard.MostExpensiveProducts(req.params.count)];
+            case 0:
+                if (!(0, util_1.CheckIfNumberIsValid)(req.params.count)) {
+                    res.status(404);
+                    res.send("please provide a count, add to your url '/count'");
+                    return [2 /*return*/];
+                }
+                return [4 /*yield*/, dashboard.MostExpensiveProducts(req.params.count)];
             case 1:
                 products = _a.sent();
                 res.json(products);

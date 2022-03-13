@@ -56,21 +56,6 @@ var tokenVerifier = function (req, res, next) {
         return;
     }
 };
-var userIDverify = function (req, res, next) {
-    try {
-        var token = req.headers.authorization;
-        var decodedToken = jsonwebtoken_1.default.decode(token);
-        if (decodedToken.id !== parseInt(req.body.user_id)) {
-            throw new Error('User id does not match!');
-        }
-        next();
-    }
-    catch (err) {
-        res.status(401);
-        res.json(err);
-        return;
-    }
-};
 var index = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var _a, _b;

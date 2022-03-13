@@ -3,6 +3,8 @@ import { Product, productStore } from '../models/products';
 import { User } from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
+import {CheckIfStringIsValid,CheckIfNumberIsValid} from "../utils/util";
+
 const productStoreObject = new productStore();
 const tokenVerifier = (
   req: express.Request,
@@ -21,27 +23,6 @@ const tokenVerifier = (
 };
 
 
-const userIDverify = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-): void => {
-
-  try {
-    const token = req.headers.authorization as string;
-    const decodedToken = jwt.decode(token) as User;
-    if (decodedToken.id !== parseInt(req.body.user_id)) {
-      throw new Error('User id does not match!');
-    }
-
-    next();
-  } catch (err) {
-    res.status(401);
-    res.json(err);
-    return;
-  }
-};
-
 
 const index = async function (req: Request, res: Response, next: NextFunction) {
   res.send(await productStoreObject.index());
@@ -49,6 +30,11 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
+  if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
+    res.status(404);
+    res.send("please provide a id, add to url /id");
+    return;
+  }
   res.send(await productStoreObject.show(req.params.id as unknown as number));
   next();
 };
@@ -58,7 +44,16 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
-  //console.log(req.body)
+  if(!CheckIfStringIsValid(req.body.name as string)){
+    res.status(404);
+    res.send("please provide a name, add to body name");
+    return;
+  }
+  if(!CheckIfNumberIsValid(req.body.price as unknown as number)){
+    res.status(404);
+    res.send("please provide a price, add to body price");
+    return;
+  }
   const newProduct: Product = {
     id: -1,
     name: req.body.name as string,
@@ -74,6 +69,21 @@ const update = async function (
   res: Response,
   next: NextFunction
 ) {
+  if(!CheckIfNumberIsValid(req.params.id as string)){
+    res.status(404);
+    res.send("please provide a id, add to url /id");
+    return;
+  }
+  if(!CheckIfStringIsValid(req.body.name as string)){
+    res.status(404);
+    res.send("please provide a name, add to body name");
+    return;
+  }
+  if(!CheckIfNumberIsValid(req.body.price as unknown as number)){
+    res.status(404);
+    res.send("please provide a price, add to body price");
+    return;
+  }
   const newProduct: Product = {
     id: req.params.id as unknown as number,
     name: req.body.name as string,
@@ -88,6 +98,12 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
+  if(!CheckIfNumberIsValid(req.params.id as string)){
+    res.status(404);
+    res.send("please provide a id, add to url /id");
+    return;
+  }
+  
   res.send(await productStoreObject.delete(req.params.id as unknown as number));
   next();
 };

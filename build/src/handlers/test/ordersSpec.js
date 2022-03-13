@@ -182,7 +182,7 @@ describe('orders endpoint responses', function () {
         request
             .post("/orders/add_product/".concat(newOrder.id))
             .send({
-            testQuantity: testQuantity,
+            quantity: testQuantity,
             product_id: newProduct.id,
             user_id: newUser.id,
         })

@@ -43,7 +43,23 @@ var express_1 = __importDefault(require("express"));
 var orders_1 = require("../models/orders");
 var body_parser_1 = __importDefault(require("body-parser"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var util_1 = require("../utils/util");
 var orderStoreObject = new orders_1.orderStore();
+var verifyUserID = function (req, res, next) {
+    try {
+        var token = req.headers.authorization;
+        var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (decodedToken.id !== parseInt(req.body.user_id)) {
+            throw new Error('User id does not match!');
+        }
+        next();
+    }
+    catch (err) {
+        res.status(401);
+        res.json(err);
+        return;
+    }
+};
 var tokenVerifier = function (req, res, next) {
     try {
         var token = req.headers.authorization;
@@ -60,6 +76,9 @@ var userIDverify = function (req, res, next) {
     try {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
+        if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
+            throw new Error("please provide a user_id in your request body");
+        }
         if (decodedToken.id !== parseInt(req.body.user_id)) {
             throw new Error('User id does not match!');
         }
@@ -93,6 +112,11 @@ var show = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
+                        res.status(404);
+                        res.send("please provide a order_id add to your url '/order_id'");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.show(parseInt(req.params.order_id))];
                 case 1:
@@ -109,9 +133,19 @@ var create = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
+                        res.status(404);
+                        res.send("please provide a user_id, add to body user_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.status)) {
+                        res.status(404);
+                        res.send("please provide a status, add to body status");
+                        return [2 /*return*/];
+                    }
                     newOrder = {
                         id: -1,
-                        status: 'open',
+                        status: req.body.status,
                         user_id: req.body.user_id,
                     };
                     _b = (_a = res).send;
@@ -130,6 +164,21 @@ var update = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
+                        res.status(404);
+                        res.send("please provide a order_id, add to url /order_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
+                        res.status(404);
+                        res.send("please provide a user_id, add to body user_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.status)) {
+                        res.status(404);
+                        res.send("please provide a status, add to body status");
+                        return [2 /*return*/];
+                    }
                     newOrder = {
                         id: req.params.order_id,
                         status: req.body.status,
@@ -151,8 +200,23 @@ var add_product = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
+                        res.status(404);
+                        res.send("please provide a order_id, add to url /order_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.product_id)) {
+                        res.status(404);
+                        res.send("please provide a product_id, add to body product_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.quantity)) {
+                        res.status(404);
+                        res.send("please provide a quantity, add to body quantity");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
-                    return [4 /*yield*/, orderStoreObject.add_product(req.body.testQuantity, parseInt(req.params.order_id), req.body.product_id)];
+                    return [4 /*yield*/, orderStoreObject.add_product(req.body.quantity, parseInt(req.params.order_id), req.body.product_id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
