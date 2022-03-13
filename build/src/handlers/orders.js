@@ -46,8 +46,7 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var orderStoreObject = new orders_1.orderStore();
 var tokenVerifier = function (req, res, next) {
     try {
-        var authorizationHeader = req.headers.authorization;
-        var token = authorizationHeader.split(' ')[1];
+        var token = req.headers.authorization;
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
         next();
     }
@@ -61,7 +60,7 @@ var userIDverify = function (req, res, next) {
     try {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
-        if (decodedToken.id !== parseInt(req.params.id)) {
+        if (decodedToken.id !== parseInt(req.body.user_id)) {
             throw new Error('User id does not match!');
         }
         next();
@@ -95,7 +94,7 @@ var show = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, orderStoreObject.show(req.query.id)];
+                    return [4 /*yield*/, orderStoreObject.show(parseInt(req.params.order_id))];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -113,7 +112,7 @@ var create = function (req, res, next) {
                     newOrder = {
                         id: -1,
                         status: 'open',
-                        user_id: req.query.user_id,
+                        user_id: req.body.user_id,
                     };
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.create(newOrder)];
@@ -132,9 +131,9 @@ var update = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     newOrder = {
-                        id: req.query.id,
-                        status: req.query.status,
-                        user_id: req.query.user_id,
+                        id: req.params.order_id,
+                        status: req.body.status,
+                        user_id: req.body.user_id,
                     };
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.update(newOrder)];
@@ -153,7 +152,23 @@ var add_product = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, orderStoreObject.add_product(req.query.quantity, req.query.order_id, req.query.product_id)];
+                    return [4 /*yield*/, orderStoreObject.add_product(req.body.testQuantity, parseInt(req.params.order_id), req.body.product_id)];
+                case 1:
+                    _b.apply(_a, [_c.sent()]);
+                    next();
+                    return [2 /*return*/];
+            }
+        });
+    });
+};
+var remove_product = function (req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _b = (_a = res).send;
+                    return [4 /*yield*/, orderStoreObject.remove_product(parseInt(req.params.order_id), req.body.product_id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -169,7 +184,7 @@ var destroy = function (req, res, next) {
             switch (_c.label) {
                 case 0:
                     _b = (_a = res).send;
-                    return [4 /*yield*/, orderStoreObject.delete(req.query.id)];
+                    return [4 /*yield*/, orderStoreObject.delete(req.params.order_id)];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
@@ -179,10 +194,11 @@ var destroy = function (req, res, next) {
     });
 };
 var app = express_1.default.Router();
-app.get('/orders', index, body_parser_1.default.json());
-app.get('/orders/:id', show, body_parser_1.default.json());
-app.post('/orders', create, body_parser_1.default.json());
-app.post('/orders', add_product, body_parser_1.default.json());
-app.put('/orders/:id', tokenVerifier, userIDverify, update, body_parser_1.default.json());
-app.delete('/orders/:id', tokenVerifier, userIDverify, destroy, body_parser_1.default.json());
+app.get('/orders', body_parser_1.default.json(), index);
+app.get('/orders/:order_id', body_parser_1.default.json(), show);
+app.post('/orders/', body_parser_1.default.json(), tokenVerifier, userIDverify, create);
+app.post('/orders/add_product/:order_id', body_parser_1.default.json(), tokenVerifier, userIDverify, add_product);
+app.post('/orders/remove_product/:order_id', body_parser_1.default.json(), tokenVerifier, userIDverify, remove_product);
+app.put('/orders/:order_id', body_parser_1.default.json(), tokenVerifier, userIDverify, update);
+app.delete('/orders/:order_id', body_parser_1.default.json(), tokenVerifier, userIDverify, destroy);
 exports.default = app;

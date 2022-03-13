@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import usersRoutes from './handlers/users';
+import ordersRoutes from './handlers/orders';
+import productsRoutes from './handlers/products';
 const app: express.Application = express();
 const address: string = 'localhost:3000';
 
@@ -18,7 +20,8 @@ router.use('/', (req: express.Request, res: express.Response, next): void => {
 });
 
 app.use('/', router);
-
+app.use('/', ordersRoutes);
+app.use('/', productsRoutes);
 app.use('/', usersRoutes);
 
 app.listen(3000, function () {

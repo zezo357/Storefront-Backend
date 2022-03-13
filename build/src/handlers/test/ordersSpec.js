@@ -51,6 +51,7 @@ describe('orders endpoint responses', function () {
     var userStoreObject = new users_1.userStore();
     var productStoreObject = new products_1.productStore();
     var token_that_got_returned;
+    var testQuantity = 1;
     var newUser = {
         id: -1,
         first_name: 'test',
@@ -63,37 +64,44 @@ describe('orders endpoint responses', function () {
         status: 'open',
         user_id: newUser.id,
     };
-    var testProduct = {
+    var newProduct = {
         id: -1,
         name: 'test',
         price: 999,
     };
     beforeAll(function () {
         return __awaiter(this, void 0, void 0, function () {
+            var postRes, token, decodedToken;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        request
+                    case 0: return [4 /*yield*/, request
                             .post("/users/register")
-                            .send(newUser)
-                            .end(function (_err, res) {
-                            return __awaiter(this, void 0, void 0, function () {
-                                return __generator(this, function (_a) {
-                                    token_that_got_returned = res.text;
-                                    return [2 /*return*/];
-                                });
-                            });
-                        });
+                            .send(newUser)];
+                    case 1:
+                        postRes = _a.sent();
+                        token = postRes.text;
+                        try {
+                            jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+                            decodedToken = jsonwebtoken_1.default.decode(token);
+                            //console.log(decodedToken);
+                            newUser.id = decodedToken.id;
+                            //console.log(newUser.id);
+                            expect(true).toEqual(true);
+                        }
+                        catch (_b) {
+                            expect('INVALID TOKEN').toEqual('false');
+                        }
+                        token_that_got_returned = token;
                         //over riding with new user id
                         newOrder = {
                             id: -1,
                             status: 'open',
                             user_id: newUser.id,
                         };
-                        return [4 /*yield*/, productStoreObject.create(testProduct)];
-                    case 1:
+                        return [4 /*yield*/, productStoreObject.create(newProduct)];
+                    case 2:
                         //add new product
-                        testProduct = _a.sent();
+                        newProduct = _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -121,38 +129,84 @@ describe('orders endpoint responses', function () {
     });
     it('getting orders endpoint (Create)', function (done) {
         request
-            .post("/orders/register")
-            .send(newUser)
+            .post("/orders/")
+            .send({
+            status: newOrder.status,
+            user_id: newUser.id,
+        })
+            .set({ 'Authorization': token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
-                var token, decodedToken, _a;
+                var _a, _b;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            //check the response status
+                            expect(res.status).toBe(200);
+                            //console.log(res.body);
+                            newOrder.id = res.body.id;
+                            _b = (_a = expect(res.body)).toEqual;
+                            return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
+                        case 1:
+                            _b.apply(_a, [_c.sent()]);
+                            done();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        });
+    });
+    it('getting orders endpoint (show)', function (done) {
+        request
+            .get("/orders/".concat(newOrder.id))
+            .end(function (_err, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a, _b;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            //check the response status
+                            expect(res.status).toBe(200);
+                            _b = (_a = expect(res.body)).toEqual;
+                            return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
+                        case 1:
+                            _b.apply(_a, [_c.sent()]);
+                            done();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        });
+    });
+    it('getting orders endpoint (Add product)', function (done) {
+        request
+            .post("/orders/add_product/".concat(newOrder.id))
+            .send({
+            testQuantity: testQuantity,
+            product_id: newProduct.id,
+            user_id: newUser.id,
+        })
+            .set({ 'Authorization': token_that_got_returned })
+            .end(function (_err, res) {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
                             //check the response status
                             expect(res.status).toBe(200);
-                            token = res.text;
-                            token_that_got_returned = token;
-                            try {
-                                jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-                                decodedToken = jsonwebtoken_1.default.decode(token);
-                                //console.log(decodedToken);
-                                newUser.id = decodedToken.id;
-                                //console.log(newUser.id);
-                                expect(true).toEqual(true);
-                            }
-                            catch (_c) {
-                                expect('INVALID TOKEN').toEqual('false');
-                            }
-                            _a = expect;
-                            return [4 /*yield*/, userStoreObject.show(newUser.id)];
-                        case 1:
-                            _a.apply(void 0, [_b.sent()]).toEqual(jasmine.objectContaining({
-                                id: newUser.id,
-                                first_name: newUser.first_name,
-                                last_name: newUser.last_name,
-                                username: newUser.username,
+                            //console.log(res.body);
+                            expect(res.body).toEqual(jasmine.objectContaining({
+                                quantity: testQuantity,
+                                order_id: newOrder.id,
+                                product_id: newProduct.id
                             }));
+                            //check if same product exists in the order after it has been added
+                            _a = expect;
+                            return [4 /*yield*/, orderStoreObject.get_products_ids(newOrder.id)];
+                        case 1:
+                            //check if same product exists in the order after it has been added
+                            _a.apply(void 0, [(_b.sent()).map(function (a) { return a.product_id; })]).toContain(res.body.product_id);
                             done();
                             return [2 /*return*/];
                     }
@@ -160,50 +214,34 @@ describe('orders endpoint responses', function () {
             });
         });
     });
-    it('getting users endpoint (signIn)', function (done) {
+    it('getting orders endpoint (Remove product)', function (done) {
         request
-            .post("/users/signIn")
-            .send(newUser)
-            .end(function (_err, res) {
-            //check the response status
-            expect(res.status).toBe(200);
-            //console.log(res.text);
-            var token = res.text;
-            token_that_got_returned = token;
-            try {
-                jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-                var decodedToken = jsonwebtoken_1.default.decode(token);
-                //console.log(decodedToken);
-                newUser.id = decodedToken.id;
-                //console.log(newUser.id);
-                expect(true).toEqual(true);
-            }
-            catch (_a) {
-                expect('INVALID TOKEN').toEqual('false');
-            }
-            done();
-        });
-    });
-    it('getting users endpoint (show)', function (done) {
-        request
-            .get("/users/".concat(newUser.id))
+            .post("/orders/remove_product/".concat(newOrder.id))
+            .send({
+            product_id: newProduct.id,
+            user_id: newUser.id,
+        })
+            .set({ 'Authorization': token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
-                var ShownUser;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             //check the response status
                             expect(res.status).toBe(200);
-                            return [4 /*yield*/, userStoreObject.show(newUser.id)];
-                        case 1:
-                            ShownUser = _a.sent();
+                            //console.log(res.body);
                             expect(res.body).toEqual(jasmine.objectContaining({
-                                id: ShownUser.id,
-                                first_name: ShownUser.first_name,
-                                last_name: ShownUser.last_name,
-                                username: ShownUser.username,
+                                quantity: testQuantity,
+                                order_id: newOrder.id,
+                                product_id: newProduct.id
                             }));
+                            //check if same product exists in the order after it has been added
+                            _a = expect;
+                            return [4 /*yield*/, orderStoreObject.get_products_ids(newOrder.id)];
+                        case 1:
+                            //check if same product exists in the order after it has been added
+                            _a.apply(void 0, [(_b.sent()).map(function (a) { return a.product_id; })]).toEqual([]);
                             done();
                             return [2 /*return*/];
                     }
@@ -211,15 +249,12 @@ describe('orders endpoint responses', function () {
             });
         });
     });
-    it('getting users endpoint (update)', function (done) {
+    it('getting orders endpoint (update)', function (done) {
         request
-            .put("/users")
+            .put("/orders/".concat(newOrder.id))
             .send({
-            id: newUser.id,
-            first_name: 'the unknown ',
-            last_name: 'can be known',
-            username: 'if only we',
-            password: 'try',
+            user_id: newUser.id,
+            status: 'closed',
         }).set({ 'Authorization': token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
@@ -229,14 +264,18 @@ describe('orders endpoint responses', function () {
                             //console.log(res.text);
                             //check the response status
                             expect(res.status).toBe(200);
-                            return [4 /*yield*/, userStoreObject.show(newUser.id)];
-                        case 1:
-                            newUser = _a.sent();
                             expect(res.body).toEqual(jasmine.objectContaining({
-                                id: newUser.id,
-                                first_name: newUser.first_name,
-                                last_name: newUser.last_name,
-                                username: newUser.username,
+                                id: newOrder.id,
+                                status: 'closed',
+                                user_id: newUser.id
+                            }));
+                            return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
+                        case 1:
+                            newOrder = _a.sent();
+                            expect(newOrder).toEqual(jasmine.objectContaining({
+                                id: newOrder.id,
+                                status: 'closed',
+                                user_id: newUser.id
                             }));
                             done();
                             return [2 /*return*/];
@@ -247,22 +286,26 @@ describe('orders endpoint responses', function () {
     });
     it('getting users endpoint (delete)', function (done) {
         request
-            .delete("/users")
-            .send({ id: newUser.id })
+            .delete("/orders/".concat(newOrder.id))
+            .send({
+            user_id: newUser.id,
+        })
             .set({ 'Authorization': token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    //check the response status
-                    expect(res.status).toBe(200);
-                    expect(res.body).toEqual(jasmine.objectContaining({
-                        id: newUser.id,
-                        first_name: newUser.first_name,
-                        last_name: newUser.last_name,
-                        username: newUser.username,
-                    }));
-                    done();
-                    return [2 /*return*/];
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            //check the response status
+                            expect(res.status).toBe(200);
+                            _a = expect;
+                            return [4 /*yield*/, orderStoreObject.index()];
+                        case 1:
+                            _a.apply(void 0, [_b.sent()]).toEqual([]);
+                            done();
+                            return [2 /*return*/];
+                    }
                 });
             });
         });

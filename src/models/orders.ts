@@ -6,6 +6,11 @@ export type Order = {
   user_id: number;
 };
 
+export type productInOrder = {
+  quantity: number;
+  order_id: string;
+  product_id: number;
+};
 export class orderStore {
   updateOrder(oldOrder: Order, newOrder: Order): Order {
     let tempOrder: Order = oldOrder;
@@ -72,7 +77,7 @@ export class orderStore {
     quantity: number,
     order_id: number,
     product_id: number
-  ): Promise<Order> {
+  ): Promise<productInOrder> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore
@@ -112,7 +117,7 @@ export class orderStore {
       );
     }
   }
-  async remove_product(order_id: number, product_id: number): Promise<void> {
+  async remove_product(order_id: number, product_id: number): Promise<productInOrder> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore
@@ -182,7 +187,7 @@ export class orderStore {
     newOrder = this.updateOrder(oldOrder, newOrder);
     try {
       const conn = await client.connect();
-      const sql = `Update orders set status='${newOrder.status}', user_id=${newOrder.user_id}   WHERE id=($1) `;
+      const sql = `Update orders set status='${newOrder.status}', user_id=${newOrder.user_id}   WHERE id=($1) RETURNING *`;
       //console.log(sql);
       //const sql = 'Update set title FROM  orders WHERE id=($1)';
       const result = await conn.query(sql, [newOrder.id]);

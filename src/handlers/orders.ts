@@ -10,8 +10,7 @@ const tokenVerifier = (
   next: express.NextFunction
 ): void => {
   try {
-    const authorizationHeader = req.headers.authorization as string;
-    const token = authorizationHeader.split(' ')[1];
+    const token = req.headers.authorization as string;
     jwt.verify(token, process.env.TOKEN_SECRET as string);
     next();
   } catch (error) {
@@ -31,9 +30,10 @@ const userIDverify = (
   try {
     const token = req.headers.authorization as string;
     const decodedToken = jwt.decode(token) as User;
-    if (decodedToken.id !== parseInt(req.params.id)) {
+    if (decodedToken.id !== parseInt(req.body.user_id)) {
       throw new Error('User id does not match!');
     }
+
     next();
   } catch (err) {
     res.status(401);
@@ -48,7 +48,7 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await orderStoreObject.show(req.params.id as unknown as number));
+  res.send(await orderStoreObject.show(parseInt(req.params.order_id) as unknown as number));
   next();
 };
 
@@ -60,7 +60,7 @@ const create = async function (
   const newOrder: Order = {
     id: -1,
     status: 'open',
-    user_id: req.query.user_id as unknown as number,
+    user_id: req.body.user_id as unknown as number,
   };
   res.send(await orderStoreObject.create(newOrder));
   next();
@@ -72,7 +72,7 @@ const update = async function (
   next: NextFunction
 ) {
   const newOrder: Order = {
-    id: req.params.id as unknown as number,
+    id: req.params.order_id as unknown as number,
     status: req.body.status as string,
     user_id: req.body.user_id as unknown as number,
   };
@@ -86,9 +86,22 @@ const add_product = async function (
 ) {
   res.send(
     await orderStoreObject.add_product(
-      req.query.quantity as unknown as number,
-      req.query.order_id as unknown as number,
-      req.query.product_id as unknown as number
+      req.body.testQuantity as unknown as number,
+      parseInt(req.params.order_id) as unknown as number,
+      req.body.product_id as unknown as number
+    )
+  );
+  next();
+};
+const remove_product = async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  res.send(
+    await orderStoreObject.remove_product(
+      parseInt(req.params.order_id) as unknown as number,
+      req.body.product_id as unknown as number
     )
   );
   next();
@@ -99,16 +112,17 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  res.send(await orderStoreObject.delete(req.params.id as unknown as number));
+  res.send(await orderStoreObject.delete(req.params.order_id as unknown as number));
   next();
 };
 
 let app: express.Router = express.Router();
 app.get('/orders', bodyParser.json(), index);
-app.get('/orders/:id', bodyParser.json(), show);
-app.post('/orders', bodyParser.json(), create);
-app.post('/orders', bodyParser.json(), add_product);
-app.put('/orders/:id', bodyParser.json(), tokenVerifier, userIDverify, update);
-app.delete('/orders/:id', bodyParser.json(), tokenVerifier, userIDverify, destroy);
+app.get('/orders/:order_id', bodyParser.json(), show);
+app.post('/orders/', bodyParser.json(), tokenVerifier, userIDverify, create);
+app.post('/orders/add_product/:order_id', bodyParser.json(), tokenVerifier, userIDverify, add_product);
+app.post('/orders/remove_product/:order_id', bodyParser.json(), tokenVerifier, userIDverify, remove_product);
+app.put('/orders/:order_id', bodyParser.json(), tokenVerifier, userIDverify, update);
+app.delete('/orders/:order_id', bodyParser.json(), tokenVerifier, userIDverify, destroy);
 
 export default app;

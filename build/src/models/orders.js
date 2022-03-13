@@ -291,7 +291,7 @@ var orderStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 3:
                         conn = _a.sent();
-                        sql = "Update orders set status='".concat(newOrder.status, "', user_id=").concat(newOrder.user_id, "   WHERE id=($1) ");
+                        sql = "Update orders set status='".concat(newOrder.status, "', user_id=").concat(newOrder.user_id, "   WHERE id=($1) RETURNING *");
                         return [4 /*yield*/, conn.query(sql, [newOrder.id])];
                     case 4:
                         result = _a.sent();
