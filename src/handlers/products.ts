@@ -3,7 +3,7 @@ import { Product, productStore } from '../models/products';
 import { User } from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
-import {CheckIfStringIsValid,CheckIfNumberIsValid} from "../utils/util";
+import { CheckIfStringIsValid, CheckIfNumberIsValid } from '../utils/util';
 
 const productStoreObject = new productStore();
 const tokenVerifier = (
@@ -22,17 +22,15 @@ const tokenVerifier = (
   }
 };
 
-
-
 const index = async function (req: Request, res: Response, next: NextFunction) {
   res.send(await productStoreObject.index());
   next();
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
+  if (!CheckIfNumberIsValid(req.params.id as unknown as number)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
   res.send(await productStoreObject.show(req.params.id as unknown as number));
@@ -44,14 +42,14 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfStringIsValid(req.body.name as string)){
+  if (!CheckIfStringIsValid(req.body.name as string)) {
     res.status(404);
-    res.send("please provide a name, add to body name");
+    res.send('please provide a name, add to body name');
     return;
   }
-  if(!CheckIfNumberIsValid(req.body.price as unknown as number)){
+  if (!CheckIfNumberIsValid(req.body.price as unknown as number)) {
     res.status(404);
-    res.send("please provide a price, add to body price");
+    res.send('please provide a price, add to body price');
     return;
   }
   const newProduct: Product = {
@@ -69,19 +67,19 @@ const update = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfNumberIsValid(req.params.id as string)){
+  if (!CheckIfNumberIsValid(req.params.id as string)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.name as string)){
+  if (!CheckIfStringIsValid(req.body.name as string)) {
     res.status(404);
-    res.send("please provide a name, add to body name");
+    res.send('please provide a name, add to body name');
     return;
   }
-  if(!CheckIfNumberIsValid(req.body.price as unknown as number)){
+  if (!CheckIfNumberIsValid(req.body.price as unknown as number)) {
     res.status(404);
-    res.send("please provide a price, add to body price");
+    res.send('please provide a price, add to body price');
     return;
   }
   const newProduct: Product = {
@@ -98,21 +96,21 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfNumberIsValid(req.params.id as string)){
+  if (!CheckIfNumberIsValid(req.params.id as string)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
-  
+
   res.send(await productStoreObject.delete(req.params.id as unknown as number));
   next();
 };
 
 let app: express.Router = express.Router();
-app.get('/products',bodyParser.json(), index, );
-app.get('/products/:id',bodyParser.json(), show);
-app.post('/products',bodyParser.json(), tokenVerifier, create);
-app.put('/products/:id',bodyParser.json(), tokenVerifier, update);
-app.delete('/products/:id',bodyParser.json(), tokenVerifier, destroy);
+app.get('/products', bodyParser.json(), index);
+app.get('/products/:id', bodyParser.json(), show);
+app.post('/products', bodyParser.json(), tokenVerifier, create);
+app.put('/products/:id', bodyParser.json(), tokenVerifier, update);
+app.delete('/products/:id', bodyParser.json(), tokenVerifier, destroy);
 
 export default app;

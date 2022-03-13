@@ -117,7 +117,10 @@ export class orderStore {
       );
     }
   }
-  async remove_product(order_id: number, product_id: number): Promise<productInOrder> {
+  async remove_product(
+    order_id: number,
+    product_id: number
+  ): Promise<productInOrder> {
     try {
       const ordersql = 'SELECT * FROM orders WHERE id=($1)';
       //@ts-ignore

@@ -8,7 +8,6 @@ const dashboard = new DashboardQueries();
 
 const request = supertest(app);
 
-
 describe('Dashboard Routes responses', (): void => {
   const productStoreObject = new productStore();
   const orderStoreObject = new orderStore();
@@ -94,17 +93,10 @@ describe('Dashboard Routes responses', (): void => {
     ////end of 4
   });
 
-
-
-
-
-
-
-
-
-
-  it(`MostExpensiveProducts: should return ${count} most expensive products`,  (done: DoneFn): void => {
-    request.get(`/highest_five_products/${count}`).end(async function (_err, res: supertest.Response) {
+  it(`MostExpensiveProducts: should return ${count} most expensive products`, (done: DoneFn): void => {
+    request
+      .get(`/highest_five_products/${count}`)
+      .end(async function (_err, res: supertest.Response) {
         //check the response status
         expect(res.status).toBe(200);
         expect(res.body).toEqual(await dashboard.MostExpensiveProducts(count));
@@ -112,23 +104,16 @@ describe('Dashboard Routes responses', (): void => {
       });
   });
 
-  it('productsInOrders: should return products that exist in orders',  (done: DoneFn): void => {
-
-    request.get(`/products_in_orders/`).end(async function (_err, res: supertest.Response) {
+  it('productsInOrders: should return products that exist in orders', (done: DoneFn): void => {
+    request
+      .get(`/products_in_orders/`)
+      .end(async function (_err, res: supertest.Response) {
         //check the response status
         expect(res.status).toBe(200);
         expect(res.body).toEqual(await dashboard.productsInOrders());
         done();
       });
   });
-
-
-
-
-
-
-
-
 
   afterAll(async function () {
     for (let i = 0; i < productsInOrdersWithProductIDs.length; i++) {

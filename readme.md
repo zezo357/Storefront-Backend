@@ -17,6 +17,11 @@ CREATE DATABASE full_stack_test;
 GRANT ALL PRIVILEGES ON DATABASE full_stack_test TO test_user;
 
 ```
+5. all Authorization are the directly the token 
+example using super test 
+```
+set({ Authorization: token_that_got_returned });
+```
 
 ## scripts 
     "prettier": will run prettier on the code

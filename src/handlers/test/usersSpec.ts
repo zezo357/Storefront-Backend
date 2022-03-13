@@ -4,10 +4,9 @@ import { User, userStore } from '../../models/users';
 import jwt from 'jsonwebtoken';
 const request = supertest(app);
 
-
 describe('users endpoint responses', (): void => {
   const userStoreObject = new userStore();
-  let token_that_got_returned:string="";
+  let token_that_got_returned: string = '';
   let newUser: User = {
     id: -1,
     first_name: 'test',
@@ -40,7 +39,7 @@ describe('users endpoint responses', (): void => {
         expect(res.status).toBe(200);
         //console.log(res.text);
         let token = res.text as string;
-        token_that_got_returned=token;
+        token_that_got_returned = token;
         try {
           jwt.verify(token, process.env.TOKEN_SECRET as string);
           const decodedToken = jwt.decode(token) as User;
@@ -73,7 +72,7 @@ describe('users endpoint responses', (): void => {
         expect(res.status).toBe(200);
         //console.log(res.text);
         let token = res.text as string;
-        token_that_got_returned=token;
+        token_that_got_returned = token;
         try {
           jwt.verify(token, process.env.TOKEN_SECRET as string);
           const decodedToken = jwt.decode(token) as User;
@@ -114,9 +113,10 @@ describe('users endpoint responses', (): void => {
         last_name: 'can be known',
         username: 'if only we',
         password: 'try',
-      }).set({'Authorization':token_that_got_returned})
+      })
+      .set({ Authorization: token_that_got_returned })
       .end(async function (_err, res: supertest.Response) {
-          //console.log(res.text);
+        //console.log(res.text);
         //check the response status
         expect(res.status).toBe(200);
         newUser = await userStoreObject.show(newUser.id);
@@ -135,7 +135,7 @@ describe('users endpoint responses', (): void => {
   it('getting users endpoint (delete)', (done: DoneFn): void => {
     request
       .delete(`/users/${newUser.id}`)
-      .set({'Authorization':token_that_got_returned})
+      .set({ Authorization: token_that_got_returned })
       .end(async function (_err, res: supertest.Response) {
         //check the response status
         expect(res.status).toBe(200);

@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { User, userStore } from '../models/users';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
-import {CheckIfStringIsValid,CheckIfNumberIsValid} from "../utils/util";
+import { CheckIfStringIsValid, CheckIfNumberIsValid } from '../utils/util';
 
 const userStoreObject = new userStore();
 const tokenVerifier = (
@@ -26,13 +26,12 @@ const userIDverify = (
   res: express.Response,
   next: express.NextFunction
 ): void => {
-
   try {
     const token = req.headers.authorization as string;
     const decodedToken = jwt.decode(token) as User;
 
-    if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
-      throw new Error("please provide a id in your request url /id ");
+    if (!CheckIfNumberIsValid(req.params.id as unknown as number)) {
+      throw new Error('please provide a id in your request url /id ');
     }
 
     if (decodedToken.id !== parseInt(req.params.id)) {
@@ -51,9 +50,9 @@ const index = async function (req: Request, res: Response, next: NextFunction) {
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
-  if(!CheckIfNumberIsValid(req.params.id as string)){
+  if (!CheckIfNumberIsValid(req.params.id as string)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
   res.send(await userStoreObject.show(req.params.id as unknown as number));
@@ -65,25 +64,24 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
-
-  if(!CheckIfStringIsValid(req.body.first_name as string)){
+  if (!CheckIfStringIsValid(req.body.first_name as string)) {
     res.status(404);
-    res.send("please provide a first_name, add to body first_name");
+    res.send('please provide a first_name, add to body first_name');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.last_name as string)){
+  if (!CheckIfStringIsValid(req.body.last_name as string)) {
     res.status(404);
-    res.send("please provide a last_name, add to body last_name");
+    res.send('please provide a last_name, add to body last_name');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.username as string)){
+  if (!CheckIfStringIsValid(req.body.username as string)) {
     res.status(404);
-    res.send("please provide a username, add to body username");
+    res.send('please provide a username, add to body username');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.password as string)){
+  if (!CheckIfStringIsValid(req.body.password as string)) {
     res.status(404);
-    res.send("please provide a password, add to body password");
+    res.send('please provide a password, add to body password');
     return;
   }
   //console.log(req.body);
@@ -105,15 +103,15 @@ const signIn = async function (
   res: Response,
   next: NextFunction
 ) {
-
-  if(!CheckIfStringIsValid(req.body.username as string)){
+  //console.log(req.body);
+  if (!CheckIfStringIsValid(req.body.username as string)) {
     res.status(404);
-    res.send("please provide a username, add to body username");
+    res.send('please provide a username, add to body username');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.password as string)){
+  if (!CheckIfStringIsValid(req.body.password as string)) {
     res.status(404);
-    res.send("please provide a password, add to body password");
+    res.send('please provide a password, add to body password');
     return;
   }
   const user = await userStoreObject.authenticate(
@@ -134,29 +132,29 @@ const update = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
+  if (!CheckIfNumberIsValid(req.params.id as unknown as number)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.first_name as string)){
+  if (!CheckIfStringIsValid(req.body.first_name as string)) {
     res.status(404);
-    res.send("please provide a first_name, add to body first_name");
+    res.send('please provide a first_name, add to body first_name');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.last_name as string)){
+  if (!CheckIfStringIsValid(req.body.last_name as string)) {
     res.status(404);
-    res.send("please provide a last_name, add to body last_name");
+    res.send('please provide a last_name, add to body last_name');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.username as string)){
+  if (!CheckIfStringIsValid(req.body.username as string)) {
     res.status(404);
-    res.send("please provide a username, add to body username");
+    res.send('please provide a username, add to body username');
     return;
   }
-  if(!CheckIfStringIsValid(req.body.password as string)){
+  if (!CheckIfStringIsValid(req.body.password as string)) {
     res.status(404);
-    res.send("please provide a new password, add to body password");
+    res.send('please provide a new password, add to body password');
     return;
   }
   const newUser: User = {
@@ -175,9 +173,9 @@ const destroy = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
+  if (!CheckIfNumberIsValid(req.params.id as unknown as number)) {
     res.status(404);
-    res.send("please provide a id, add to url /id");
+    res.send('please provide a id, add to url /id');
     return;
   }
 
