@@ -43,16 +43,13 @@ set({ Authorization: token_that_got_returned });
 
     "lint": will run eslint on the code
 
-    "jasmine": run tests functions
-
     "start": will listen to changes in ts and json file and then run prettier and start the server
-
-    "build": build to js and then start
 
     "test": set env to test and migrate down and up the db then build to js and then test
 
     "testCont":will listen to changes in ts and json file and then build to js and then test 
 
+    "resetDB":migrate down and then go up
 # Features are in requirements.md
 
 
