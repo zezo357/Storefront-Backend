@@ -74,9 +74,7 @@ describe('orders endpoint responses', function () {
             var postRes, token, decodedToken;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, request
-                            .post("/users/register")
-                            .send(newUser)];
+                    case 0: return [4 /*yield*/, request.post("/users/register").send(newUser)];
                     case 1:
                         postRes = _a.sent();
                         token = postRes.text;
@@ -134,7 +132,7 @@ describe('orders endpoint responses', function () {
             status: newOrder.status,
             user_id: newUser.id,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
@@ -186,7 +184,7 @@ describe('orders endpoint responses', function () {
             product_id: newProduct.id,
             user_id: newUser.id,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a;
@@ -199,7 +197,7 @@ describe('orders endpoint responses', function () {
                             expect(res.body).toEqual(jasmine.objectContaining({
                                 quantity: testQuantity,
                                 order_id: newOrder.id,
-                                product_id: newProduct.id
+                                product_id: newProduct.id,
                             }));
                             //check if same product exists in the order after it has been added
                             _a = expect;
@@ -221,7 +219,7 @@ describe('orders endpoint responses', function () {
             product_id: newProduct.id,
             user_id: newUser.id,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a;
@@ -234,7 +232,7 @@ describe('orders endpoint responses', function () {
                             expect(res.body).toEqual(jasmine.objectContaining({
                                 quantity: testQuantity,
                                 order_id: newOrder.id,
-                                product_id: newProduct.id
+                                product_id: newProduct.id,
                             }));
                             //check if same product exists in the order after it has been added
                             _a = expect;
@@ -255,7 +253,8 @@ describe('orders endpoint responses', function () {
             .send({
             user_id: newUser.id,
             status: 'closed',
-        }).set({ 'Authorization': token_that_got_returned })
+        })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
@@ -267,7 +266,7 @@ describe('orders endpoint responses', function () {
                             expect(res.body).toEqual(jasmine.objectContaining({
                                 id: newOrder.id,
                                 status: 'closed',
-                                user_id: newUser.id
+                                user_id: newUser.id,
                             }));
                             return [4 /*yield*/, orderStoreObject.show(newOrder.id)];
                         case 1:
@@ -275,7 +274,7 @@ describe('orders endpoint responses', function () {
                             expect(newOrder).toEqual(jasmine.objectContaining({
                                 id: newOrder.id,
                                 status: 'closed',
-                                user_id: newUser.id
+                                user_id: newUser.id,
                             }));
                             done();
                             return [2 /*return*/];
@@ -290,7 +289,7 @@ describe('orders endpoint responses', function () {
             .send({
             user_id: newUser.id,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a;

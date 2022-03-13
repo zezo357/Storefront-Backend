@@ -62,7 +62,7 @@ var userIDverify = function (req, res, next) {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
         if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
-            throw new Error("please provide a id in your request url /id ");
+            throw new Error('please provide a id in your request url /id ');
         }
         if (decodedToken.id !== parseInt(req.params.id)) {
             throw new Error('User id does not match!');
@@ -99,7 +99,7 @@ var show = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;
@@ -120,22 +120,22 @@ var create = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.first_name)) {
                         res.status(404);
-                        res.send("please provide a first_name, add to body first_name");
+                        res.send('please provide a first_name, add to body first_name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.last_name)) {
                         res.status(404);
-                        res.send("please provide a last_name, add to body last_name");
+                        res.send('please provide a last_name, add to body last_name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
                         res.status(404);
-                        res.send("please provide a username, add to body username");
+                        res.send('please provide a username, add to body username');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
                         res.status(404);
-                        res.send("please provide a password, add to body password");
+                        res.send('please provide a password, add to body password');
                         return [2 /*return*/];
                     }
                     newUser = {
@@ -163,14 +163,15 @@ var signIn = function (req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    //console.log(req.body);
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
                         res.status(404);
-                        res.send("please provide a username, add to body username");
+                        res.send('please provide a username, add to body username');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
                         res.status(404);
-                        res.send("please provide a password, add to body password");
+                        res.send('please provide a password, add to body password');
                         return [2 /*return*/];
                     }
                     return [4 /*yield*/, userStoreObject.authenticate(req.body.username, req.body.password)];
@@ -198,27 +199,27 @@ var update = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.first_name)) {
                         res.status(404);
-                        res.send("please provide a first_name, add to body first_name");
+                        res.send('please provide a first_name, add to body first_name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.last_name)) {
                         res.status(404);
-                        res.send("please provide a last_name, add to body last_name");
+                        res.send('please provide a last_name, add to body last_name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
                         res.status(404);
-                        res.send("please provide a username, add to body username");
+                        res.send('please provide a username, add to body username');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
                         res.status(404);
-                        res.send("please provide a new password, add to body password");
+                        res.send('please provide a new password, add to body password');
                         return [2 /*return*/];
                     }
                     newUser = {
@@ -246,7 +247,7 @@ var destroy = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;

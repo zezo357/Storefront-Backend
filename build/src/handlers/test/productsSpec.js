@@ -65,9 +65,7 @@ describe('products endpoint responses', function () {
             var postRes, token, decodedToken;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, request
-                            .post("/users/register")
-                            .send(newUser)];
+                    case 0: return [4 /*yield*/, request.post("/users/register").send(newUser)];
                     case 1:
                         postRes = _a.sent();
                         token = postRes.text;
@@ -89,7 +87,9 @@ describe('products endpoint responses', function () {
         });
     });
     it('getting products endpoint (index)', function (done) {
-        request.get("/products").end(function (_err, res) {
+        request
+            .get("/products")
+            .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
                 return __generator(this, function (_c) {
@@ -114,9 +114,9 @@ describe('products endpoint responses', function () {
             .send({
             user_id: newUser.id,
             name: newProduct.name,
-            price: newProduct.price
+            price: newProduct.price,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
@@ -165,9 +165,10 @@ describe('products endpoint responses', function () {
             .put("/products/".concat(newProduct.id))
             .send({
             user_id: newUser.id,
-            name: "new test",
-            price: 550000
-        }).set({ 'Authorization': token_that_got_returned })
+            name: 'new test',
+            price: 550000,
+        })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
@@ -178,16 +179,16 @@ describe('products endpoint responses', function () {
                             expect(res.status).toBe(200);
                             expect(res.body).toEqual(jasmine.objectContaining({
                                 id: newProduct.id,
-                                name: "new test",
-                                price: 550000
+                                name: 'new test',
+                                price: 550000,
                             }));
                             return [4 /*yield*/, productStoreObject.show(newProduct.id)];
                         case 1:
                             newProduct = _a.sent();
                             expect(newProduct).toEqual(jasmine.objectContaining({
                                 id: newProduct.id,
-                                name: "new test",
-                                price: 550000
+                                name: 'new test',
+                                price: 550000,
                             }));
                             done();
                             return [2 /*return*/];
@@ -202,7 +203,7 @@ describe('products endpoint responses', function () {
             .send({
             user_id: newUser.id,
         })
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a;
@@ -230,7 +231,7 @@ describe('products endpoint responses', function () {
                     request;
                     return [4 /*yield*/, request
                             .delete("/users/".concat(newUser.id))
-                            .set({ 'Authorization': token_that_got_returned })];
+                            .set({ Authorization: token_that_got_returned })];
                 case 1:
                     postRes = _a.sent();
                     //check the response status

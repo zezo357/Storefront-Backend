@@ -46,7 +46,7 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var request = (0, supertest_1.default)(index_1.default);
 describe('users endpoint responses', function () {
     var userStoreObject = new users_1.userStore();
-    var token_that_got_returned = "";
+    var token_that_got_returned = '';
     var newUser = {
         id: -1,
         first_name: 'test',
@@ -179,7 +179,8 @@ describe('users endpoint responses', function () {
             last_name: 'can be known',
             username: 'if only we',
             password: 'try',
-        }).set({ 'Authorization': token_that_got_returned })
+        })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
@@ -207,7 +208,7 @@ describe('users endpoint responses', function () {
     it('getting users endpoint (delete)', function (done) {
         request
             .delete("/users/".concat(newUser.id))
-            .set({ 'Authorization': token_that_got_returned })
+            .set({ Authorization: token_that_got_returned })
             .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {

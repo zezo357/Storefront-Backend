@@ -61,11 +61,9 @@ var verifyUserID = function (req, res, next) {
     }
 };
 var tokenVerifier = function (req, res, next) {
-    console.log("checking token", req.headers.authorization);
     try {
         var token = req.headers.authorization;
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-        console.log("token checked");
         next();
     }
     catch (error) {
@@ -78,14 +76,12 @@ var userIDverify = function (req, res, next) {
     try {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
-        console.log("checking if user id is valid");
         if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
-            throw new Error("please provide a user_id in your request body");
+            throw new Error('please provide a user_id in your request body');
         }
         if (decodedToken.id !== parseInt(req.body.user_id)) {
             throw new Error('User id does not match!');
         }
-        console.log("it is valid");
         next();
     }
     catch (err) {
@@ -139,12 +135,12 @@ var create = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
                         res.status(404);
-                        res.send("please provide a user_id, add to body user_id");
+                        res.send('please provide a user_id, add to body user_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.status)) {
                         res.status(404);
-                        res.send("please provide a status, add to body status");
+                        res.send('please provide a status, add to body status');
                         return [2 /*return*/];
                     }
                     newOrder = {
@@ -170,17 +166,17 @@ var update = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
                         res.status(404);
-                        res.send("please provide a order_id, add to url /order_id");
+                        res.send('please provide a order_id, add to url /order_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
                         res.status(404);
-                        res.send("please provide a user_id, add to body user_id");
+                        res.send('please provide a user_id, add to body user_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.status)) {
                         res.status(404);
-                        res.send("please provide a status, add to body status");
+                        res.send('please provide a status, add to body status');
                         return [2 /*return*/];
                     }
                     newOrder = {
@@ -206,17 +202,17 @@ var add_product = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
                         res.status(404);
-                        res.send("please provide a order_id, add to url /order_id");
+                        res.send('please provide a order_id, add to url /order_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.product_id)) {
                         res.status(404);
-                        res.send("please provide a product_id, add to body product_id");
+                        res.send('please provide a product_id, add to body product_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.quantity)) {
                         res.status(404);
-                        res.send("please provide a quantity, add to body quantity");
+                        res.send('please provide a quantity, add to body quantity');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;
@@ -237,12 +233,12 @@ var remove_product = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
                         res.status(404);
-                        res.send("please provide a order_id, add to url /order_id");
+                        res.send('please provide a order_id, add to url /order_id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.product_id)) {
                         res.status(404);
-                        res.send("please provide a product_id, add to body product_id");
+                        res.send('please provide a product_id, add to body product_id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;
@@ -263,7 +259,7 @@ var destroy = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
                         res.status(404);
-                        res.send("please provide a order_id, add to url /order_id");
+                        res.send('please provide a order_id, add to url /order_id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;

@@ -81,7 +81,7 @@ var show = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;
@@ -102,12 +102,12 @@ var create = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.name)) {
                         res.status(404);
-                        res.send("please provide a name, add to body name");
+                        res.send('please provide a name, add to body name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.price)) {
                         res.status(404);
-                        res.send("please provide a price, add to body price");
+                        res.send('please provide a price, add to body price');
                         return [2 /*return*/];
                     }
                     newProduct = {
@@ -135,17 +135,17 @@ var update = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfStringIsValid)(req.body.name)) {
                         res.status(404);
-                        res.send("please provide a name, add to body name");
+                        res.send('please provide a name, add to body name');
                         return [2 /*return*/];
                     }
                     if (!(0, util_1.CheckIfNumberIsValid)(req.body.price)) {
                         res.status(404);
-                        res.send("please provide a price, add to body price");
+                        res.send('please provide a price, add to body price');
                         return [2 /*return*/];
                     }
                     newProduct = {
@@ -171,7 +171,7 @@ var destroy = function (req, res, next) {
                 case 0:
                     if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
                         res.status(404);
-                        res.send("please provide a id, add to url /id");
+                        res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
                     _b = (_a = res).send;

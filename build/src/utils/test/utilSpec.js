@@ -6,16 +6,16 @@ describe('util tests', function () {
         expect((0, util_1.CheckIfStringIsValid)(undefined)).toEqual(false);
     });
     it('valid string input empty return false', function () {
-        expect((0, util_1.CheckIfStringIsValid)("")).toEqual(false);
+        expect((0, util_1.CheckIfStringIsValid)('')).toEqual(false);
     });
     it('valid string input null return false', function () {
         expect((0, util_1.CheckIfStringIsValid)(null)).toEqual(false);
     });
     it('valid string input test return true', function () {
-        expect((0, util_1.CheckIfStringIsValid)("test")).toEqual(true);
+        expect((0, util_1.CheckIfStringIsValid)('test')).toEqual(true);
     });
     it('valid number input empty return false', function () {
-        expect((0, util_1.CheckIfNumberIsValid)("")).toEqual(false);
+        expect((0, util_1.CheckIfNumberIsValid)('')).toEqual(false);
     });
     it('valid number input undefined return false', function () {
         expect((0, util_1.CheckIfNumberIsValid)(undefined)).toEqual(false);

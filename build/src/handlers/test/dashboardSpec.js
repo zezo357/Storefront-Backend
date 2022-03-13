@@ -159,7 +159,9 @@ describe('Dashboard Routes responses', function () {
         });
     });
     it("MostExpensiveProducts: should return ".concat(count, " most expensive products"), function (done) {
-        request.get("/highest_five_products/".concat(count)).end(function (_err, res) {
+        request
+            .get("/highest_five_products/".concat(count))
+            .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
                 return __generator(this, function (_c) {
@@ -179,7 +181,9 @@ describe('Dashboard Routes responses', function () {
         });
     });
     it('productsInOrders: should return products that exist in orders', function (done) {
-        request.get("/products_in_orders/").end(function (_err, res) {
+        request
+            .get("/products_in_orders/")
+            .end(function (_err, res) {
             return __awaiter(this, void 0, void 0, function () {
                 var _a, _b;
                 return __generator(this, function (_c) {
