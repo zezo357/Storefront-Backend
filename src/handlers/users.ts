@@ -65,11 +65,7 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
-  if(!CheckIfNumberIsValid(req.params.id as unknown as number)){
-    res.status(404);
-    res.send("please provide a id, add to url /id");
-    return;
-  }
+
   if(!CheckIfStringIsValid(req.body.first_name as string)){
     res.status(404);
     res.send("please provide a first_name, add to body first_name");

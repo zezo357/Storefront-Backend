@@ -43,6 +43,7 @@ var express_1 = __importDefault(require("express"));
 var products_1 = require("../models/products");
 var body_parser_1 = __importDefault(require("body-parser"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var util_1 = require("../utils/util");
 var productStoreObject = new products_1.productStore();
 var tokenVerifier = function (req, res, next) {
     try {
@@ -78,6 +79,11 @@ var show = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.show(req.params.id)];
                 case 1:
@@ -94,6 +100,16 @@ var create = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.name)) {
+                        res.status(404);
+                        res.send("please provide a name, add to body name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.price)) {
+                        res.status(404);
+                        res.send("please provide a price, add to body price");
+                        return [2 /*return*/];
+                    }
                     newProduct = {
                         id: -1,
                         name: req.body.name,
@@ -117,6 +133,21 @@ var update = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.name)) {
+                        res.status(404);
+                        res.send("please provide a name, add to body name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.price)) {
+                        res.status(404);
+                        res.send("please provide a price, add to body price");
+                        return [2 /*return*/];
+                    }
                     newProduct = {
                         id: req.params.id,
                         name: req.body.name,
@@ -138,6 +169,11 @@ var destroy = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.delete(req.params.id)];
                 case 1:

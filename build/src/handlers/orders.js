@@ -61,9 +61,11 @@ var verifyUserID = function (req, res, next) {
     }
 };
 var tokenVerifier = function (req, res, next) {
+    console.log("checking token", req.headers.authorization);
     try {
         var token = req.headers.authorization;
         jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+        console.log("token checked");
         next();
     }
     catch (error) {
@@ -76,12 +78,14 @@ var userIDverify = function (req, res, next) {
     try {
         var token = req.headers.authorization;
         var decodedToken = jsonwebtoken_1.default.decode(token);
+        console.log("checking if user id is valid");
         if (!(0, util_1.CheckIfNumberIsValid)(req.body.user_id)) {
             throw new Error("please provide a user_id in your request body");
         }
         if (decodedToken.id !== parseInt(req.body.user_id)) {
             throw new Error('User id does not match!');
         }
+        console.log("it is valid");
         next();
     }
     catch (err) {
@@ -231,6 +235,16 @@ var remove_product = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
+                        res.status(404);
+                        res.send("please provide a order_id, add to url /order_id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.body.product_id)) {
+                        res.status(404);
+                        res.send("please provide a product_id, add to body product_id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.remove_product(parseInt(req.params.order_id), req.body.product_id)];
                 case 1:
@@ -247,6 +261,11 @@ var destroy = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.order_id)) {
+                        res.status(404);
+                        res.send("please provide a order_id, add to url /order_id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.delete(req.params.order_id)];
                 case 1:

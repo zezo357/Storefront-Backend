@@ -31,6 +31,7 @@ const tokenVerifier = (
   res: express.Response,
   next: express.NextFunction
 ): void => {
+
   try {
     const token = req.headers.authorization as string;
     jwt.verify(token, process.env.TOKEN_SECRET as string);
@@ -52,7 +53,7 @@ const userIDverify = (
   try {
     const token = req.headers.authorization as string;
     const decodedToken = jwt.decode(token) as User;
-
+    console.log("checking if user id is valid")
     if(!CheckIfNumberIsValid(req.body.user_id as unknown as number)){
       throw new Error("please provide a user_id in your request body");
     }
@@ -60,7 +61,7 @@ const userIDverify = (
     if (decodedToken.id !== parseInt(req.body.user_id)) {
       throw new Error('User id does not match!');
     }
-
+    console.log("it is valid")
     next();
   } catch (err) {
     res.status(401);
@@ -89,6 +90,7 @@ const create = async function (
   res: Response,
   next: NextFunction
 ) {
+  
   if(!CheckIfNumberIsValid(req.body.user_id as unknown as number)){
     res.status(404);
     res.send("please provide a user_id, add to body user_id");

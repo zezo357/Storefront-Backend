@@ -97,6 +97,11 @@ var show = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, userStoreObject.show(req.params.id)];
                 case 1:
@@ -113,6 +118,26 @@ var create = function (req, res, next) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.first_name)) {
+                        res.status(404);
+                        res.send("please provide a first_name, add to body first_name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.last_name)) {
+                        res.status(404);
+                        res.send("please provide a last_name, add to body last_name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
+                        res.status(404);
+                        res.send("please provide a username, add to body username");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
+                        res.status(404);
+                        res.send("please provide a password, add to body password");
+                        return [2 /*return*/];
+                    }
                     newUser = {
                         id: -1,
                         first_name: req.body.first_name,
@@ -137,7 +162,18 @@ var signIn = function (req, res, next) {
         var user, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, userStoreObject.authenticate(req.body.username, req.body.password)];
+                case 0:
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
+                        res.status(404);
+                        res.send("please provide a username, add to body username");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
+                        res.status(404);
+                        res.send("please provide a password, add to body password");
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, userStoreObject.authenticate(req.body.username, req.body.password)];
                 case 1:
                     user = _a.sent();
                     if (user == null) {
@@ -160,6 +196,31 @@ var update = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.first_name)) {
+                        res.status(404);
+                        res.send("please provide a first_name, add to body first_name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.last_name)) {
+                        res.status(404);
+                        res.send("please provide a last_name, add to body last_name");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.username)) {
+                        res.status(404);
+                        res.send("please provide a username, add to body username");
+                        return [2 /*return*/];
+                    }
+                    if (!(0, util_1.CheckIfStringIsValid)(req.body.password)) {
+                        res.status(404);
+                        res.send("please provide a new password, add to body password");
+                        return [2 /*return*/];
+                    }
                     newUser = {
                         id: req.params.id,
                         first_name: req.body.first_name,
@@ -183,6 +244,11 @@ var destroy = function (req, res, next) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    if (!(0, util_1.CheckIfNumberIsValid)(req.params.id)) {
+                        res.status(404);
+                        res.send("please provide a id, add to url /id");
+                        return [2 /*return*/];
+                    }
                     _b = (_a = res).send;
                     return [4 /*yield*/, userStoreObject.delete(req.params.id)];
                 case 1:
