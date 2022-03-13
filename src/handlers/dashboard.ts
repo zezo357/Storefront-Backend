@@ -6,8 +6,15 @@ import { DashboardQueries } from '../services/dashboard';
 const dashboard = new DashboardQueries();
 
 const productsInOrders = async (_req: Request, res: Response) => {
-  const products = await dashboard.productsInOrders();
+  try {
+const products = await dashboard.productsInOrders();
   res.json(products);
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
@@ -16,11 +23,17 @@ const fiveMostExpensiveProducts = async (req: Request, res: Response) => {
     res.send("please provide a count, add to your url '/count'");
     return;
   }
-
-  const products = await dashboard.MostExpensiveProducts(
+  try {
+const products = await dashboard.MostExpensiveProducts(
     req.params.count as unknown as number
   );
   res.json(products);
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 let app: express.Router = express.Router();

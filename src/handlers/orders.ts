@@ -65,8 +65,15 @@ const userIDverify = (
 };
 
 const index = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await orderStoreObject.index());
+  try {
+res.send(await orderStoreObject.index());
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -75,12 +82,19 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
     res.send("please provide a order_id add to your url '/order_id'");
     return;
   }
-  res.send(
+  try {
+ res.send(
     await orderStoreObject.show(
       parseInt(req.params.order_id) as unknown as number
     )
   );
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+ 
 };
 
 const create = async function (
@@ -105,8 +119,16 @@ const create = async function (
     status: req.body.status as string,
     user_id: req.body.user_id as unknown as number,
   };
-  res.send(await orderStoreObject.create(newOrder));
+
+  try {
+res.send(await orderStoreObject.create(newOrder));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 const update = async function (
@@ -137,8 +159,16 @@ const update = async function (
     status: req.body.status as string,
     user_id: req.body.user_id as unknown as number,
   };
-  res.send(await orderStoreObject.update(newOrder));
+
+  try {
+res.send(await orderStoreObject.update(newOrder));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 const add_product = async function (
   req: Request,
@@ -162,7 +192,7 @@ const add_product = async function (
     res.send('please provide a quantity, add to body quantity');
     return;
   }
-
+  try {
   res.send(
     await orderStoreObject.add_product(
       req.body.quantity as unknown as number,
@@ -171,6 +201,12 @@ const add_product = async function (
     )
   );
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+
 };
 const remove_product = async function (
   req: Request,
@@ -188,14 +224,20 @@ const remove_product = async function (
     res.send('please provide a product_id, add to body product_id');
     return;
   }
-
-  res.send(
+  try {
+ res.send(
     await orderStoreObject.remove_product(
       parseInt(req.params.order_id) as unknown as number,
       req.body.product_id as unknown as number
     )
   );
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+ 
 };
 
 const destroy = async function (
@@ -208,11 +250,17 @@ const destroy = async function (
     res.send('please provide a order_id, add to url /order_id');
     return;
   }
-
-  res.send(
+  try {
+res.send(
     await orderStoreObject.delete(req.params.order_id as unknown as number)
   );
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 let app: express.Router = express.Router();

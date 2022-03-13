@@ -45,8 +45,15 @@ const userIDverify = (
   }
 };
 const index = async function (req: Request, res: Response, next: NextFunction) {
+  try {
   res.send(await userStoreObject.index());
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -55,8 +62,15 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
     res.send('please provide a id, add to url /id');
     return;
   }
-  res.send(await userStoreObject.show(req.params.id as unknown as number));
+  try {
+ res.send(await userStoreObject.show(req.params.id as unknown as number));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+ 
 };
 
 const create = async function (
@@ -92,11 +106,18 @@ const create = async function (
     username: req.body.username as string,
     password: req.body.password as string,
   };
-  newUser = await userStoreObject.create(newUser);
+  try {
+newUser = await userStoreObject.create(newUser);
   var token = jwt.sign(newUser, process.env.TOKEN_SECRET as string);
   //console.log(token);
   res.send(token);
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 const signIn = async function (
   req: Request,
@@ -114,7 +135,8 @@ const signIn = async function (
     res.send('please provide a password, add to body password');
     return;
   }
-  const user = await userStoreObject.authenticate(
+  try {
+const user = await userStoreObject.authenticate(
     req.body.username as string,
     req.body.password as string
   );
@@ -126,6 +148,12 @@ const signIn = async function (
     res.send(token);
   }
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 const update = async function (
   req: Request,
@@ -164,8 +192,15 @@ const update = async function (
     username: req.body.username as string,
     password: req.body.password as string,
   };
-  res.send(await userStoreObject.update(newUser));
+  try {
+res.send(await userStoreObject.update(newUser));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 const destroy = async function (
@@ -178,9 +213,15 @@ const destroy = async function (
     res.send('please provide a id, add to url /id');
     return;
   }
-
-  res.send(await userStoreObject.delete(req.params.id as unknown as number));
+  try {
+res.send(await userStoreObject.delete(req.params.id as unknown as number));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 let app: express.Router = express.Router();

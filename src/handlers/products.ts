@@ -23,8 +23,15 @@ const tokenVerifier = (
 };
 
 const index = async function (req: Request, res: Response, next: NextFunction) {
-  res.send(await productStoreObject.index());
+  try {
+res.send(await productStoreObject.index());
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 const show = async function (req: Request, res: Response, next: NextFunction) {
@@ -33,8 +40,16 @@ const show = async function (req: Request, res: Response, next: NextFunction) {
     res.send('please provide a id, add to url /id');
     return;
   }
-  res.send(await productStoreObject.show(req.params.id as unknown as number));
+
+  try {
+ res.send(await productStoreObject.show(req.params.id as unknown as number));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+ 
 };
 
 const create = async function (
@@ -57,9 +72,17 @@ const create = async function (
     name: req.body.name as string,
     price: req.body.price as unknown as number,
   };
-  //console.log(newProduct)
-  res.send(await productStoreObject.create(newProduct));
+
+  try {
+ res.send(await productStoreObject.create(newProduct));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  //console.log(newProduct)
+ 
 };
 
 const update = async function (
@@ -87,8 +110,15 @@ const update = async function (
     name: req.body.name as string,
     price: req.body.price as unknown as number,
   };
-  res.send(await productStoreObject.update(newProduct));
+  try {
+ res.send(await productStoreObject.update(newProduct));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+ 
 };
 
 const destroy = async function (
@@ -101,9 +131,15 @@ const destroy = async function (
     res.send('please provide a id, add to url /id');
     return;
   }
-
-  res.send(await productStoreObject.delete(req.params.id as unknown as number));
+  try {
+res.send(await productStoreObject.delete(req.params.id as unknown as number));
   next();
+  } catch (error) {
+    res.status(404);
+    res.json(error);
+    return;
+  }
+  
 };
 
 let app: express.Router = express.Router();
