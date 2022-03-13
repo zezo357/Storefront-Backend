@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Pool } from 'pg';
+import { Pool, PoolConfig } from 'pg';
 dotenv.config();
 const {
   POSTGRES_HOST,
@@ -7,6 +7,7 @@ const {
   POSTGRES_DB_test,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
+  POSTGRES_PORT,
   ENV,
 } = process.env;
 
@@ -18,6 +19,7 @@ if (ENV == 'dev') {
     database: POSTGRES_DB,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
+    port:POSTGRES_PORT as unknown as number,
   });
 } else {
   console.log(ENV);
@@ -26,6 +28,7 @@ if (ENV == 'dev') {
     database: POSTGRES_DB_test,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
+    port:POSTGRES_PORT as unknown as number,
   });
 }
 client.connect((err, client, release) => {

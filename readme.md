@@ -3,8 +3,7 @@
 1. `yarn install` to install needed packages
 2. env is uploaded to make it easier to reviewer when testing
 3. database port is 5432
-4. 
-5. postgres commands to create database and users 
+4. postgres commands to create database and users 
 ``` 
 CREATE USER full_stack_user WITH PASSWORD 'password123';
 CREATE DATABASE full_stack_dev;

@@ -59,23 +59,30 @@ var tokenVerifier = function (req, res, next) {
 };
 var index = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    _c.trys.push([0, 2, , 3]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.index()];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _c.sent();
+                    res.status(404);
+                    res.json(error_1);
                     return [2 /*return*/];
+                case 3: return [2 /*return*/];
             }
         });
     });
 };
 var show = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -84,19 +91,28 @@ var show = function (req, res, next) {
                         res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.show(req.params.id)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _c.sent();
+                    res.status(404);
+                    res.json(error_2);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var create = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newProduct, _a, _b;
+        var newProduct, _a, _b, error_3;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -115,21 +131,28 @@ var create = function (req, res, next) {
                         name: req.body.name,
                         price: req.body.price,
                     };
-                    //console.log(newProduct)
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.create(newProduct)];
-                case 1:
-                    //console.log(newProduct)
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_3 = _c.sent();
+                    res.status(404);
+                    res.json(error_3);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var update = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newProduct, _a, _b;
+        var newProduct, _a, _b, error_4;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -153,19 +176,28 @@ var update = function (req, res, next) {
                         name: req.body.name,
                         price: req.body.price,
                     };
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.update(newProduct)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_4 = _c.sent();
+                    res.status(404);
+                    res.json(error_4);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var destroy = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_5;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -174,12 +206,21 @@ var destroy = function (req, res, next) {
                         res.send('please provide a id, add to url /id');
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, productStoreObject.delete(req.params.id)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_5 = _c.sent();
+                    res.status(404);
+                    res.json(error_5);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });

@@ -44,19 +44,27 @@ var util_1 = require("../utils/util");
 var dashboard_1 = require("../services/dashboard");
 var dashboard = new dashboard_1.DashboardQueries();
 var productsInOrders = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var products, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, dashboard.productsInOrders()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, dashboard.productsInOrders()];
             case 1:
                 products = _a.sent();
                 res.json(products);
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                res.status(404);
+                res.json(error_1);
                 return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var fiveMostExpensiveProducts = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var products, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -65,11 +73,20 @@ var fiveMostExpensiveProducts = function (req, res) { return __awaiter(void 0, v
                     res.send("please provide a count, add to your url '/count'");
                     return [2 /*return*/];
                 }
-                return [4 /*yield*/, dashboard.MostExpensiveProducts(req.params.count)];
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, dashboard.MostExpensiveProducts(req.params.count)];
+            case 2:
                 products = _a.sent();
                 res.json(products);
+                return [3 /*break*/, 4];
+            case 3:
+                error_2 = _a.sent();
+                res.status(404);
+                res.json(error_2);
                 return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

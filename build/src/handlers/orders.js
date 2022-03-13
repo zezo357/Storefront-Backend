@@ -92,23 +92,30 @@ var userIDverify = function (req, res, next) {
 };
 var index = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    _c.trys.push([0, 2, , 3]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.index()];
                 case 1:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _c.sent();
+                    res.status(404);
+                    res.json(error_1);
                     return [2 /*return*/];
+                case 3: return [2 /*return*/];
             }
         });
     });
 };
 var show = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -117,19 +124,28 @@ var show = function (req, res, next) {
                         res.send("please provide a order_id add to your url '/order_id'");
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.show(parseInt(req.params.order_id))];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _c.sent();
+                    res.status(404);
+                    res.json(error_2);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var create = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newOrder, _a, _b;
+        var newOrder, _a, _b, error_3;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -148,19 +164,28 @@ var create = function (req, res, next) {
                         status: req.body.status,
                         user_id: req.body.user_id,
                     };
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.create(newOrder)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_3 = _c.sent();
+                    res.status(404);
+                    res.json(error_3);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var update = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var newOrder, _a, _b;
+        var newOrder, _a, _b, error_4;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -184,19 +209,28 @@ var update = function (req, res, next) {
                         status: req.body.status,
                         user_id: req.body.user_id,
                     };
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.update(newOrder)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_4 = _c.sent();
+                    res.status(404);
+                    res.json(error_4);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var add_product = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_5;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -215,19 +249,28 @@ var add_product = function (req, res, next) {
                         res.send('please provide a quantity, add to body quantity');
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.add_product(req.body.quantity, parseInt(req.params.order_id), req.body.product_id)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_5 = _c.sent();
+                    res.status(404);
+                    res.json(error_5);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var remove_product = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_6;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -241,19 +284,28 @@ var remove_product = function (req, res, next) {
                         res.send('please provide a product_id, add to body product_id');
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.remove_product(parseInt(req.params.order_id), req.body.product_id)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_6 = _c.sent();
+                    res.status(404);
+                    res.json(error_6);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
 };
 var destroy = function (req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, _b;
+        var _a, _b, error_7;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -262,12 +314,21 @@ var destroy = function (req, res, next) {
                         res.send('please provide a order_id, add to url /order_id');
                         return [2 /*return*/];
                     }
+                    _c.label = 1;
+                case 1:
+                    _c.trys.push([1, 3, , 4]);
                     _b = (_a = res).send;
                     return [4 /*yield*/, orderStoreObject.delete(req.params.order_id)];
-                case 1:
+                case 2:
                     _b.apply(_a, [_c.sent()]);
                     next();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_7 = _c.sent();
+                    res.status(404);
+                    res.json(error_7);
                     return [2 /*return*/];
+                case 4: return [2 /*return*/];
             }
         });
     });
