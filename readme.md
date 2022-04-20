@@ -1,4 +1,6 @@
 # StoreFront backend
+
+Api to make a backend for a website
 # setup needed 
 1. `yarn install` to install needed packages
 2. database port is 5432
